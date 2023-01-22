@@ -311,13 +311,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#consistent-citation" class="md-nav__link">
-    Consistent Citation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#citation_docket.__main__" class="md-nav__link">
     citation_docket.__main__
   </a>
@@ -383,13 +376,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#consistent-citation" class="md-nav__link">
-    Consistent Citation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#citation_docket.__main__" class="md-nav__link">
     citation_docket.__main__
   </a>
@@ -432,26 +418,6 @@
 </ol>
 <p>This library will handle the patterns involved with respect to the <code>Docket</code>.</p>
 <p>Both <a href="https://github.com/justmars/citation-report">citation-reports</a> and <a href="https://github.com/justmars/citation-docket">citation-docket</a> are dependencies of <a href="https://github.com/justmars/citation-utils">citation-utils</a>.</p>
-<h2 id="consistent-citation">Consistent Citation</h2>
-<p>Let's look at sample citation that is typically found in the body and the footnotes section of a decision:</p>
-<blockquote>
-<p>Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449</p>
-</blockquote>
-<p>We can separate the <code>Docket</code> portion from the <code>Report</code> portion:</p>
-<table>
-<thead>
-<tr>
-<th align="right">Docket</th>
-<th align="left">Report</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="right">G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000</td>
-<td align="left">342 SCRA 449</td>
-</tr>
-</tbody>
-</table>
 <p>Like <a href="https://github.com/justmars/citation-report">citation-reports</a>, there is a problem involving inconsistent use of values. We address it the same way by dissecting the component parts and generating a uniform citation:</p>
 
 
@@ -531,9 +497,9 @@ should include their Docket and Report component parts.</p>
     <tbody>
         <tr>
           <td>
-                <code><span title="collections.abc.Iterator">Iterator</span>[<span title="citation_docket.regexes.CitationAdministrativeCase">CitationAdministrativeCase</span> | <span title="citation_docket.regexes.CitationAdministrativeMatter">CitationAdministrativeMatter</span> | <span title="citation_docket.regexes.CitationBarMatter">CitationBarMatter</span> | <span title="citation_docket.regexes.CitationGeneralRegister">CitationGeneralRegister</span>]</code>
+                <code><span title="collections.abc.Iterator">Iterator</span>[<span title="citation_docket.__main__.DocketReportCitationType">DocketReportCitationType</span>]</code>
           </td>
-          <td><p>Iterator[ CitationAdministrativeCase | CitationAdministrativeMatter | CitationBarMatter | CitationGeneralRegister ]: <em>description</em></p></td>
+          <td><p>Iterator[DocketReportCitationType]: Any of custom Docket with Report types, e.g. <code>CitationAdministrativeCase</code>, etc.</p></td>
         </tr>
     </tbody>
   </table>
