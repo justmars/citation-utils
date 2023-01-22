@@ -318,6 +318,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#citation_docket.__main__.extract_docket_from_data" class="md-nav__link">
+    extract_docket_from_data()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#citation_docket.__main__.extract_dockets" class="md-nav__link">
     extract_dockets()
   </a>
@@ -383,6 +390,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#citation_docket.__main__.extract_docket_from_data" class="md-nav__link">
+    extract_docket_from_data()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#citation_docket.__main__.extract_dockets" class="md-nav__link">
     extract_dockets()
   </a>
@@ -438,6 +452,79 @@
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="citation_docket.__main__.extract_docket_from_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">extract_docket_from_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Return a DocketReportCitationType based on the contents of a <code>data</code> dict.</p>
+
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">    &quot;date_prom&quot;: &quot;1985-04-24&quot;,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">    &quot;docket&quot;: &quot;General Register L-63915, April 24, 1985&quot;,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">    &quot;orig_idx&quot;: &quot;GR No. L-63915&quot;,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">    &quot;phil&quot;: &quot;220 Phil. 422&quot;,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">    &quot;scra&quot;: &quot;136 SCRA 27&quot;,</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">    &quot;offg&quot;: None,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">} # assume transformation from /details.yaml file</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">extract_citation_from_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">&#39;CitationGeneralRegister(publisher=None, volume=None, page=None, volpubpage=None, report_date=None, context=&#39;G.R. No. L-63915&#39;, short_category=&#39;GR&#39;, category=&#39;General Register&#39;, ids=&#39;L-63915&#39;, docket_date=datetime.date(1985, 4, 24))&#39;</span>
+</code></pre></div>
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>data</code></td>
+          <td>
+                <code>dict</code>
+          </td>
+          <td><p>Should contain relevant keys.</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+<td><code>DocketReportCitationType</code></td>          <td>
+                <code><span title="citation_docket.__main__.DocketReportCitationType">DocketReportCitationType</span> | None</code>
+          </td>
+          <td><p><em>description</em></p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
 
 <div class="doc doc-object doc-function">
 

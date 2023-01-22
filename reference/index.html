@@ -1741,7 +1741,7 @@ Docket + Report pydantic BaseModel</p></td>
 <p><strong>Examples:</strong></p>
     <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449&quot;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">CitationGeneralRegister</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">&#39;CitationGeneralRegister(publisher=&#39;SCRA&#39;, volume=&#39;342&#39;, page=&#39;449&#39;, volpubpage=&#39;342 SCRA 449&#39;, report_date=None, context=&#39;G.R. Nos. 138570, 138572, 138587, 138680, 138698&#39;, short_category=&#39;GR&#39;, category=&#39;General Register&#39;, ids=&#39;138570, 138572, 138587, 138680, 138698&#39;, docket_date=datetime.date(2000, 10, 10))&#39;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">CitationGeneralRegister(publisher=&#39;SCRA&#39;, volume=&#39;342&#39;, page=&#39;449&#39;, volpubpage=&#39;342 SCRA 449&#39;, report_date=None, context=&#39;G.R. Nos. 138570, 138572, 138587, 138680, 138698&#39;, short_category=&#39;GR&#39;, category=&#39;General Register&#39;, ids=&#39;138570, 138572, 138587, 138680, 138698&#39;, docket_date=datetime.date(2000, 10, 10))</span>
 </code></pre></div>
 
   <p><strong>Parameters:</strong></p>
@@ -1806,6 +1806,8 @@ Docket + Report pydantic BaseModel</p></td>
   </div>
 
 </div><h5 id="nuanced-general-register-id-matching">Nuanced General Register ID Matching</h5>
+<p><em>Note:</em> What is the value of adding <code>L-</code> to a General Register docket? It seems like L stands for "Legacy" although I can't seem to find official references to its designation.</p>
+<p><img alt="img" src="../img/opinions_with_bad_serials.png" /></p>
 
 
 <div class="doc doc-object doc-module">
@@ -1850,7 +1852,7 @@ the prefix.</p>
 <p><strong>Examples:</strong></p>
     <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">inconsistent_text</span> <span class="o">=</span> <span class="s2">&quot;No. L-I9863&quot;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">gr_prefix_clean</span><span class="p">(</span><span class="n">inconsistent_text</span><span class="p">)</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">&quot;L-19863&quot;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">&#39;L-19863&#39;</span>
 </code></pre></div>
 
   <p><strong>Parameters:</strong></p>
@@ -2012,9 +2014,9 @@ with a standardized variant <code>std</code>.</p>
       <p>Get all dockets matching the <code>AM</code> docket pattern, inclusive of their optional Report object.</p>
 
 <p><strong>Examples:</strong></p>
-    <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;A.C. No. P-88-198, February 25, 1992, 206 SCRA 491.&quot;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">CitationAdministrativeCase</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">&#39;CitationAdministrativeCase(publisher=&#39;SCRA&#39;, volume=&#39;206&#39;, page=&#39;491&#39;, volpubpage=&#39;206 SCRA 491&#39;, report_date=None, context=&#39;A.C. No. P-88-198&#39;, short_category=&#39;AC&#39;, category=&#39;Administrative Case&#39;, ids=&#39;P-88-198&#39;, docket_date=datetime.date(1992, 2, 25))&#39;</span>
+    <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;A.M. No. P-88-198, February 25, 1992, 206 SCRA 491.&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">CitationAdministrativeMatter</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">CitationAdministrativeMatter(publisher=&#39;SCRA&#39;, volume=&#39;206&#39;, page=&#39;491&#39;, volpubpage=&#39;206 SCRA 491&#39;, report_date=None, context=&#39;A.M. No. P-88-198&#39;, short_category=&#39;AM&#39;, category=&#39;Administrative Matter&#39;, ids=&#39;P-88-198&#39;, docket_date=datetime.date(1992, 2, 25))</span>
 </code></pre></div>
 
   <p><strong>Parameters:</strong></p>
@@ -2149,7 +2151,7 @@ with a standardized variant <code>std</code>.</p>
 <p><strong>Examples:</strong></p>
     <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;A.C. No. P-88-198, February 25, 1992, 206 SCRA 491.&quot;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">CitationAdministrativeCase</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">&#39;CitationAdministrativeCase(publisher=&#39;SCRA&#39;, volume=&#39;206&#39;, page=&#39;491&#39;, volpubpage=&#39;206 SCRA 491&#39;, report_date=None, context=&#39;A.C. No. P-88-198&#39;, short_category=&#39;AC&#39;, category=&#39;Administrative Case&#39;, ids=&#39;P-88-198&#39;, docket_date=datetime.date(1992, 2, 25))&#39;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">CitationAdministrativeCase(publisher=&#39;SCRA&#39;, volume=&#39;206&#39;, page=&#39;491&#39;, volpubpage=&#39;206 SCRA 491&#39;, report_date=None, context=&#39;A.C. No. P-88-198&#39;, short_category=&#39;AC&#39;, category=&#39;Administrative Case&#39;, ids=&#39;P-88-198&#39;, docket_date=datetime.date(1992, 2, 25))</span>
 </code></pre></div>
 
   <p><strong>Parameters:</strong></p>
@@ -2284,7 +2286,7 @@ with a standardized variant <code>std</code>.</p>
 <p><strong>Examples:</strong></p>
     <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;B.M. No. 1678, December 17, 2007&quot;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">CitationBarMatter</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">&#39;CitationBarMatter(publisher=None, volume=None, page=None, volpubpage=None, report_date=None, context=&#39;B.M. No. 1678&#39;, short_category=&#39;BM&#39;, category=&#39;Bar Matter&#39;, ids=&#39;1678&#39;, docket_date=datetime.date(2007, 12, 17))&#39;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">CitationBarMatter(publisher=None, volume=None, page=None, volpubpage=None, report_date=None, context=&#39;B.M. No. 1678&#39;, short_category=&#39;BM&#39;, category=&#39;Bar Matter&#39;, ids=&#39;1678&#39;, docket_date=datetime.date(2007, 12, 17))</span>
 </code></pre></div>
 
   <p><strong>Parameters:</strong></p>
