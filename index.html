@@ -12,7 +12,7 @@
       
       
       
-        <link rel="next" href="components/">
+        <link rel="next" href="reference/">
       
       <link rel="icon" href="assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
@@ -211,8 +211,8 @@
 
 
   <li class="md-tabs__item">
-    <a href="components/" class="md-tabs__link">
-      Concept
+    <a href="reference/" class="md-tabs__link">
+      Reference
     </a>
   </li>
 
@@ -234,7 +234,9 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -315,6 +317,20 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#citation_docket.__main__" class="md-nav__link">
+    citation_docket.__main__
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#citation_docket.__main__.extract_dockets" class="md-nav__link">
+    extract_dockets()
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -331,8 +347,8 @@
   
   
     <li class="md-nav__item">
-      <a href="components/" class="md-nav__link">
-        Concept
+      <a href="reference/" class="md-nav__link">
+        Reference
       </a>
     </li>
   
@@ -346,7 +362,9 @@
             
             
               
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -367,6 +385,20 @@
         <li class="md-nav__item">
   <a href="#consistent-citation" class="md-nav__link">
     Consistent Citation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#citation_docket.__main__" class="md-nav__link">
+    citation_docket.__main__
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#citation_docket.__main__.extract_dockets" class="md-nav__link">
+    extract_dockets()
   </a>
   
 </li>
@@ -421,26 +453,106 @@
 </tbody>
 </table>
 <p>Like <a href="https://github.com/justmars/citation-report">citation-reports</a>, there is a problem involving inconsistent use of values. We address it the same way by dissecting the component parts and generating a uniform citation:</p>
-<div class="highlight"><span class="filename">Python</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">citation_docket</span> <span class="kn">import</span> <span class="n">extract_dockets</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">text</span> <span class="o">=</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449&quot;</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">docket</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">extract_dockets</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">ModelGR</span><span class="p">(</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  <span class="n">publisher</span><span class="o">=</span><span class="s1">&#39;SCRA&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  <span class="n">volume</span><span class="o">=</span><span class="s1">&#39;342&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  <span class="n">page</span><span class="o">=</span><span class="s1">&#39;449&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>  <span class="n">volpubpage</span><span class="o">=</span><span class="s1">&#39;342 SCRA 449&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>  <span class="n">report_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>  <span class="n">short_category</span><span class="o">=</span><span class="s1">&#39;GR&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>  <span class="n">category</span><span class="o">=</span><span class="s1">&#39;General Register&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>  <span class="n">ids</span><span class="o">=</span><span class="s1">&#39;138570, 138572, 138587, 138680, 138698&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>  <span class="n">docket_date</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>  <span class="n">context</span><span class="o">=</span><span class="s1">&#39;G.R. Nos. 138570, 138572, 138587, 138680, 138698&#39;</span><span class="p">,</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>  <span class="n">cleaned_ids</span><span class="o">=</span><span class="s1">&#39;138570, 138572, 138587, 138680, 138698&#39;</span><span class="p">)</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">str</span><span class="p">(</span><span class="n">docket</span><span class="p">)</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="s1">&#39;GR 138570, Oct. 10, 2000&#39;</span>
+
+
+<div class="doc doc-object doc-module">
+
+
+<a id="citation_docket.__main__"></a>
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="citation_docket.__main__.extract_dockets" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">extract_dockets</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Extract from <code>raw</code> text all raw citations which
+should include their Docket and Report component parts.</p>
+
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">docket</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">extract_dockets</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">CitationGeneralRegister(publisher=&#39;SCRA&#39;, volume=&#39;342&#39;, page=&#39;449&#39;, volpubpage=&#39;342 SCRA 449&#39;, report_date=None, context=&#39;G.R. Nos. 138570, 138572, 138587, 138680, 138698&#39;, short_category=&#39;GR&#39;, category=&#39;General Register&#39;, ids=&#39;138570, 138572, 138587, 138680, 138698&#39;, docket_date=datetime.date(2000, 10, 10))</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">docket</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">&#39;GR 138570, Oct. 10, 2000&#39;</span>
 </code></pre></div>
 
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>raw</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td><p>Text to look for dockets and reports</p></td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
 
+  <p><strong>Yields:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code><span title="collections.abc.Iterator">Iterator</span>[<span title="citation_docket.regexes.CitationAdministrativeCase">CitationAdministrativeCase</span> | <span title="citation_docket.regexes.CitationAdministrativeMatter">CitationAdministrativeMatter</span> | <span title="citation_docket.regexes.CitationBarMatter">CitationBarMatter</span> | <span title="citation_docket.regexes.CitationGeneralRegister">CitationGeneralRegister</span>]</code>
+          </td>
+          <td><p>Iterator[ CitationAdministrativeCase | CitationAdministrativeMatter | CitationBarMatter | CitationGeneralRegister ]: <em>description</em></p></td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+  
 
 
 
