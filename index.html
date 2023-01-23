@@ -406,12 +406,12 @@
 
 <h1 id="summary">Summary</h1>
 <h2 id="concept">Concept</h2>
-<p>The <code>Report</code> Model from <a href="https://github.com/justmars/citation-report">citation-report</a> is only one part of a Philippine Supreme Court citation. This library will handle the patterns involved with respect to the <code>Docket</code>.</p>
+<p>The <code>Report</code> Model from <a href="https://github.com/justmars/citation-report">citation-report</a> is only one part of a Philippine Supreme Court citation. This library will handle the patterns involved with respect to the <a class="autorefs autorefs-internal" href="reference/#docket-model">Docket</a>.</p>
 <p>Let's look at sample citation that is typically found in the body and the footnotes section of a decision:</p>
 <blockquote>
 <p>Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449</p>
 </blockquote>
-<p>We can separate the <code>Docket</code> portion from the <code>Report</code> portion:</p>
+<p>We can separate the <a class="autorefs autorefs-internal" href="reference/#docket-model">Docket</a> portion from the <code>Report</code> portion:</p>
 <table>
 <thead>
 <tr>
@@ -426,6 +426,7 @@
 </tr>
 </tbody>
 </table>
+<p>For lack of a better term, we'll call the combination of a <code>Docket</code> and a <code>Report</code> a [Docket Report Citation][docketreportcitation].</p>
 <h2 id="utility">Utility</h2>
 <p>Both <a href="https://github.com/justmars/citation-report">citation-reports</a> and <a href="https://github.com/justmars/citation-docket">citation-docket</a> are dependencies of <a href="https://github.com/justmars/citation-utils">citation-utils</a>.</p>
 <p>Like <a href="https://github.com/justmars/citation-report">citation-reports</a>, there is a problem involving inconsistent use of values. We address it the same way by dissecting the component parts and generating a uniform citation.</p>
