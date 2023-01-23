@@ -1,6 +1,6 @@
 # Specific Types
 
-## Abstract Class
+## Docket Report Citation
 
 :::citation_docket.regexes.models.docket_citation.DocketReportCitation
 

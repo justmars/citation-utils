@@ -20,7 +20,7 @@ For lack of a better term, we'll call the combination of a `Docket` and a `Repor
 
 :::citation_docket.regexes.models.docket_citation
 
-## Docket Models
+## Docket Model
 
 :::citation_docket.regexes.models.docket_model
 

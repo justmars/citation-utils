@@ -11,8 +11,8 @@ class DocketReportCitation(Docket, Report, abc.ABC):
     """Note `Report` is defined in a separate library `citation-report`.
 
     The `DocketReportCitation` abstract class makes sure that all of the
-    fields of a `Docket` object alongside all of the fields of a `Report` object
-    will be utilized. It also mandates the implementation of a`cls.search()`
+    fields of a [Docket][docket-model] object alongside all of the fields of a `Report`
+    object will be utilized. It also mandates the implementation of a`cls.search()`
     method.
     """
 

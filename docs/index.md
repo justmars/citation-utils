@@ -2,17 +2,19 @@
 
 ## Concept
 
-The `Report` Model from [citation-report](https://github.com/justmars/citation-report) is only one part of a Philippine Supreme Court citation. This library will handle the patterns involved with respect to the `Docket`.
+The `Report` Model from [citation-report](https://github.com/justmars/citation-report) is only one part of a Philippine Supreme Court citation. This library will handle the patterns involved with respect to the [Docket][docket-model].
 
 Let's look at sample citation that is typically found in the body and the footnotes section of a decision:
 
 > Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449
 
-We can separate the `Docket` portion from the `Report` portion:
+We can separate the [Docket][docket-model] portion from the `Report` portion:
 
 Docket | Report
 --:|:--
 G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000 | 342 SCRA 449
+
+For lack of a better term, we'll call the combination of a `Docket` and a `Report` a [Docket Report Citation][docketreportcitation].
 
 ## Utility
 
