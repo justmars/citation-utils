@@ -6,11 +6,11 @@
 
 ## Docket Category
 
-### General
+### Docket Category Model
 
 :::citation_docket.regexes.models.docket_category.DocketCategory
 
-### Short Style
+### Short Docket Category Model
 
 :::citation_docket.regexes.models.docket_category.ShortDocketCategory
 

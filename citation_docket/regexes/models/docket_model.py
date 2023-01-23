@@ -16,8 +16,8 @@ class Docket(BaseModel):
     Field | Type | Description
     --:|:--:|:--
     `context` | optional (str) | Full texted matched by the regex pattern
-    `short_category` | optional (str) | Acronym representing the category
-    `category` | optional (str) | The docket category
+    `short_category` | optional (str) | See [short-docket-category-model][]
+    `category` | optional (str) | See [docket-category-model][]
     `ids` | optional (str) | The serial number of the docket category
     `docket_date` | optional (date) | The date associated with the docket
 

@@ -14,7 +14,7 @@ Docket | Report
 --:|:--
 G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000 | 342 SCRA 449
 
-For lack of a better term, we'll call the combination of a `Docket` and a `Report` a [Docket Report Citation][docketreportcitation].
+For lack of a better term, we'll call the combination of a [Docket][docket-model] and a `Report` a [Docket Report Citation][docket-report-citation].
 
 ## Utility
 

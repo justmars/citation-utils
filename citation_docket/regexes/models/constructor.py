@@ -26,9 +26,10 @@ class Constructor(BaseModel):
 
     Relatedly, it takes advantage of
     the `citation_date` and the `citation_report` libraries in
-    generating the main @pattern since the regex strings above
+    generating the main `@pattern` since the regex strings above
     are only concerned with the `key` `num` `id` formula part
-    of the docket, e.g. `GR` `No.` `123`
+    of the docket, e.g. `GR` `No.` `123`... but not the accompanying
+    date and report.
     """
 
     label: str = Field(
