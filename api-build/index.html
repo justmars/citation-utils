@@ -13,16 +13,20 @@
         <meta name="author" content="Marcelino Veloso III">
       
       
-        <link rel="canonical" href="https://lawsql.com/0.1.0/reference/">
+        <link rel="canonical" href="https://lawsql.com/api-build/">
       
       
+        <link rel="prev" href="../api-extraction/">
+      
+      
+        <link rel="next" href="../api-types/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
     
     
       
-        <title>Citation Docket - Citation Docket Docs</title>
+        <title>Build API - Citation Docket Docs</title>
       
     
     
@@ -76,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#citation-docket" class="md-skip">
+        <a href="#build-api" class="md-skip">
           Skip to content
         </a>
       
@@ -84,6 +88,10 @@
     <div data-md-component="announce">
       
     </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
     
     
       
@@ -109,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Citation Docket
+              Build API
             
           </span>
         </div>
@@ -200,9 +208,7 @@
           
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -269,11 +275,172 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../api-build/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Build API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Build API
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#docket-model" class="md-nav__link">
+    Docket Model
+  </a>
+  
+    <nav class="md-nav" aria-label="Docket Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#citation_docket.Docket-attributes" class="md-nav__link">
+    Attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#citation_docket.regexes.models.docket_model.Docket.first_id" class="md-nav__link">
+    first_id
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#citation_docket.regexes.models.docket_model.Docket.serial_text" class="md-nav__link">
+    serial_text
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docket-category" class="md-nav__link">
+    Docket Category
+  </a>
+  
+    <nav class="md-nav" aria-label="Docket Category">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#general" class="md-nav__link">
+    General
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#short-style" class="md-nav__link">
+    Short Style
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docket-constructor" class="md-nav__link">
+    Docket Constructor
+  </a>
+  
+    <nav class="md-nav" aria-label="Docket Constructor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#citation_docket.regexes.models.constructor.Constructor-attributes" class="md-nav__link">
+    Attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#citation_docket.regexes.models.constructor.Constructor.key_num_pattern" class="md-nav__link">
+    key_num_pattern
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#citation_docket.regexes.models.constructor.Constructor.pattern" class="md-nav__link">
+    pattern
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#citation_docket.regexes.models.constructor.Constructor-functions" class="md-nav__link">
+    Functions
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#citation_docket.regexes.models.constructor.Constructor.detect" class="md-nav__link">
+    detect()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -301,8 +468,6 @@
             
             
               
-                
-              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
@@ -322,24 +487,31 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#the-docket-report-citation" class="md-nav__link">
-    The "Docket Report" Citation
+  <a href="#docket-model" class="md-nav__link">
+    Docket Model
   </a>
   
-    <nav class="md-nav" aria-label="The "Docket Report" Citation">
+    <nav class="md-nav" aria-label="Docket Model">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#citation_docket.regexes.models.docket_citation-classes" class="md-nav__link">
-    Classes
+  <a href="#citation_docket.Docket-attributes" class="md-nav__link">
+    Attributes
   </a>
   
-    <nav class="md-nav" aria-label="Classes">
+    <nav class="md-nav" aria-label="Attributes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#citation_docket.regexes.models.docket_citation.DocketReportCitation" class="md-nav__link">
-    DocketReportCitation
+  <a href="#citation_docket.regexes.models.docket_model.Docket.first_id" class="md-nav__link">
+    first_id
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#citation_docket.regexes.models.docket_model.Docket.serial_text" class="md-nav__link">
+    serial_text
   </a>
   
 </li>
@@ -355,32 +527,23 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#docket-models" class="md-nav__link">
-    Docket Models
+  <a href="#docket-category" class="md-nav__link">
+    Docket Category
   </a>
   
-    <nav class="md-nav" aria-label="Docket Models">
+    <nav class="md-nav" aria-label="Docket Category">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#citation_docket.regexes.models.docket_model-classes" class="md-nav__link">
-    Classes
+  <a href="#general" class="md-nav__link">
+    General
   </a>
   
-    <nav class="md-nav" aria-label="Classes">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
-  <a href="#citation_docket.regexes.models.docket_model.Docket" class="md-nav__link">
-    Docket
-  </a>
-  
-    <nav class="md-nav" aria-label="Docket">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.models.docket_model.Docket-attributes" class="md-nav__link">
-    Attributes
+  <a href="#short-style" class="md-nav__link">
+    Short Style
   </a>
   
 </li>
@@ -389,87 +552,39 @@
     </nav>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.models.docket_model-functions" class="md-nav__link">
-    Functions
+      
+        <li class="md-nav__item">
+  <a href="#docket-constructor" class="md-nav__link">
+    Docket Constructor
   </a>
   
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#docket-categories" class="md-nav__link">
-    Docket Categories
-  </a>
-  
-    <nav class="md-nav" aria-label="Docket Categories">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.models.docket_category-classes" class="md-nav__link">
-    Classes
-  </a>
-  
-    <nav class="md-nav" aria-label="Classes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.models.docket_category.DocketCategory" class="md-nav__link">
-    DocketCategory
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.models.docket_category.ShortDocketCategory" class="md-nav__link">
-    ShortDocketCategory
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#docket-construction" class="md-nav__link">
-    Docket Construction
-  </a>
-  
-    <nav class="md-nav" aria-label="Docket Construction">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.models.constructor-classes" class="md-nav__link">
-    Classes
-  </a>
-  
-    <nav class="md-nav" aria-label="Classes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.models.constructor.Constructor" class="md-nav__link">
-    Constructor
-  </a>
-  
-    <nav class="md-nav" aria-label="Constructor">
+    <nav class="md-nav" aria-label="Docket Constructor">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#citation_docket.regexes.models.constructor.Constructor-attributes" class="md-nav__link">
     Attributes
   </a>
+  
+    <nav class="md-nav" aria-label="Attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#citation_docket.regexes.models.constructor.Constructor.key_num_pattern" class="md-nav__link">
+    key_num_pattern
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#citation_docket.regexes.models.constructor.Constructor.pattern" class="md-nav__link">
+    pattern
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -478,223 +593,13 @@
     Functions
   </a>
   
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.models.constructor-functions" class="md-nav__link">
-    Functions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#gr" class="md-nav__link">
-    GR
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.constructed_gr-classes" class="md-nav__link">
-    Classes
-  </a>
-  
-    <nav class="md-nav" aria-label="Classes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.constructed_gr.CitationGeneralRegister" class="md-nav__link">
-    CitationGeneralRegister
-  </a>
-  
-    <nav class="md-nav" aria-label="CitationGeneralRegister">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.constructed_gr.CitationGeneralRegister-functions" class="md-nav__link">
-    Functions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#nuanced-general-register-id-matching" class="md-nav__link">
-    Nuanced General Register ID Matching
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.models.gr_clean-functions" class="md-nav__link">
-    Functions
-  </a>
-  
     <nav class="md-nav" aria-label="Functions">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#citation_docket.regexes.models.gr_clean.gr_prefix_clean" class="md-nav__link">
-    gr_prefix_clean()
+  <a href="#citation_docket.regexes.models.constructor.Constructor.detect" class="md-nav__link">
+    detect()
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.models.gr_clean.remove_prefix_regex" class="md-nav__link">
-    remove_prefix_regex()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.models.gr_clean.replace_prefix_regex" class="md-nav__link">
-    replace_prefix_regex()
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#am" class="md-nav__link">
-    AM
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.constructed_am-classes" class="md-nav__link">
-    Classes
-  </a>
-  
-    <nav class="md-nav" aria-label="Classes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.constructed_am.CitationAdministrativeMatter" class="md-nav__link">
-    CitationAdministrativeMatter
-  </a>
-  
-    <nav class="md-nav" aria-label="CitationAdministrativeMatter">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.constructed_am.CitationAdministrativeMatter-functions" class="md-nav__link">
-    Functions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ac" class="md-nav__link">
-    AC
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.constructed_ac-classes" class="md-nav__link">
-    Classes
-  </a>
-  
-    <nav class="md-nav" aria-label="Classes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.constructed_ac.CitationAdministrativeCase" class="md-nav__link">
-    CitationAdministrativeCase
-  </a>
-  
-    <nav class="md-nav" aria-label="CitationAdministrativeCase">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.constructed_ac.CitationAdministrativeCase-functions" class="md-nav__link">
-    Functions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#bm" class="md-nav__link">
-    BM
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.constructed_bm-classes" class="md-nav__link">
-    Classes
-  </a>
-  
-    <nav class="md-nav" aria-label="Classes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.constructed_bm.CitationBarMatter" class="md-nav__link">
-    CitationBarMatter
-  </a>
-  
-    <nav class="md-nav" aria-label="CitationBarMatter">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#citation_docket.regexes.constructed_bm.CitationBarMatter-functions" class="md-nav__link">
-    Functions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -727,169 +632,15 @@
 
 
 
-<h1 id="citation-docket">Citation Docket</h1>
-<h2 id="the-docket-report-citation">The "Docket Report" Citation</h2>
-<p>Let's look at sample citation that is typically found in the body and the footnotes section of a decision:</p>
-<blockquote>
-<p>Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449</p>
-</blockquote>
-<p>We can separate the <code>Docket</code> portion from the <code>Report</code> portion:</p>
-<table>
-<thead>
-<tr>
-<th align="right">Docket</th>
-<th align="left">Report</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="right">G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000</td>
-<td align="left">342 SCRA 449</td>
-</tr>
-</tbody>
-</table>
-<p>For lack of a better term, we'll call the combination of a <code>Docket</code> and a <code>Report</code> a <code>DocketReportCitation</code>. It is implemented by:</p>
+<h1 id="build-api">Build API</h1>
+<h2 id="docket-model">Docket Model</h2>
 
-
-<div class="doc doc-object doc-module">
-
-
-
-  <div class="doc doc-contents first">
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-<h4 id="citation_docket.regexes.models.docket_citation-classes">Classes</h4>
 
 <div class="doc doc-object doc-class">
 
 
 
-<h5 id="citation_docket.regexes.models.docket_citation.DocketReportCitation" class="doc doc-heading">
-        <code>DocketReportCitation</code>
-
-
-</h5>
-
-
-  <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-internal" title="citation_docket.regexes.models.docket_model.Docket" href="#citation_docket.regexes.models.docket_model.Docket">Docket</a></code>, <code><span title="citation_report.Report">Report</span></code>, <code>abc.<span title="abc.ABC">ABC</span></code></p>
-
-  
-      <p>Note <code>Report</code> is defined in a separate library <code>citation-report</code>.</p>
-<p>The <code>DocketReportCitation</code> abstract class makes sure that all of the
-fields of a <code>Docket</code> object alongside all of the fields of a <code>Report</code> object
-will be utilized. It also mandates the implementation of a<code>cls.search()</code>
-method.</p>
-
-
-        <details class="quote">
-          <summary>Source code in <code>citation_docket/regexes/models/docket_citation.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-10">10</a></span>
-<span class="normal"><a href="#__codelineno-0-11">11</a></span>
-<span class="normal"><a href="#__codelineno-0-12">12</a></span>
-<span class="normal"><a href="#__codelineno-0-13">13</a></span>
-<span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span>
-<span class="normal"><a href="#__codelineno-0-16">16</a></span>
-<span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span>
-<span class="normal"><a href="#__codelineno-0-21">21</a></span>
-<span class="normal"><a href="#__codelineno-0-22">22</a></span>
-<span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span>
-<span class="normal"><a href="#__codelineno-0-27">27</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="k">class</span> <span class="nc">DocketReportCitation</span><span class="p">(</span><span class="n">Docket</span><span class="p">,</span> <span class="n">Report</span><span class="p">,</span> <span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Note `Report` is defined in a separate library `citation-report`.</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="sd">    The `DocketReportCitation` abstract class makes sure that all of the</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="sd">    fields of a `Docket` object alongside all of the fields of a `Report` object</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="sd">    will be utilized. It also mandates the implementation of a`cls.search()`</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">    method.</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a>    <span class="o">...</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">raw</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Self</span><span class="p">]:</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a>        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a>            <span class="s2">&quot;Each docket citation must have a search method that produces an&quot;</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26"></a>            <span class="s2">&quot; Iterator of the class instance.&quot;</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27"></a>        <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-        </details>
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-  </div>
-
-</div>
-
-
-
-
-  </div>
-
-  </div>
-
-</div><h2 id="docket-models">Docket Models</h2>
-
-
-<div class="doc doc-object doc-module">
-
-
-
   <div class="doc doc-contents first">
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-<h4 id="citation_docket.regexes.models.docket_model-classes">Classes</h4>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h5 id="citation_docket.regexes.models.docket_model.Docket" class="doc doc-heading">
-        <code>Docket</code>
-
-
-</h5>
-
-
-  <div class="doc doc-contents ">
       <p class="doc doc-class-bases">
         Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code></p>
 
@@ -1178,20 +929,20 @@ identifier based on volume and page numbers.</p>
 
 
 
-<h6 id="citation_docket.regexes.models.docket_model.Docket-attributes">Attributes</h6>
+<h4 id="citation_docket.Docket-attributes">Attributes</h4>
 
 <div class="doc doc-object doc-attribute">
 
 
 
-<h7 id="citation_docket.regexes.models.docket_model.Docket.first_id" class="doc doc-heading">
+<h5 id="citation_docket.regexes.models.docket_model.Docket.first_id" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">first_id</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
 
-</h7>
+</h5>
 
 
   <div class="doc doc-contents ">
@@ -1205,14 +956,14 @@ identifier based on volume and page numbers.</p>
 
 
 
-<h7 id="citation_docket.regexes.models.docket_model.Docket.serial_text" class="doc doc-heading">
+<h5 id="citation_docket.regexes.models.docket_model.Docket.serial_text" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">serial_text</span><span class="p">:</span> <span class="nb">str</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
 
-</h7>
+</h5>
 
 
   <div class="doc doc-contents ">
@@ -1250,47 +1001,15 @@ identifier based on volume and page numbers.</p>
 
   </div>
 
-</div>
-<h4 id="citation_docket.regexes.models.docket_model-functions">Functions</h4>
+</div><h2 id="docket-category">Docket Category</h2>
+<h3 id="general">General</h3>
 
-
-
-  </div>
-
-  </div>
-
-</div><h3 id="docket-categories">Docket Categories</h3>
-
-
-<div class="doc doc-object doc-module">
-
-
-
-  <div class="doc doc-contents first">
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-<h4 id="citation_docket.regexes.models.docket_category-classes">Classes</h4>
 
 <div class="doc doc-object doc-class">
 
 
 
-<h5 id="citation_docket.regexes.models.docket_category.DocketCategory" class="doc doc-heading">
-        <code>DocketCategory</code>
-
-
-</h5>
-
-
-  <div class="doc doc-contents ">
+  <div class="doc doc-contents first">
       <p class="doc doc-class-bases">
         Bases: <code>str</code>, <code><span title="enum.Enum">Enum</span></code></p>
 
@@ -1390,20 +1109,14 @@ than decisions.</p>
 
   </div>
 
-</div>
+</div><h3 id="short-style">Short Style</h3>
+
 
 <div class="doc doc-object doc-class">
 
 
 
-<h5 id="citation_docket.regexes.models.docket_category.ShortDocketCategory" class="doc doc-heading">
-        <code>ShortDocketCategory</code>
-
-
-</h5>
-
-
-  <div class="doc doc-contents ">
+  <div class="doc doc-contents first">
       <p class="doc doc-class-bases">
         Bases: <code>str</code>, <code><span title="enum.Enum">Enum</span></code></p>
 
@@ -1492,48 +1205,15 @@ the value will be stored in the database.</p>
 
   </div>
 
-</div>
+</div><h2 id="docket-constructor">Docket Constructor</h2>
+<p>Although the different category docket models share a similar configuration, the regex strings involved are different for each, prompting the need for a preparatory constructor class:</p>
 
-
-
-
-  </div>
-
-  </div>
-
-</div><h3 id="docket-construction">Docket Construction</h3>
-<p>Although the docket models share a similar configuration, the regex strings involved are different for each, prompting the need for a preparatory constructor class:</p>
-
-
-<div class="doc doc-object doc-module">
-
-
-
-  <div class="doc doc-contents first">
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-<h4 id="citation_docket.regexes.models.constructor-classes">Classes</h4>
 
 <div class="doc doc-object doc-class">
 
 
 
-<h5 id="citation_docket.regexes.models.constructor.Constructor" class="doc doc-heading">
-        <code>Constructor</code>
-
-
-</h5>
-
-
-  <div class="doc doc-contents ">
+  <div class="doc doc-contents first">
       <p class="doc doc-class-bases">
         Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code></p>
 
@@ -1819,20 +1499,20 @@ of the docket, e.g. <code>GR</code> <code>No.</code> <code>123</code></p>
 
 
 
-<h6 id="citation_docket.regexes.models.constructor.Constructor-attributes">Attributes</h6>
+<h4 id="citation_docket.regexes.models.constructor.Constructor-attributes">Attributes</h4>
 
 <div class="doc doc-object doc-attribute">
 
 
 
-<h7 id="citation_docket.regexes.models.constructor.Constructor.key_num_pattern" class="doc doc-heading">
+<h5 id="citation_docket.regexes.models.constructor.Constructor.key_num_pattern" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">key_num_pattern</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">Pattern</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
 
-</h7>
+</h5>
 
 
   <div class="doc doc-contents ">
@@ -1847,14 +1527,14 @@ just the key and number elements, e.g. "GR No. 123" or "BP Blg. 45"</p>
 
 
 
-<h7 id="citation_docket.regexes.models.constructor.Constructor.pattern" class="doc doc-heading">
+<h5 id="citation_docket.regexes.models.constructor.Constructor.pattern" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">pattern</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">Pattern</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
 
-</h7>
+</h5>
 
 
   <div class="doc doc-contents ">
@@ -1887,16 +1567,16 @@ just the key and number elements, e.g. "GR No. 123" or "BP Blg. 45"</p>
 
 </div>
 
-<h6 id="citation_docket.regexes.models.constructor.Constructor-functions">Functions</h6>
+<h4 id="citation_docket.regexes.models.constructor.Constructor-functions">Functions</h4>
 
 <div class="doc doc-object doc-function">
 
 
 
-<h7 id="citation_docket.regexes.models.constructor.Constructor.detect" class="doc doc-heading">
+<h5 id="citation_docket.regexes.models.constructor.Constructor.detect" class="doc doc-heading">
 <code class="highlight language-python"><span class="n">detect</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span></code>
 
-</h7>
+</h5>
 
 
   <div class="doc doc-contents ">
@@ -2024,1118 +1704,8 @@ Docket + Report pydantic BaseModel</p></td>
   </div>
 
 </div>
-<h4 id="citation_docket.regexes.models.constructor-functions">Functions</h4>
 
 
-
-  </div>
-
-  </div>
-
-</div><h4 id="gr">GR</h4>
-
-
-<div class="doc doc-object doc-module">
-
-
-
-  <div class="doc doc-contents first">
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-<h4 id="citation_docket.regexes.constructed_gr-classes">Classes</h4>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h5 id="citation_docket.regexes.constructed_gr.CitationGeneralRegister" class="doc doc-heading">
-        <code>CitationGeneralRegister</code>
-
-
-</h5>
-
-
-  <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-internal" title="citation_docket.regexes.models.DocketReportCitation" href="#citation_docket.regexes.models.docket_citation.DocketReportCitation">DocketReportCitation</a></code></p>
-
-
-
-        <details class="quote">
-          <summary>Source code in <code>citation_docket/regexes/constructed_gr.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-102">102</a></span>
-<span class="normal"><a href="#__codelineno-0-103">103</a></span>
-<span class="normal"><a href="#__codelineno-0-104">104</a></span>
-<span class="normal"><a href="#__codelineno-0-105">105</a></span>
-<span class="normal"><a href="#__codelineno-0-106">106</a></span>
-<span class="normal"><a href="#__codelineno-0-107">107</a></span>
-<span class="normal"><a href="#__codelineno-0-108">108</a></span>
-<span class="normal"><a href="#__codelineno-0-109">109</a></span>
-<span class="normal"><a href="#__codelineno-0-110">110</a></span>
-<span class="normal"><a href="#__codelineno-0-111">111</a></span>
-<span class="normal"><a href="#__codelineno-0-112">112</a></span>
-<span class="normal"><a href="#__codelineno-0-113">113</a></span>
-<span class="normal"><a href="#__codelineno-0-114">114</a></span>
-<span class="normal"><a href="#__codelineno-0-115">115</a></span>
-<span class="normal"><a href="#__codelineno-0-116">116</a></span>
-<span class="normal"><a href="#__codelineno-0-117">117</a></span>
-<span class="normal"><a href="#__codelineno-0-118">118</a></span>
-<span class="normal"><a href="#__codelineno-0-119">119</a></span>
-<span class="normal"><a href="#__codelineno-0-120">120</a></span>
-<span class="normal"><a href="#__codelineno-0-121">121</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-102" name="__codelineno-0-102"></a><span class="k">class</span> <span class="nc">CitationGeneralRegister</span><span class="p">(</span><span class="n">DocketReportCitation</span><span class="p">):</span>
-<a id="__codelineno-0-103" name="__codelineno-0-103"></a>    <span class="o">...</span>
-<a id="__codelineno-0-104" name="__codelineno-0-104"></a>
-<a id="__codelineno-0-105" name="__codelineno-0-105"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-106" name="__codelineno-0-106"></a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Self</span><span class="p">]:</span>
-<a id="__codelineno-0-107" name="__codelineno-0-107"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all dockets matching the `GR` docket pattern, inclusive of their optional Report object.</span>
-<a id="__codelineno-0-108" name="__codelineno-0-108"></a>
-<a id="__codelineno-0-109" name="__codelineno-0-109"></a><span class="sd">        Examples:</span>
-<a id="__codelineno-0-110" name="__codelineno-0-110"></a><span class="sd">            &gt;&gt;&gt; text = &quot;Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449&quot;</span>
-<a id="__codelineno-0-111" name="__codelineno-0-111"></a><span class="sd">            &gt;&gt;&gt; next(CitationGeneralRegister.search(text))</span>
-<a id="__codelineno-0-112" name="__codelineno-0-112"></a><span class="sd">            CitationGeneralRegister(publisher=&#39;SCRA&#39;, volume=&#39;342&#39;, page=&#39;449&#39;, volpubpage=&#39;342 SCRA 449&#39;, report_date=None, context=&#39;G.R. Nos. 138570, 138572, 138587, 138680, 138698&#39;, short_category=&#39;GR&#39;, category=&#39;General Register&#39;, ids=&#39;138570, 138572, 138587, 138680, 138698&#39;, docket_date=datetime.date(2000, 10, 10))</span>
-<a id="__codelineno-0-113" name="__codelineno-0-113"></a>
-<a id="__codelineno-0-114" name="__codelineno-0-114"></a><span class="sd">        Args:</span>
-<a id="__codelineno-0-115" name="__codelineno-0-115"></a><span class="sd">            text (str): Text to look for citation objects</span>
-<a id="__codelineno-0-116" name="__codelineno-0-116"></a>
-<a id="__codelineno-0-117" name="__codelineno-0-117"></a><span class="sd">        Yields:</span>
-<a id="__codelineno-0-118" name="__codelineno-0-118"></a><span class="sd">            Iterator[Self]: Combination of Docket and Report pydantic model.</span>
-<a id="__codelineno-0-119" name="__codelineno-0-119"></a><span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa E501</span>
-<a id="__codelineno-0-120" name="__codelineno-0-120"></a>        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">constructed_gr</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-<a id="__codelineno-0-121" name="__codelineno-0-121"></a>            <span class="k">yield</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-        </details>
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-<h6 id="citation_docket.regexes.constructed_gr.CitationGeneralRegister-functions">Functions</h6>
-
-<div class="doc doc-object doc-function">
-
-
-
-<h7 id="citation_docket.regexes.constructed_gr.CitationGeneralRegister.search" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">search</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></code>
-  
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
-  </span>
-
-</h7>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Get all dockets matching the <code>GR</code> docket pattern, inclusive of their optional Report object.</p>
-
-<p><strong>Examples:</strong></p>
-    <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449&quot;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">CitationGeneralRegister</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">CitationGeneralRegister(publisher=&#39;SCRA&#39;, volume=&#39;342&#39;, page=&#39;449&#39;, volpubpage=&#39;342 SCRA 449&#39;, report_date=None, context=&#39;G.R. Nos. 138570, 138572, 138587, 138680, 138698&#39;, short_category=&#39;GR&#39;, category=&#39;General Register&#39;, ids=&#39;138570, 138572, 138587, 138680, 138698&#39;, docket_date=datetime.date(2000, 10, 10))</span>
-</code></pre></div>
-
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>text</code></td>
-          <td>
-                <code>str</code>
-          </td>
-          <td><p>Text to look for citation objects</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Yields:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>
-                <code><span title="collections.abc.Iterator">Iterator</span>[<span title="typing.Self">Self</span>]</code>
-          </td>
-          <td><p>Iterator[Self]: Combination of Docket and Report pydantic model.</p></td>
-        </tr>
-    </tbody>
-  </table>
-
-      <details class="quote">
-        <summary>Source code in <code>citation_docket/regexes/constructed_gr.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-105">105</a></span>
-<span class="normal"><a href="#__codelineno-0-106">106</a></span>
-<span class="normal"><a href="#__codelineno-0-107">107</a></span>
-<span class="normal"><a href="#__codelineno-0-108">108</a></span>
-<span class="normal"><a href="#__codelineno-0-109">109</a></span>
-<span class="normal"><a href="#__codelineno-0-110">110</a></span>
-<span class="normal"><a href="#__codelineno-0-111">111</a></span>
-<span class="normal"><a href="#__codelineno-0-112">112</a></span>
-<span class="normal"><a href="#__codelineno-0-113">113</a></span>
-<span class="normal"><a href="#__codelineno-0-114">114</a></span>
-<span class="normal"><a href="#__codelineno-0-115">115</a></span>
-<span class="normal"><a href="#__codelineno-0-116">116</a></span>
-<span class="normal"><a href="#__codelineno-0-117">117</a></span>
-<span class="normal"><a href="#__codelineno-0-118">118</a></span>
-<span class="normal"><a href="#__codelineno-0-119">119</a></span>
-<span class="normal"><a href="#__codelineno-0-120">120</a></span>
-<span class="normal"><a href="#__codelineno-0-121">121</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-105" name="__codelineno-0-105"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-106" name="__codelineno-0-106"></a><span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Self</span><span class="p">]:</span>
-<a id="__codelineno-0-107" name="__codelineno-0-107"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Get all dockets matching the `GR` docket pattern, inclusive of their optional Report object.</span>
-<a id="__codelineno-0-108" name="__codelineno-0-108"></a>
-<a id="__codelineno-0-109" name="__codelineno-0-109"></a><span class="sd">    Examples:</span>
-<a id="__codelineno-0-110" name="__codelineno-0-110"></a><span class="sd">        &gt;&gt;&gt; text = &quot;Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449&quot;</span>
-<a id="__codelineno-0-111" name="__codelineno-0-111"></a><span class="sd">        &gt;&gt;&gt; next(CitationGeneralRegister.search(text))</span>
-<a id="__codelineno-0-112" name="__codelineno-0-112"></a><span class="sd">        CitationGeneralRegister(publisher=&#39;SCRA&#39;, volume=&#39;342&#39;, page=&#39;449&#39;, volpubpage=&#39;342 SCRA 449&#39;, report_date=None, context=&#39;G.R. Nos. 138570, 138572, 138587, 138680, 138698&#39;, short_category=&#39;GR&#39;, category=&#39;General Register&#39;, ids=&#39;138570, 138572, 138587, 138680, 138698&#39;, docket_date=datetime.date(2000, 10, 10))</span>
-<a id="__codelineno-0-113" name="__codelineno-0-113"></a>
-<a id="__codelineno-0-114" name="__codelineno-0-114"></a><span class="sd">    Args:</span>
-<a id="__codelineno-0-115" name="__codelineno-0-115"></a><span class="sd">        text (str): Text to look for citation objects</span>
-<a id="__codelineno-0-116" name="__codelineno-0-116"></a>
-<a id="__codelineno-0-117" name="__codelineno-0-117"></a><span class="sd">    Yields:</span>
-<a id="__codelineno-0-118" name="__codelineno-0-118"></a><span class="sd">        Iterator[Self]: Combination of Docket and Report pydantic model.</span>
-<a id="__codelineno-0-119" name="__codelineno-0-119"></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa E501</span>
-<a id="__codelineno-0-120" name="__codelineno-0-120"></a>    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">constructed_gr</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-<a id="__codelineno-0-121" name="__codelineno-0-121"></a>        <span class="k">yield</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-      </details>
-  </div>
-
-</div>
-
-
-
-  </div>
-
-  </div>
-
-</div>
-
-
-
-
-  </div>
-
-  </div>
-
-</div><h5 id="nuanced-general-register-id-matching">Nuanced General Register ID Matching</h5>
-<p><em>Note:</em> What is the value of adding <code>L-</code> to a General Register docket? It seems like L stands for "Legacy" although I can't seem to find official references to its designation.</p>
-<p><img alt="img" src="../img/opinions_with_bad_serials.png" /></p>
-
-
-<div class="doc doc-object doc-module">
-
-
-
-  <div class="doc doc-contents first">
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-<h4 id="citation_docket.regexes.models.gr_clean-functions">Functions</h4>
-
-<div class="doc doc-object doc-function">
-
-
-
-<h5 id="citation_docket.regexes.models.gr_clean.gr_prefix_clean" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">gr_prefix_clean</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></code>
-
-</h5>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>The GR (General Register) docket ID makes use of <code>L-xxx</code> as a prefix
-in some of its serialized ids.</p>
-<p>Since most legal documents are parsed via OCR, the translation is often
-errneous resulting in an L-<code>I</code>9863 instead of being L-<code>1</code>9863.</p>
-<p>This also deals with cases involving inconsistent formatting, e.g.
-<code>No. L-12414</code>.</p>
-<p>If the regex patterns find the inconsistencies described above, clean
-the prefix.</p>
-
-<p><strong>Examples:</strong></p>
-    <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">inconsistent_text</span> <span class="o">=</span> <span class="s2">&quot;No. L-I9863&quot;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">gr_prefix_clean</span><span class="p">(</span><span class="n">inconsistent_text</span><span class="p">)</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">&#39;L-19863&#39;</span>
-</code></pre></div>
-
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>text</code></td>
-          <td>
-                <code>str</code>
-          </td>
-          <td><p>Raw docket serial ID that ought to be cleaned, e.g. <code>`L-I</code>
-or <code>No. L-</code>.</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>
-                <code>str | None</code>
-          </td>
-          <td><p>str | None: The cleaned GR docket ID, if detected.</p></td>
-        </tr>
-    </tbody>
-  </table>
-
-      <details class="quote">
-        <summary>Source code in <code>citation_docket/regexes/models/gr_clean.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-80"> 80</a></span>
-<span class="normal"><a href="#__codelineno-0-81"> 81</a></span>
-<span class="normal"><a href="#__codelineno-0-82"> 82</a></span>
-<span class="normal"><a href="#__codelineno-0-83"> 83</a></span>
-<span class="normal"><a href="#__codelineno-0-84"> 84</a></span>
-<span class="normal"><a href="#__codelineno-0-85"> 85</a></span>
-<span class="normal"><a href="#__codelineno-0-86"> 86</a></span>
-<span class="normal"><a href="#__codelineno-0-87"> 87</a></span>
-<span class="normal"><a href="#__codelineno-0-88"> 88</a></span>
-<span class="normal"><a href="#__codelineno-0-89"> 89</a></span>
-<span class="normal"><a href="#__codelineno-0-90"> 90</a></span>
-<span class="normal"><a href="#__codelineno-0-91"> 91</a></span>
-<span class="normal"><a href="#__codelineno-0-92"> 92</a></span>
-<span class="normal"><a href="#__codelineno-0-93"> 93</a></span>
-<span class="normal"><a href="#__codelineno-0-94"> 94</a></span>
-<span class="normal"><a href="#__codelineno-0-95"> 95</a></span>
-<span class="normal"><a href="#__codelineno-0-96"> 96</a></span>
-<span class="normal"><a href="#__codelineno-0-97"> 97</a></span>
-<span class="normal"><a href="#__codelineno-0-98"> 98</a></span>
-<span class="normal"><a href="#__codelineno-0-99"> 99</a></span>
-<span class="normal"><a href="#__codelineno-0-100">100</a></span>
-<span class="normal"><a href="#__codelineno-0-101">101</a></span>
-<span class="normal"><a href="#__codelineno-0-102">102</a></span>
-<span class="normal"><a href="#__codelineno-0-103">103</a></span>
-<span class="normal"><a href="#__codelineno-0-104">104</a></span>
-<span class="normal"><a href="#__codelineno-0-105">105</a></span>
-<span class="normal"><a href="#__codelineno-0-106">106</a></span>
-<span class="normal"><a href="#__codelineno-0-107">107</a></span>
-<span class="normal"><a href="#__codelineno-0-108">108</a></span>
-<span class="normal"><a href="#__codelineno-0-109">109</a></span>
-<span class="normal"><a href="#__codelineno-0-110">110</a></span>
-<span class="normal"><a href="#__codelineno-0-111">111</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="k">def</span> <span class="nf">gr_prefix_clean</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;The GR (General Register) docket ID makes use of `L-xxx` as a prefix</span>
-<a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="sd">    in some of its serialized ids.</span>
-<a id="__codelineno-0-83" name="__codelineno-0-83"></a>
-<a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="sd">    Since most legal documents are parsed via OCR, the translation is often</span>
-<a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="sd">    errneous resulting in an L-`I`9863 instead of being L-`1`9863.</span>
-<a id="__codelineno-0-86" name="__codelineno-0-86"></a>
-<a id="__codelineno-0-87" name="__codelineno-0-87"></a><span class="sd">    This also deals with cases involving inconsistent formatting, e.g.</span>
-<a id="__codelineno-0-88" name="__codelineno-0-88"></a><span class="sd">    `No. L-12414`.</span>
-<a id="__codelineno-0-89" name="__codelineno-0-89"></a>
-<a id="__codelineno-0-90" name="__codelineno-0-90"></a><span class="sd">    If the regex patterns find the inconsistencies described above, clean</span>
-<a id="__codelineno-0-91" name="__codelineno-0-91"></a><span class="sd">    the prefix.</span>
-<a id="__codelineno-0-92" name="__codelineno-0-92"></a>
-<a id="__codelineno-0-93" name="__codelineno-0-93"></a><span class="sd">    Examples:</span>
-<a id="__codelineno-0-94" name="__codelineno-0-94"></a><span class="sd">        &gt;&gt;&gt; inconsistent_text = &quot;No. L-I9863&quot;</span>
-<a id="__codelineno-0-95" name="__codelineno-0-95"></a><span class="sd">        &gt;&gt;&gt; gr_prefix_clean(inconsistent_text)</span>
-<a id="__codelineno-0-96" name="__codelineno-0-96"></a><span class="sd">        &#39;L-19863&#39;</span>
-<a id="__codelineno-0-97" name="__codelineno-0-97"></a>
-<a id="__codelineno-0-98" name="__codelineno-0-98"></a><span class="sd">    Args:</span>
-<a id="__codelineno-0-99" name="__codelineno-0-99"></a><span class="sd">        text (str): Raw docket serial ID that ought to be cleaned, e.g. ``L-I`</span>
-<a id="__codelineno-0-100" name="__codelineno-0-100"></a><span class="sd">            or `No. L-`.</span>
-<a id="__codelineno-0-101" name="__codelineno-0-101"></a>
-<a id="__codelineno-0-102" name="__codelineno-0-102"></a><span class="sd">    Returns:</span>
-<a id="__codelineno-0-103" name="__codelineno-0-103"></a><span class="sd">        str | None: The cleaned GR docket ID, if detected.</span>
-<a id="__codelineno-0-104" name="__codelineno-0-104"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-105" name="__codelineno-0-105"></a>    <span class="n">regex1</span><span class="p">,</span> <span class="n">prefix1</span> <span class="o">=</span> <span class="n">LEGACY_PREFIXED_LOOKALIKE</span><span class="p">,</span> <span class="s2">&quot;L-1&quot;</span>  <span class="c1"># L-I9863</span>
-<a id="__codelineno-0-106" name="__codelineno-0-106"></a>    <span class="n">regex2</span><span class="p">,</span> <span class="n">prefix2</span> <span class="o">=</span> <span class="n">LEGACY_PREFIXED</span><span class="p">,</span> <span class="s2">&quot;L-&quot;</span>  <span class="c1"># improper L- formatted cases</span>
-<a id="__codelineno-0-107" name="__codelineno-0-107"></a>    <span class="k">if</span> <span class="n">cleaned1</span> <span class="o">:=</span> <span class="n">replace_prefix_regex</span><span class="p">(</span><span class="n">regex1</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">prefix1</span><span class="p">):</span>
-<a id="__codelineno-0-108" name="__codelineno-0-108"></a>        <span class="k">return</span> <span class="n">cleaned1</span>
-<a id="__codelineno-0-109" name="__codelineno-0-109"></a>    <span class="k">elif</span> <span class="n">cleaned2</span> <span class="o">:=</span> <span class="n">replace_prefix_regex</span><span class="p">(</span><span class="n">regex2</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">prefix2</span><span class="p">):</span>
-<a id="__codelineno-0-110" name="__codelineno-0-110"></a>        <span class="k">return</span> <span class="n">cleaned2</span>
-<a id="__codelineno-0-111" name="__codelineno-0-111"></a>    <span class="k">return</span> <span class="kc">None</span>
-</code></pre></div></td></tr></table></div>
-      </details>
-  </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-
-<h5 id="citation_docket.regexes.models.gr_clean.remove_prefix_regex" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">remove_prefix_regex</span><span class="p">(</span><span class="n">regex_to_match</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></code>
-
-</h5>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Based on the <code>regex</code> passed, remove this from the start of the <code>text</code></p>
-
-      <details class="quote">
-        <summary>Source code in <code>citation_docket/regexes/models/gr_clean.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-63">63</a></span>
-<span class="normal"><a href="#__codelineno-0-64">64</a></span>
-<span class="normal"><a href="#__codelineno-0-65">65</a></span>
-<span class="normal"><a href="#__codelineno-0-66">66</a></span>
-<span class="normal"><a href="#__codelineno-0-67">67</a></span>
-<span class="normal"><a href="#__codelineno-0-68">68</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="k">def</span> <span class="nf">remove_prefix_regex</span><span class="p">(</span><span class="n">regex_to_match</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Based on the `regex` passed, remove this from the start of the `text`&quot;&quot;&quot;</span>
-<a id="__codelineno-0-65" name="__codelineno-0-65"></a>    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex_to_match</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span><span class="p">)</span>
-<a id="__codelineno-0-66" name="__codelineno-0-66"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
-<a id="__codelineno-0-67" name="__codelineno-0-67"></a>        <span class="k">return</span> <span class="kc">None</span>
-<a id="__codelineno-0-68" name="__codelineno-0-68"></a>    <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">())</span>
-</code></pre></div></td></tr></table></div>
-      </details>
-  </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-
-<h5 id="citation_docket.regexes.models.gr_clean.replace_prefix_regex" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">replace_prefix_regex</span><span class="p">(</span><span class="n">regex_to_match</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span></code>
-
-</h5>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Based on the <code>regex</code> passed, replace this from the start of the <code>text</code>
-with a standardized variant <code>std</code>.</p>
-
-      <details class="quote">
-        <summary>Source code in <code>citation_docket/regexes/models/gr_clean.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-71">71</a></span>
-<span class="normal"><a href="#__codelineno-0-72">72</a></span>
-<span class="normal"><a href="#__codelineno-0-73">73</a></span>
-<span class="normal"><a href="#__codelineno-0-74">74</a></span>
-<span class="normal"><a href="#__codelineno-0-75">75</a></span>
-<span class="normal"><a href="#__codelineno-0-76">76</a></span>
-<span class="normal"><a href="#__codelineno-0-77">77</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-71" name="__codelineno-0-71"></a><span class="k">def</span> <span class="nf">replace_prefix_regex</span><span class="p">(</span><span class="n">regex_to_match</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">std</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Based on the `regex` passed, replace this from the start of the `text`</span>
-<a id="__codelineno-0-73" name="__codelineno-0-73"></a><span class="sd">    with a standardized variant `std`.&quot;&quot;&quot;</span>
-<a id="__codelineno-0-74" name="__codelineno-0-74"></a>    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex_to_match</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span><span class="p">)</span>
-<a id="__codelineno-0-75" name="__codelineno-0-75"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
-<a id="__codelineno-0-76" name="__codelineno-0-76"></a>        <span class="k">return</span> <span class="kc">None</span>
-<a id="__codelineno-0-77" name="__codelineno-0-77"></a>    <span class="k">return</span> <span class="n">std</span> <span class="o">+</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">())</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</code></pre></div></td></tr></table></div>
-      </details>
-  </div>
-
-</div>
-
-
-
-  </div>
-
-  </div>
-
-</div><h4 id="am">AM</h4>
-
-
-<div class="doc doc-object doc-module">
-
-
-
-  <div class="doc doc-contents first">
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-<h4 id="citation_docket.regexes.constructed_am-classes">Classes</h4>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h5 id="citation_docket.regexes.constructed_am.CitationAdministrativeMatter" class="doc doc-heading">
-        <code>CitationAdministrativeMatter</code>
-
-
-</h5>
-
-
-  <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-internal" title="citation_docket.regexes.models.DocketReportCitation" href="#citation_docket.regexes.models.docket_citation.DocketReportCitation">DocketReportCitation</a></code></p>
-
-
-
-        <details class="quote">
-          <summary>Source code in <code>citation_docket/regexes/constructed_am.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-166">166</a></span>
-<span class="normal"><a href="#__codelineno-0-167">167</a></span>
-<span class="normal"><a href="#__codelineno-0-168">168</a></span>
-<span class="normal"><a href="#__codelineno-0-169">169</a></span>
-<span class="normal"><a href="#__codelineno-0-170">170</a></span>
-<span class="normal"><a href="#__codelineno-0-171">171</a></span>
-<span class="normal"><a href="#__codelineno-0-172">172</a></span>
-<span class="normal"><a href="#__codelineno-0-173">173</a></span>
-<span class="normal"><a href="#__codelineno-0-174">174</a></span>
-<span class="normal"><a href="#__codelineno-0-175">175</a></span>
-<span class="normal"><a href="#__codelineno-0-176">176</a></span>
-<span class="normal"><a href="#__codelineno-0-177">177</a></span>
-<span class="normal"><a href="#__codelineno-0-178">178</a></span>
-<span class="normal"><a href="#__codelineno-0-179">179</a></span>
-<span class="normal"><a href="#__codelineno-0-180">180</a></span>
-<span class="normal"><a href="#__codelineno-0-181">181</a></span>
-<span class="normal"><a href="#__codelineno-0-182">182</a></span>
-<span class="normal"><a href="#__codelineno-0-183">183</a></span>
-<span class="normal"><a href="#__codelineno-0-184">184</a></span>
-<span class="normal"><a href="#__codelineno-0-185">185</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-166" name="__codelineno-0-166"></a><span class="k">class</span> <span class="nc">CitationAdministrativeMatter</span><span class="p">(</span><span class="n">DocketReportCitation</span><span class="p">):</span>
-<a id="__codelineno-0-167" name="__codelineno-0-167"></a>    <span class="o">...</span>
-<a id="__codelineno-0-168" name="__codelineno-0-168"></a>
-<a id="__codelineno-0-169" name="__codelineno-0-169"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-170" name="__codelineno-0-170"></a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Self</span><span class="p">]:</span>
-<a id="__codelineno-0-171" name="__codelineno-0-171"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all dockets matching the `AM` docket pattern, inclusive of their optional Report object.</span>
-<a id="__codelineno-0-172" name="__codelineno-0-172"></a>
-<a id="__codelineno-0-173" name="__codelineno-0-173"></a><span class="sd">        Examples:</span>
-<a id="__codelineno-0-174" name="__codelineno-0-174"></a><span class="sd">            &gt;&gt;&gt; text = &quot;A.M. No. P-88-198, February 25, 1992, 206 SCRA 491.&quot;</span>
-<a id="__codelineno-0-175" name="__codelineno-0-175"></a><span class="sd">            &gt;&gt;&gt; next(CitationAdministrativeMatter.search(text))</span>
-<a id="__codelineno-0-176" name="__codelineno-0-176"></a><span class="sd">            CitationAdministrativeMatter(publisher=&#39;SCRA&#39;, volume=&#39;206&#39;, page=&#39;491&#39;, volpubpage=&#39;206 SCRA 491&#39;, report_date=None, context=&#39;A.M. No. P-88-198&#39;, short_category=&#39;AM&#39;, category=&#39;Administrative Matter&#39;, ids=&#39;P-88-198&#39;, docket_date=datetime.date(1992, 2, 25))</span>
-<a id="__codelineno-0-177" name="__codelineno-0-177"></a>
-<a id="__codelineno-0-178" name="__codelineno-0-178"></a><span class="sd">        Args:</span>
-<a id="__codelineno-0-179" name="__codelineno-0-179"></a><span class="sd">            text (str): Text to look for citation objects</span>
-<a id="__codelineno-0-180" name="__codelineno-0-180"></a>
-<a id="__codelineno-0-181" name="__codelineno-0-181"></a><span class="sd">        Yields:</span>
-<a id="__codelineno-0-182" name="__codelineno-0-182"></a><span class="sd">            Iterator[Self]: Combination of Docket and Report pydantic model.</span>
-<a id="__codelineno-0-183" name="__codelineno-0-183"></a><span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa E501</span>
-<a id="__codelineno-0-184" name="__codelineno-0-184"></a>        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">constructed_am</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-<a id="__codelineno-0-185" name="__codelineno-0-185"></a>            <span class="k">yield</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-        </details>
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-<h6 id="citation_docket.regexes.constructed_am.CitationAdministrativeMatter-functions">Functions</h6>
-
-<div class="doc doc-object doc-function">
-
-
-
-<h7 id="citation_docket.regexes.constructed_am.CitationAdministrativeMatter.search" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">search</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></code>
-  
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
-  </span>
-
-</h7>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Get all dockets matching the <code>AM</code> docket pattern, inclusive of their optional Report object.</p>
-
-<p><strong>Examples:</strong></p>
-    <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;A.M. No. P-88-198, February 25, 1992, 206 SCRA 491.&quot;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">CitationAdministrativeMatter</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">CitationAdministrativeMatter(publisher=&#39;SCRA&#39;, volume=&#39;206&#39;, page=&#39;491&#39;, volpubpage=&#39;206 SCRA 491&#39;, report_date=None, context=&#39;A.M. No. P-88-198&#39;, short_category=&#39;AM&#39;, category=&#39;Administrative Matter&#39;, ids=&#39;P-88-198&#39;, docket_date=datetime.date(1992, 2, 25))</span>
-</code></pre></div>
-
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>text</code></td>
-          <td>
-                <code>str</code>
-          </td>
-          <td><p>Text to look for citation objects</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Yields:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>
-                <code><span title="collections.abc.Iterator">Iterator</span>[<span title="typing.Self">Self</span>]</code>
-          </td>
-          <td><p>Iterator[Self]: Combination of Docket and Report pydantic model.</p></td>
-        </tr>
-    </tbody>
-  </table>
-
-      <details class="quote">
-        <summary>Source code in <code>citation_docket/regexes/constructed_am.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-169">169</a></span>
-<span class="normal"><a href="#__codelineno-0-170">170</a></span>
-<span class="normal"><a href="#__codelineno-0-171">171</a></span>
-<span class="normal"><a href="#__codelineno-0-172">172</a></span>
-<span class="normal"><a href="#__codelineno-0-173">173</a></span>
-<span class="normal"><a href="#__codelineno-0-174">174</a></span>
-<span class="normal"><a href="#__codelineno-0-175">175</a></span>
-<span class="normal"><a href="#__codelineno-0-176">176</a></span>
-<span class="normal"><a href="#__codelineno-0-177">177</a></span>
-<span class="normal"><a href="#__codelineno-0-178">178</a></span>
-<span class="normal"><a href="#__codelineno-0-179">179</a></span>
-<span class="normal"><a href="#__codelineno-0-180">180</a></span>
-<span class="normal"><a href="#__codelineno-0-181">181</a></span>
-<span class="normal"><a href="#__codelineno-0-182">182</a></span>
-<span class="normal"><a href="#__codelineno-0-183">183</a></span>
-<span class="normal"><a href="#__codelineno-0-184">184</a></span>
-<span class="normal"><a href="#__codelineno-0-185">185</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-169" name="__codelineno-0-169"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-170" name="__codelineno-0-170"></a><span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Self</span><span class="p">]:</span>
-<a id="__codelineno-0-171" name="__codelineno-0-171"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Get all dockets matching the `AM` docket pattern, inclusive of their optional Report object.</span>
-<a id="__codelineno-0-172" name="__codelineno-0-172"></a>
-<a id="__codelineno-0-173" name="__codelineno-0-173"></a><span class="sd">    Examples:</span>
-<a id="__codelineno-0-174" name="__codelineno-0-174"></a><span class="sd">        &gt;&gt;&gt; text = &quot;A.M. No. P-88-198, February 25, 1992, 206 SCRA 491.&quot;</span>
-<a id="__codelineno-0-175" name="__codelineno-0-175"></a><span class="sd">        &gt;&gt;&gt; next(CitationAdministrativeMatter.search(text))</span>
-<a id="__codelineno-0-176" name="__codelineno-0-176"></a><span class="sd">        CitationAdministrativeMatter(publisher=&#39;SCRA&#39;, volume=&#39;206&#39;, page=&#39;491&#39;, volpubpage=&#39;206 SCRA 491&#39;, report_date=None, context=&#39;A.M. No. P-88-198&#39;, short_category=&#39;AM&#39;, category=&#39;Administrative Matter&#39;, ids=&#39;P-88-198&#39;, docket_date=datetime.date(1992, 2, 25))</span>
-<a id="__codelineno-0-177" name="__codelineno-0-177"></a>
-<a id="__codelineno-0-178" name="__codelineno-0-178"></a><span class="sd">    Args:</span>
-<a id="__codelineno-0-179" name="__codelineno-0-179"></a><span class="sd">        text (str): Text to look for citation objects</span>
-<a id="__codelineno-0-180" name="__codelineno-0-180"></a>
-<a id="__codelineno-0-181" name="__codelineno-0-181"></a><span class="sd">    Yields:</span>
-<a id="__codelineno-0-182" name="__codelineno-0-182"></a><span class="sd">        Iterator[Self]: Combination of Docket and Report pydantic model.</span>
-<a id="__codelineno-0-183" name="__codelineno-0-183"></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa E501</span>
-<a id="__codelineno-0-184" name="__codelineno-0-184"></a>    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">constructed_am</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-<a id="__codelineno-0-185" name="__codelineno-0-185"></a>        <span class="k">yield</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-      </details>
-  </div>
-
-</div>
-
-
-
-  </div>
-
-  </div>
-
-</div>
-
-
-
-
-  </div>
-
-  </div>
-
-</div><h4 id="ac">AC</h4>
-
-
-<div class="doc doc-object doc-module">
-
-
-
-  <div class="doc doc-contents first">
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-<h4 id="citation_docket.regexes.constructed_ac-classes">Classes</h4>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h5 id="citation_docket.regexes.constructed_ac.CitationAdministrativeCase" class="doc doc-heading">
-        <code>CitationAdministrativeCase</code>
-
-
-</h5>
-
-
-  <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-internal" title="citation_docket.regexes.models.DocketReportCitation" href="#citation_docket.regexes.models.docket_citation.DocketReportCitation">DocketReportCitation</a></code></p>
-
-
-
-        <details class="quote">
-          <summary>Source code in <code>citation_docket/regexes/constructed_ac.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-125">125</a></span>
-<span class="normal"><a href="#__codelineno-0-126">126</a></span>
-<span class="normal"><a href="#__codelineno-0-127">127</a></span>
-<span class="normal"><a href="#__codelineno-0-128">128</a></span>
-<span class="normal"><a href="#__codelineno-0-129">129</a></span>
-<span class="normal"><a href="#__codelineno-0-130">130</a></span>
-<span class="normal"><a href="#__codelineno-0-131">131</a></span>
-<span class="normal"><a href="#__codelineno-0-132">132</a></span>
-<span class="normal"><a href="#__codelineno-0-133">133</a></span>
-<span class="normal"><a href="#__codelineno-0-134">134</a></span>
-<span class="normal"><a href="#__codelineno-0-135">135</a></span>
-<span class="normal"><a href="#__codelineno-0-136">136</a></span>
-<span class="normal"><a href="#__codelineno-0-137">137</a></span>
-<span class="normal"><a href="#__codelineno-0-138">138</a></span>
-<span class="normal"><a href="#__codelineno-0-139">139</a></span>
-<span class="normal"><a href="#__codelineno-0-140">140</a></span>
-<span class="normal"><a href="#__codelineno-0-141">141</a></span>
-<span class="normal"><a href="#__codelineno-0-142">142</a></span>
-<span class="normal"><a href="#__codelineno-0-143">143</a></span>
-<span class="normal"><a href="#__codelineno-0-144">144</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-125" name="__codelineno-0-125"></a><span class="k">class</span> <span class="nc">CitationAdministrativeCase</span><span class="p">(</span><span class="n">DocketReportCitation</span><span class="p">):</span>
-<a id="__codelineno-0-126" name="__codelineno-0-126"></a>    <span class="o">...</span>
-<a id="__codelineno-0-127" name="__codelineno-0-127"></a>
-<a id="__codelineno-0-128" name="__codelineno-0-128"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-129" name="__codelineno-0-129"></a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Self</span><span class="p">]:</span>
-<a id="__codelineno-0-130" name="__codelineno-0-130"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all dockets matching the `AC` docket pattern, inclusive of their optional Report object.</span>
-<a id="__codelineno-0-131" name="__codelineno-0-131"></a>
-<a id="__codelineno-0-132" name="__codelineno-0-132"></a><span class="sd">        Examples:</span>
-<a id="__codelineno-0-133" name="__codelineno-0-133"></a><span class="sd">            &gt;&gt;&gt; text = &quot;A.C. No. P-88-198, February 25, 1992, 206 SCRA 491.&quot;</span>
-<a id="__codelineno-0-134" name="__codelineno-0-134"></a><span class="sd">            &gt;&gt;&gt; next(CitationAdministrativeCase.search(text))</span>
-<a id="__codelineno-0-135" name="__codelineno-0-135"></a><span class="sd">            CitationAdministrativeCase(publisher=&#39;SCRA&#39;, volume=&#39;206&#39;, page=&#39;491&#39;, volpubpage=&#39;206 SCRA 491&#39;, report_date=None, context=&#39;A.C. No. P-88-198&#39;, short_category=&#39;AC&#39;, category=&#39;Administrative Case&#39;, ids=&#39;P-88-198&#39;, docket_date=datetime.date(1992, 2, 25))</span>
-<a id="__codelineno-0-136" name="__codelineno-0-136"></a>
-<a id="__codelineno-0-137" name="__codelineno-0-137"></a><span class="sd">        Args:</span>
-<a id="__codelineno-0-138" name="__codelineno-0-138"></a><span class="sd">            text (str): Text to look for citation objects</span>
-<a id="__codelineno-0-139" name="__codelineno-0-139"></a>
-<a id="__codelineno-0-140" name="__codelineno-0-140"></a><span class="sd">        Yields:</span>
-<a id="__codelineno-0-141" name="__codelineno-0-141"></a><span class="sd">            Iterator[Self]: Combination of Docket and Report pydantic model.</span>
-<a id="__codelineno-0-142" name="__codelineno-0-142"></a><span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa E501</span>
-<a id="__codelineno-0-143" name="__codelineno-0-143"></a>        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">constructed_ac</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-<a id="__codelineno-0-144" name="__codelineno-0-144"></a>            <span class="k">yield</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-        </details>
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-<h6 id="citation_docket.regexes.constructed_ac.CitationAdministrativeCase-functions">Functions</h6>
-
-<div class="doc doc-object doc-function">
-
-
-
-<h7 id="citation_docket.regexes.constructed_ac.CitationAdministrativeCase.search" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">search</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></code>
-  
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
-  </span>
-
-</h7>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Get all dockets matching the <code>AC</code> docket pattern, inclusive of their optional Report object.</p>
-
-<p><strong>Examples:</strong></p>
-    <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;A.C. No. P-88-198, February 25, 1992, 206 SCRA 491.&quot;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">CitationAdministrativeCase</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">CitationAdministrativeCase(publisher=&#39;SCRA&#39;, volume=&#39;206&#39;, page=&#39;491&#39;, volpubpage=&#39;206 SCRA 491&#39;, report_date=None, context=&#39;A.C. No. P-88-198&#39;, short_category=&#39;AC&#39;, category=&#39;Administrative Case&#39;, ids=&#39;P-88-198&#39;, docket_date=datetime.date(1992, 2, 25))</span>
-</code></pre></div>
-
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>text</code></td>
-          <td>
-                <code>str</code>
-          </td>
-          <td><p>Text to look for citation objects</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Yields:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>
-                <code><span title="collections.abc.Iterator">Iterator</span>[<span title="typing.Self">Self</span>]</code>
-          </td>
-          <td><p>Iterator[Self]: Combination of Docket and Report pydantic model.</p></td>
-        </tr>
-    </tbody>
-  </table>
-
-      <details class="quote">
-        <summary>Source code in <code>citation_docket/regexes/constructed_ac.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-128">128</a></span>
-<span class="normal"><a href="#__codelineno-0-129">129</a></span>
-<span class="normal"><a href="#__codelineno-0-130">130</a></span>
-<span class="normal"><a href="#__codelineno-0-131">131</a></span>
-<span class="normal"><a href="#__codelineno-0-132">132</a></span>
-<span class="normal"><a href="#__codelineno-0-133">133</a></span>
-<span class="normal"><a href="#__codelineno-0-134">134</a></span>
-<span class="normal"><a href="#__codelineno-0-135">135</a></span>
-<span class="normal"><a href="#__codelineno-0-136">136</a></span>
-<span class="normal"><a href="#__codelineno-0-137">137</a></span>
-<span class="normal"><a href="#__codelineno-0-138">138</a></span>
-<span class="normal"><a href="#__codelineno-0-139">139</a></span>
-<span class="normal"><a href="#__codelineno-0-140">140</a></span>
-<span class="normal"><a href="#__codelineno-0-141">141</a></span>
-<span class="normal"><a href="#__codelineno-0-142">142</a></span>
-<span class="normal"><a href="#__codelineno-0-143">143</a></span>
-<span class="normal"><a href="#__codelineno-0-144">144</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-128" name="__codelineno-0-128"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-129" name="__codelineno-0-129"></a><span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Self</span><span class="p">]:</span>
-<a id="__codelineno-0-130" name="__codelineno-0-130"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Get all dockets matching the `AC` docket pattern, inclusive of their optional Report object.</span>
-<a id="__codelineno-0-131" name="__codelineno-0-131"></a>
-<a id="__codelineno-0-132" name="__codelineno-0-132"></a><span class="sd">    Examples:</span>
-<a id="__codelineno-0-133" name="__codelineno-0-133"></a><span class="sd">        &gt;&gt;&gt; text = &quot;A.C. No. P-88-198, February 25, 1992, 206 SCRA 491.&quot;</span>
-<a id="__codelineno-0-134" name="__codelineno-0-134"></a><span class="sd">        &gt;&gt;&gt; next(CitationAdministrativeCase.search(text))</span>
-<a id="__codelineno-0-135" name="__codelineno-0-135"></a><span class="sd">        CitationAdministrativeCase(publisher=&#39;SCRA&#39;, volume=&#39;206&#39;, page=&#39;491&#39;, volpubpage=&#39;206 SCRA 491&#39;, report_date=None, context=&#39;A.C. No. P-88-198&#39;, short_category=&#39;AC&#39;, category=&#39;Administrative Case&#39;, ids=&#39;P-88-198&#39;, docket_date=datetime.date(1992, 2, 25))</span>
-<a id="__codelineno-0-136" name="__codelineno-0-136"></a>
-<a id="__codelineno-0-137" name="__codelineno-0-137"></a><span class="sd">    Args:</span>
-<a id="__codelineno-0-138" name="__codelineno-0-138"></a><span class="sd">        text (str): Text to look for citation objects</span>
-<a id="__codelineno-0-139" name="__codelineno-0-139"></a>
-<a id="__codelineno-0-140" name="__codelineno-0-140"></a><span class="sd">    Yields:</span>
-<a id="__codelineno-0-141" name="__codelineno-0-141"></a><span class="sd">        Iterator[Self]: Combination of Docket and Report pydantic model.</span>
-<a id="__codelineno-0-142" name="__codelineno-0-142"></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa E501</span>
-<a id="__codelineno-0-143" name="__codelineno-0-143"></a>    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">constructed_ac</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-<a id="__codelineno-0-144" name="__codelineno-0-144"></a>        <span class="k">yield</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-      </details>
-  </div>
-
-</div>
-
-
-
-  </div>
-
-  </div>
-
-</div>
-
-
-
-
-  </div>
-
-  </div>
-
-</div><h4 id="bm">BM</h4>
-
-
-<div class="doc doc-object doc-module">
-
-
-
-  <div class="doc doc-contents first">
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-<h4 id="citation_docket.regexes.constructed_bm-classes">Classes</h4>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h5 id="citation_docket.regexes.constructed_bm.CitationBarMatter" class="doc doc-heading">
-        <code>CitationBarMatter</code>
-
-
-</h5>
-
-
-  <div class="doc doc-contents ">
-      <p class="doc doc-class-bases">
-        Bases: <code><a class="autorefs autorefs-internal" title="citation_docket.regexes.models.DocketReportCitation" href="#citation_docket.regexes.models.docket_citation.DocketReportCitation">DocketReportCitation</a></code></p>
-
-
-
-        <details class="quote">
-          <summary>Source code in <code>citation_docket/regexes/constructed_bm.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-108">108</a></span>
-<span class="normal"><a href="#__codelineno-0-109">109</a></span>
-<span class="normal"><a href="#__codelineno-0-110">110</a></span>
-<span class="normal"><a href="#__codelineno-0-111">111</a></span>
-<span class="normal"><a href="#__codelineno-0-112">112</a></span>
-<span class="normal"><a href="#__codelineno-0-113">113</a></span>
-<span class="normal"><a href="#__codelineno-0-114">114</a></span>
-<span class="normal"><a href="#__codelineno-0-115">115</a></span>
-<span class="normal"><a href="#__codelineno-0-116">116</a></span>
-<span class="normal"><a href="#__codelineno-0-117">117</a></span>
-<span class="normal"><a href="#__codelineno-0-118">118</a></span>
-<span class="normal"><a href="#__codelineno-0-119">119</a></span>
-<span class="normal"><a href="#__codelineno-0-120">120</a></span>
-<span class="normal"><a href="#__codelineno-0-121">121</a></span>
-<span class="normal"><a href="#__codelineno-0-122">122</a></span>
-<span class="normal"><a href="#__codelineno-0-123">123</a></span>
-<span class="normal"><a href="#__codelineno-0-124">124</a></span>
-<span class="normal"><a href="#__codelineno-0-125">125</a></span>
-<span class="normal"><a href="#__codelineno-0-126">126</a></span>
-<span class="normal"><a href="#__codelineno-0-127">127</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-108" name="__codelineno-0-108"></a><span class="k">class</span> <span class="nc">CitationBarMatter</span><span class="p">(</span><span class="n">DocketReportCitation</span><span class="p">):</span>
-<a id="__codelineno-0-109" name="__codelineno-0-109"></a>    <span class="o">...</span>
-<a id="__codelineno-0-110" name="__codelineno-0-110"></a>
-<a id="__codelineno-0-111" name="__codelineno-0-111"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-112" name="__codelineno-0-112"></a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Self</span><span class="p">]:</span>
-<a id="__codelineno-0-113" name="__codelineno-0-113"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all dockets matching the `BM` docket pattern, inclusive of their optional Report object.</span>
-<a id="__codelineno-0-114" name="__codelineno-0-114"></a>
-<a id="__codelineno-0-115" name="__codelineno-0-115"></a><span class="sd">        Examples:</span>
-<a id="__codelineno-0-116" name="__codelineno-0-116"></a><span class="sd">            &gt;&gt;&gt; text = &quot;B.M. No. 1678, December 17, 2007&quot;</span>
-<a id="__codelineno-0-117" name="__codelineno-0-117"></a><span class="sd">            &gt;&gt;&gt; next(CitationBarMatter.search(text))</span>
-<a id="__codelineno-0-118" name="__codelineno-0-118"></a><span class="sd">            CitationBarMatter(publisher=None, volume=None, page=None, volpubpage=None, report_date=None, context=&#39;B.M. No. 1678&#39;, short_category=&#39;BM&#39;, category=&#39;Bar Matter&#39;, ids=&#39;1678&#39;, docket_date=datetime.date(2007, 12, 17))</span>
-<a id="__codelineno-0-119" name="__codelineno-0-119"></a>
-<a id="__codelineno-0-120" name="__codelineno-0-120"></a><span class="sd">        Args:</span>
-<a id="__codelineno-0-121" name="__codelineno-0-121"></a><span class="sd">            text (str): Text to look for citation objects</span>
-<a id="__codelineno-0-122" name="__codelineno-0-122"></a>
-<a id="__codelineno-0-123" name="__codelineno-0-123"></a><span class="sd">        Yields:</span>
-<a id="__codelineno-0-124" name="__codelineno-0-124"></a><span class="sd">            Iterator[Self]: Combination of Docket and Report pydantic model.</span>
-<a id="__codelineno-0-125" name="__codelineno-0-125"></a><span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa E501</span>
-<a id="__codelineno-0-126" name="__codelineno-0-126"></a>        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">constructed_bm</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-<a id="__codelineno-0-127" name="__codelineno-0-127"></a>            <span class="k">yield</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-        </details>
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-<h6 id="citation_docket.regexes.constructed_bm.CitationBarMatter-functions">Functions</h6>
-
-<div class="doc doc-object doc-function">
-
-
-
-<h7 id="citation_docket.regexes.constructed_bm.CitationBarMatter.search" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">search</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></code>
-  
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
-  </span>
-
-</h7>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Get all dockets matching the <code>BM</code> docket pattern, inclusive of their optional Report object.</p>
-
-<p><strong>Examples:</strong></p>
-    <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;B.M. No. 1678, December 17, 2007&quot;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">next</span><span class="p">(</span><span class="n">CitationBarMatter</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">CitationBarMatter(publisher=None, volume=None, page=None, volpubpage=None, report_date=None, context=&#39;B.M. No. 1678&#39;, short_category=&#39;BM&#39;, category=&#39;Bar Matter&#39;, ids=&#39;1678&#39;, docket_date=datetime.date(2007, 12, 17))</span>
-</code></pre></div>
-
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>text</code></td>
-          <td>
-                <code>str</code>
-          </td>
-          <td><p>Text to look for citation objects</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Yields:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>
-                <code><span title="collections.abc.Iterator">Iterator</span>[<span title="typing.Self">Self</span>]</code>
-          </td>
-          <td><p>Iterator[Self]: Combination of Docket and Report pydantic model.</p></td>
-        </tr>
-    </tbody>
-  </table>
-
-      <details class="quote">
-        <summary>Source code in <code>citation_docket/regexes/constructed_bm.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-111">111</a></span>
-<span class="normal"><a href="#__codelineno-0-112">112</a></span>
-<span class="normal"><a href="#__codelineno-0-113">113</a></span>
-<span class="normal"><a href="#__codelineno-0-114">114</a></span>
-<span class="normal"><a href="#__codelineno-0-115">115</a></span>
-<span class="normal"><a href="#__codelineno-0-116">116</a></span>
-<span class="normal"><a href="#__codelineno-0-117">117</a></span>
-<span class="normal"><a href="#__codelineno-0-118">118</a></span>
-<span class="normal"><a href="#__codelineno-0-119">119</a></span>
-<span class="normal"><a href="#__codelineno-0-120">120</a></span>
-<span class="normal"><a href="#__codelineno-0-121">121</a></span>
-<span class="normal"><a href="#__codelineno-0-122">122</a></span>
-<span class="normal"><a href="#__codelineno-0-123">123</a></span>
-<span class="normal"><a href="#__codelineno-0-124">124</a></span>
-<span class="normal"><a href="#__codelineno-0-125">125</a></span>
-<span class="normal"><a href="#__codelineno-0-126">126</a></span>
-<span class="normal"><a href="#__codelineno-0-127">127</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-111" name="__codelineno-0-111"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-112" name="__codelineno-0-112"></a><span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Self</span><span class="p">]:</span>
-<a id="__codelineno-0-113" name="__codelineno-0-113"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Get all dockets matching the `BM` docket pattern, inclusive of their optional Report object.</span>
-<a id="__codelineno-0-114" name="__codelineno-0-114"></a>
-<a id="__codelineno-0-115" name="__codelineno-0-115"></a><span class="sd">    Examples:</span>
-<a id="__codelineno-0-116" name="__codelineno-0-116"></a><span class="sd">        &gt;&gt;&gt; text = &quot;B.M. No. 1678, December 17, 2007&quot;</span>
-<a id="__codelineno-0-117" name="__codelineno-0-117"></a><span class="sd">        &gt;&gt;&gt; next(CitationBarMatter.search(text))</span>
-<a id="__codelineno-0-118" name="__codelineno-0-118"></a><span class="sd">        CitationBarMatter(publisher=None, volume=None, page=None, volpubpage=None, report_date=None, context=&#39;B.M. No. 1678&#39;, short_category=&#39;BM&#39;, category=&#39;Bar Matter&#39;, ids=&#39;1678&#39;, docket_date=datetime.date(2007, 12, 17))</span>
-<a id="__codelineno-0-119" name="__codelineno-0-119"></a>
-<a id="__codelineno-0-120" name="__codelineno-0-120"></a><span class="sd">    Args:</span>
-<a id="__codelineno-0-121" name="__codelineno-0-121"></a><span class="sd">        text (str): Text to look for citation objects</span>
-<a id="__codelineno-0-122" name="__codelineno-0-122"></a>
-<a id="__codelineno-0-123" name="__codelineno-0-123"></a><span class="sd">    Yields:</span>
-<a id="__codelineno-0-124" name="__codelineno-0-124"></a><span class="sd">        Iterator[Self]: Combination of Docket and Report pydantic model.</span>
-<a id="__codelineno-0-125" name="__codelineno-0-125"></a><span class="sd">    &quot;&quot;&quot;</span>  <span class="c1"># noqa E501</span>
-<a id="__codelineno-0-126" name="__codelineno-0-126"></a>    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">constructed_bm</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-<a id="__codelineno-0-127" name="__codelineno-0-127"></a>        <span class="k">yield</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-      </details>
-  </div>
-
-</div>
-
-
-
-  </div>
-
-  </div>
-
-</div>
-
-
-
-
-  </div>
-
-  </div>
-
-</div>
-
-
-
-  
 
 
 
@@ -3171,7 +1741,7 @@ with a standardized variant <code>std</code>.</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../assets/javascripts/bundle.51d95adb.min.js"></script>

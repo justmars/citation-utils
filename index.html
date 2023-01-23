@@ -6,13 +6,18 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Parse legal citations having the docket format - i.e. GR, AM, AC, BM - referring to Philippine Supreme Court decisions.">
+        <meta name="description" content="Regex formula for Philippine Supreme Court citation dockets.
+">
+      
+      
+        <meta name="author" content="Marcelino Veloso III">
+      
+      
+        <link rel="canonical" href="https://lawsql.com/">
       
       
       
-      
-      
-        <link rel="next" href="reference/">
+        <link rel="next" href="api-extraction/">
       
       <link rel="icon" href="assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
@@ -73,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#overview" class="md-skip">
+        <a href="#summary" class="md-skip">
           Skip to content
         </a>
       
@@ -82,12 +87,14 @@
       
     </div>
     
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
     
       
 
-  
-
-<header class="md-header md-header--lifted" data-md-component="header">
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="." title="Citation Docket Docs" class="md-header__button md-logo" aria-label="Citation Docket Docs" data-md-component="logo">
       
@@ -108,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              Summary
             
           </span>
         </div>
@@ -126,7 +133,7 @@
           
         
           
-          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="pink"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
           
             <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
@@ -185,48 +192,13 @@
     
   </nav>
   
-    
-      
-<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
-  <div class="md-tabs__inner md-grid">
-    <ul class="md-tabs__list">
-      
-        
-  
-  
-    
-  
-
-
-  <li class="md-tabs__item">
-    <a href="." class="md-tabs__link md-tabs__link--active">
-      Overview
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="reference/" class="md-tabs__link">
-      Reference
-    </a>
-  </li>
-
-      
-    </ul>
-  </div>
-</nav>
-    
-  
 </header>
     
     <div class="md-container" data-md-component="container">
       
       
+        
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -234,17 +206,13 @@
           
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
 
-  
 
-
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="." title="Citation Docket Docs" class="md-nav__button md-logo" aria-label="Citation Docket Docs" data-md-component="logo">
       
@@ -287,12 +255,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Overview
+          Summary
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="." class="md-nav__link md-nav__link--active">
-        Overview
+        Summary
       </a>
       
         
@@ -311,22 +279,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#citation_docket.__main__" class="md-nav__link">
-    citation_docket.__main__
+  <a href="#concept" class="md-nav__link">
+    Concept
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#citation_docket.__main__.extract_docket_from_data" class="md-nav__link">
-    extract_docket_from_data()
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#citation_docket.__main__.extract_dockets" class="md-nav__link">
-    extract_dockets()
+  <a href="#utility" class="md-nav__link">
+    Utility
   </a>
   
 </li>
@@ -347,8 +308,38 @@
   
   
     <li class="md-nav__item">
-      <a href="reference/" class="md-nav__link">
-        Reference
+      <a href="api-extraction/" class="md-nav__link">
+        Extraction API
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api-build/" class="md-nav__link">
+        Build API
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api-types/" class="md-nav__link">
+        Specific Types
       </a>
     </li>
   
@@ -362,9 +353,7 @@
             
             
               
-                
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden>
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -383,22 +372,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#citation_docket.__main__" class="md-nav__link">
-    citation_docket.__main__
+  <a href="#concept" class="md-nav__link">
+    Concept
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#citation_docket.__main__.extract_docket_from_data" class="md-nav__link">
-    extract_docket_from_data()
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#citation_docket.__main__.extract_dockets" class="md-nav__link">
-    extract_dockets()
+  <a href="#utility" class="md-nav__link">
+    Utility
   </a>
   
 </li>
@@ -422,190 +404,33 @@
 
 
 
-<h1 id="overview">Overview</h1>
-<p>The <code>Report</code> object from <a href="https://github.com/justmars/citation-report">citation-report</a> is only one part of a Philippine Supreme Court <code>Citation</code>.</p>
-<p>It's possible for a <code>Citation</code> object to:</p>
-<ol>
-<li>have both a <code>Docket</code> and a <code>Report</code>,</li>
-<li>have just a <code>Docket</code>;</li>
-<li>have just a <code>Report</code>.</li>
-</ol>
-<p>This library will handle the patterns involved with respect to the <code>Docket</code>.</p>
+<h1 id="summary">Summary</h1>
+<h2 id="concept">Concept</h2>
+<p>The <code>Report</code> Model from <a href="https://github.com/justmars/citation-report">citation-report</a> is only one part of a Philippine Supreme Court citation. This library will handle the patterns involved with respect to the <code>Docket</code>.</p>
+<p>Let's look at sample citation that is typically found in the body and the footnotes section of a decision:</p>
+<blockquote>
+<p>Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449</p>
+</blockquote>
+<p>We can separate the <code>Docket</code> portion from the <code>Report</code> portion:</p>
+<table>
+<thead>
+<tr>
+<th align="right">Docket</th>
+<th align="left">Report</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000</td>
+<td align="left">342 SCRA 449</td>
+</tr>
+</tbody>
+</table>
+<h2 id="utility">Utility</h2>
 <p>Both <a href="https://github.com/justmars/citation-report">citation-reports</a> and <a href="https://github.com/justmars/citation-docket">citation-docket</a> are dependencies of <a href="https://github.com/justmars/citation-utils">citation-utils</a>.</p>
-<p>Like <a href="https://github.com/justmars/citation-report">citation-reports</a>, there is a problem involving inconsistent use of values. We address it the same way by dissecting the component parts and generating a uniform citation:</p>
+<p>Like <a href="https://github.com/justmars/citation-report">citation-reports</a>, there is a problem involving inconsistent use of values. We address it the same way by dissecting the component parts and generating a uniform citation.</p>
 
 
-<div class="doc doc-object doc-module">
-
-
-<a id="citation_docket.__main__"></a>
-  <div class="doc doc-contents first">
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-<div class="doc doc-object doc-function">
-
-
-
-<h2 id="citation_docket.__main__.extract_docket_from_data" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">extract_docket_from_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></code>
-
-</h2>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Return a DocketReportCitationType based on the contents of a <code>data</code> dict.</p>
-
-<p><strong>Examples:</strong></p>
-    <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="go">    &quot;date_prom&quot;: &quot;1985-04-24&quot;,</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">    &quot;docket&quot;: &quot;General Register L-63915, April 24, 1985&quot;,</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go">    &quot;orig_idx&quot;: &quot;GR No. L-63915&quot;,</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">    &quot;phil&quot;: &quot;220 Phil. 422&quot;,</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="go">    &quot;scra&quot;: &quot;136 SCRA 27&quot;,</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">    &quot;offg&quot;: None,</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="go">} # assume transformation from /details.yaml file</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">extract_citation_from_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">&#39;CitationGeneralRegister(publisher=None, volume=None, page=None, volpubpage=None, report_date=None, context=&#39;G.R. No. L-63915&#39;, short_category=&#39;GR&#39;, category=&#39;General Register&#39;, ids=&#39;L-63915&#39;, docket_date=datetime.date(1985, 4, 24))&#39;</span>
-</code></pre></div>
-
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>data</code></td>
-          <td>
-                <code>dict</code>
-          </td>
-          <td><p>Should contain relevant keys.</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
-      <tr>
-<th>Name</th>        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-<td><code>DocketReportCitationType</code></td>          <td>
-                <code><span title="citation_docket.__main__.DocketReportCitationType">DocketReportCitationType</span> | None</code>
-          </td>
-          <td><p><em>description</em></p></td>
-        </tr>
-    </tbody>
-  </table>
-
-  </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-
-<h2 id="citation_docket.__main__.extract_dockets" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">extract_dockets</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span></code>
-
-</h2>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Extract from <code>raw</code> text all raw citations which
-should include their Docket and Report component parts.</p>
-
-<p><strong>Examples:</strong></p>
-    <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449&quot;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gp">&gt;&gt;&gt; </span><span class="n">docket</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">extract_dockets</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go">CitationGeneralRegister(publisher=&#39;SCRA&#39;, volume=&#39;342&#39;, page=&#39;449&#39;, volpubpage=&#39;342 SCRA 449&#39;, report_date=None, context=&#39;G.R. Nos. 138570, 138572, 138587, 138680, 138698&#39;, short_category=&#39;GR&#39;, category=&#39;General Register&#39;, ids=&#39;138570, 138572, 138587, 138680, 138698&#39;, docket_date=datetime.date(2000, 10, 10))</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">docket</span><span class="p">)</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go">&#39;GR 138570, Oct. 10, 2000&#39;</span>
-</code></pre></div>
-
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>raw</code></td>
-          <td>
-                <code>str</code>
-          </td>
-          <td><p>Text to look for dockets and reports</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Yields:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>
-                <code><span title="collections.abc.Iterator">Iterator</span>[<span title="citation_docket.__main__.DocketReportCitationType">DocketReportCitationType</span>]</code>
-          </td>
-          <td><p>Iterator[DocketReportCitationType]: Any of custom Docket with Report types, e.g. <code>CitationAdministrativeCase</code>, etc.</p></td>
-        </tr>
-    </tbody>
-  </table>
-
-  </div>
-
-</div>
-
-
-
-  </div>
-
-  </div>
-
-</div>
-
-
-
-  
 
 
 
@@ -641,7 +466,7 @@ should include their Docket and Report component parts.</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "navigation.tabs.sticky"], "search": "assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="assets/javascripts/bundle.51d95adb.min.js"></script>
