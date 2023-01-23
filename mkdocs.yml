@@ -33,6 +33,7 @@ nav:
 plugins:
   - autorefs
   - mkdocstrings:
+      enable_inventory: true
       handlers:
         python:
           options:
