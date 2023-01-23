@@ -1,0 +1,66 @@
+[tool.poetry]
+name = "citation_docket"
+version = "0.1.0"
+description = "Parse legal citations having the docket format - i.e. GR, AM, AC, BM - referring to Philippine Supreme Court decisions."
+authors = ["Marcelino G. Veloso III <mars@veloso.one>"]
+license = "MIT"
+homepage = "https://lawsql.com"
+repository = "https://github.com/justmars/citation-docket"
+classifiers = [
+  "Topic :: Text Processing :: General",
+  "Programming Language :: Python :: 3.11",
+  "Typing :: Typed",
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Legal Industry",
+  "Framework :: Pydantic",
+  "Framework :: Pytest",
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+citation_report = "^0.1.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2"
+pytest-cov = "^2.12.1"
+pre-commit = "^2.21"
+mkdocs = "^1.4.2"
+mkdocstrings = { extras = ["python"], version = "^0.20.0" }
+mkdocs-material = "^9.0.6"
+mike = "^1.1.2"
+
+[tool.pytest]
+minversion = "7.2"
+addopts = "-ra -q --cov=citation_docket tests/"
+testpaths = ["tests"]
+
+[tool.ruff]
+ignore = ["F401"]
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 79
+include_trailing_comma = 'True'
+
+[tool.black]
+line-length = 79
+include = '.pyi?$'
+exclude = '''
+/(
+    .git
+    | .hg
+    | .mypy_cache
+    | .tox
+    | .venv
+    | _build
+    | buck-out
+    | build
+    | dist
+)/
+'''
+
+
+[build-system]
+requires = ["poetry-core>=1.1.12"]
+build-backend = "poetry.core.masonry.api"
