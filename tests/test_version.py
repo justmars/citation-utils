@@ -1,9 +1,10 @@
-import citation_date
 import toml
+
+import citation_docket
 
 
 def test_version():
     assert (
         toml.load("pyproject.toml")["tool"]["poetry"]["version"]
-        == citation_date.__version__
+        == citation_docket.__version__
     )
