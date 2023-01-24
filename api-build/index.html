@@ -89,10 +89,6 @@
       
     </div>
     
-      <div data-md-component="outdated" hidden>
-        
-      </div>
-    
     
       
 
@@ -663,12 +659,12 @@
 </tr>
 <tr>
 <td align="right"><code>short_category</code></td>
-<td align="center">optional (str)</td>
+<td align="center">optional (ShortDocketCategory)</td>
 <td align="left">See <a class="autorefs autorefs-internal" href="#short-docket-category-model">short-docket-category-model</a></td>
 </tr>
 <tr>
 <td align="right"><code>category</code></td>
-<td align="center">optional (str)</td>
+<td align="center">optional (DocketCategory)</td>
 <td align="left">See <a class="autorefs autorefs-internal" href="#docket-category-model">docket-category-model</a></td>
 </tr>
 <tr>
@@ -819,7 +815,10 @@ identifier based on volume and page numbers.</p>
 <span class="normal"><a href="#__codelineno-0-105">105</a></span>
 <span class="normal"><a href="#__codelineno-0-106">106</a></span>
 <span class="normal"><a href="#__codelineno-0-107">107</a></span>
-<span class="normal"><a href="#__codelineno-0-108">108</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="k">class</span> <span class="nc">Docket</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-108">108</a></span>
+<span class="normal"><a href="#__codelineno-0-109">109</a></span>
+<span class="normal"><a href="#__codelineno-0-110">110</a></span>
+<span class="normal"><a href="#__codelineno-0-111">111</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="k">class</span> <span class="nc">Docket</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="sd">    The Docket is the modern identifier of a Supreme Court decision.</span>
 <a id="__codelineno-0-13" name="__codelineno-0-13"></a>
@@ -828,8 +827,8 @@ identifier based on volume and page numbers.</p>
 <a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">    Field | Type | Description</span>
 <a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">    --:|:--:|:--</span>
 <a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">    `context` | optional (str) | Full texted matched by the regex pattern</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">    `short_category` | optional (str) | See [short-docket-category-model][]</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    `category` | optional (str) | See [docket-category-model][]</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">    `short_category` | optional (ShortDocketCategory) | See [short-docket-category-model][]</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">    `category` | optional (DocketCategory) | See [docket-category-model][]</span>
 <a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">    `ids` | optional (str) | The serial number of the docket category</span>
 <a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">    `docket_date` | optional (date) | The date associated with the docket</span>
 <a id="__codelineno-0-23" name="__codelineno-0-23"></a>
@@ -851,14 +850,14 @@ identifier based on volume and page numbers.</p>
 <a id="__codelineno-0-39" name="__codelineno-0-39"></a>        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Context&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-40" name="__codelineno-0-40"></a>        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Full texted matched by the regex pattern.&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="p">)</span>
-<a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="n">short_category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="n">short_category</span><span class="p">:</span> <span class="n">ShortDocketCategory</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
 <a id="__codelineno-0-43" name="__codelineno-0-43"></a>        <span class="o">...</span><span class="p">,</span>
 <a id="__codelineno-0-44" name="__codelineno-0-44"></a>        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Docket Acronym&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-45" name="__codelineno-0-45"></a>        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;GR, AM, AC, BM, etc.&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-46" name="__codelineno-0-46"></a>        <span class="n">min_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
 <a id="__codelineno-0-47" name="__codelineno-0-47"></a>        <span class="n">max_length</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
 <a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="p">)</span>
-<a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="n">category</span><span class="p">:</span> <span class="n">DocketCategory</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
 <a id="__codelineno-0-50" name="__codelineno-0-50"></a>        <span class="o">...</span><span class="p">,</span>
 <a id="__codelineno-0-51" name="__codelineno-0-51"></a>        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Docket Category&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-52" name="__codelineno-0-52"></a>        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
@@ -879,45 +878,48 @@ identifier based on volume and page numbers.</p>
 <a id="__codelineno-0-67" name="__codelineno-0-67"></a>        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Either in UK, US styles&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-68" name="__codelineno-0-68"></a>    <span class="p">)</span>
 <a id="__codelineno-0-69" name="__codelineno-0-69"></a>
-<a id="__codelineno-0-70" name="__codelineno-0-70"></a>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<a id="__codelineno-0-71" name="__codelineno-0-71"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">serial_text</span><span class="p">:</span>
-<a id="__codelineno-0-72" name="__codelineno-0-72"></a>            <span class="k">return</span> <span class="p">(</span>
-<a id="__codelineno-0-73" name="__codelineno-0-73"></a>                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">short_category</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">serial_text</span><span class="si">}</span><span class="s2">,&quot;</span>
-<a id="__codelineno-0-74" name="__codelineno-0-74"></a>                <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">formatted_date</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-75" name="__codelineno-0-75"></a>            <span class="p">)</span>
-<a id="__codelineno-0-76" name="__codelineno-0-76"></a>        <span class="k">return</span> <span class="s2">&quot;No proper string detected.&quot;</span>
-<a id="__codelineno-0-77" name="__codelineno-0-77"></a>
-<a id="__codelineno-0-78" name="__codelineno-0-78"></a>    <span class="nd">@property</span>
-<a id="__codelineno-0-79" name="__codelineno-0-79"></a>    <span class="k">def</span> <span class="nf">serial_text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;From the raw `ids`, get the `cleaned_ids`, and of these `cleaned_ids`,</span>
-<a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="sd">            extract the `@first_id` found to deal with compound ids, e.g.</span>
-<a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="sd">            ids separated by &#39;and&#39; and &#39;,&#39;</span>
-<a id="__codelineno-0-83" name="__codelineno-0-83"></a>
-<a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="sd">        Returns:</span>
-<a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="sd">            str: Singular text identifier</span>
-<a id="__codelineno-0-86" name="__codelineno-0-86"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-87" name="__codelineno-0-87"></a>        <span class="k">if</span> <span class="n">x</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_id</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
-<a id="__codelineno-0-88" name="__codelineno-0-88"></a>            <span class="k">if</span> <span class="n">adjust</span> <span class="o">:=</span> <span class="n">gr_prefix_clean</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-<a id="__codelineno-0-89" name="__codelineno-0-89"></a>                <span class="k">return</span> <span class="n">adjust</span>
-<a id="__codelineno-0-90" name="__codelineno-0-90"></a>        <span class="k">return</span> <span class="n">x</span>
-<a id="__codelineno-0-91" name="__codelineno-0-91"></a>
-<a id="__codelineno-0-92" name="__codelineno-0-92"></a>    <span class="nd">@property</span>
-<a id="__codelineno-0-93" name="__codelineno-0-93"></a>    <span class="k">def</span> <span class="nf">first_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a id="__codelineno-0-94" name="__codelineno-0-94"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the first element from a list of separators when possible.&quot;&quot;&quot;</span>
-<a id="__codelineno-0-95" name="__codelineno-0-95"></a>
-<a id="__codelineno-0-96" name="__codelineno-0-96"></a>        <span class="k">def</span> <span class="nf">first_exists</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
-<a id="__codelineno-0-97" name="__codelineno-0-97"></a>            <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">char</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">text</span> <span class="k">else</span> <span class="kc">None</span>
+<a id="__codelineno-0-70" name="__codelineno-0-70"></a>    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+<a id="__codelineno-0-71" name="__codelineno-0-71"></a>        <span class="n">use_enum_values</span> <span class="o">=</span> <span class="kc">True</span>
+<a id="__codelineno-0-72" name="__codelineno-0-72"></a>
+<a id="__codelineno-0-73" name="__codelineno-0-73"></a>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-74" name="__codelineno-0-74"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">serial_text</span><span class="p">:</span>
+<a id="__codelineno-0-75" name="__codelineno-0-75"></a>            <span class="k">return</span> <span class="p">(</span>
+<a id="__codelineno-0-76" name="__codelineno-0-76"></a>                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">short_category</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">serial_text</span><span class="si">}</span><span class="s2">,&quot;</span>
+<a id="__codelineno-0-77" name="__codelineno-0-77"></a>                <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">formatted_date</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-0-78" name="__codelineno-0-78"></a>            <span class="p">)</span>
+<a id="__codelineno-0-79" name="__codelineno-0-79"></a>        <span class="k">return</span> <span class="s2">&quot;No proper string detected.&quot;</span>
+<a id="__codelineno-0-80" name="__codelineno-0-80"></a>
+<a id="__codelineno-0-81" name="__codelineno-0-81"></a>    <span class="nd">@property</span>
+<a id="__codelineno-0-82" name="__codelineno-0-82"></a>    <span class="k">def</span> <span class="nf">serial_text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;From the raw `ids`, get the `cleaned_ids`, and of these `cleaned_ids`,</span>
+<a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="sd">            extract the `@first_id` found to deal with compound ids, e.g.</span>
+<a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="sd">            ids separated by &#39;and&#39; and &#39;,&#39;</span>
+<a id="__codelineno-0-86" name="__codelineno-0-86"></a>
+<a id="__codelineno-0-87" name="__codelineno-0-87"></a><span class="sd">        Returns:</span>
+<a id="__codelineno-0-88" name="__codelineno-0-88"></a><span class="sd">            str: Singular text identifier</span>
+<a id="__codelineno-0-89" name="__codelineno-0-89"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-90" name="__codelineno-0-90"></a>        <span class="k">if</span> <span class="n">x</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_id</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+<a id="__codelineno-0-91" name="__codelineno-0-91"></a>            <span class="k">if</span> <span class="n">adjust</span> <span class="o">:=</span> <span class="n">gr_prefix_clean</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<a id="__codelineno-0-92" name="__codelineno-0-92"></a>                <span class="k">return</span> <span class="n">adjust</span>
+<a id="__codelineno-0-93" name="__codelineno-0-93"></a>        <span class="k">return</span> <span class="n">x</span>
+<a id="__codelineno-0-94" name="__codelineno-0-94"></a>
+<a id="__codelineno-0-95" name="__codelineno-0-95"></a>    <span class="nd">@property</span>
+<a id="__codelineno-0-96" name="__codelineno-0-96"></a>    <span class="k">def</span> <span class="nf">first_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-97" name="__codelineno-0-97"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the first element from a list of separators when possible.&quot;&quot;&quot;</span>
 <a id="__codelineno-0-98" name="__codelineno-0-98"></a>
-<a id="__codelineno-0-99" name="__codelineno-0-99"></a>        <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;;&quot;</span><span class="p">,</span> <span class="s2">&quot; and &quot;</span><span class="p">,</span> <span class="s2">&quot; AND &quot;</span><span class="p">,</span> <span class="s2">&quot;&amp;&quot;</span><span class="p">]:</span>
-<a id="__codelineno-0-100" name="__codelineno-0-100"></a>            <span class="k">if</span> <span class="n">res</span> <span class="o">:=</span> <span class="n">first_exists</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">):</span>
-<a id="__codelineno-0-101" name="__codelineno-0-101"></a>                <span class="k">return</span> <span class="n">res</span>
-<a id="__codelineno-0-102" name="__codelineno-0-102"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span>
-<a id="__codelineno-0-103" name="__codelineno-0-103"></a>
-<a id="__codelineno-0-104" name="__codelineno-0-104"></a>    <span class="nd">@property</span>
-<a id="__codelineno-0-105" name="__codelineno-0-105"></a>    <span class="k">def</span> <span class="nf">formatted_date</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a id="__codelineno-0-106" name="__codelineno-0-106"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">docket_date</span><span class="p">:</span>
-<a id="__codelineno-0-107" name="__codelineno-0-107"></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">docket_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DOCKET_DATE_FORMAT</span><span class="p">)</span>
-<a id="__codelineno-0-108" name="__codelineno-0-108"></a>        <span class="k">return</span> <span class="kc">None</span>
+<a id="__codelineno-0-99" name="__codelineno-0-99"></a>        <span class="k">def</span> <span class="nf">first_exists</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<a id="__codelineno-0-100" name="__codelineno-0-100"></a>            <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">char</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">text</span> <span class="k">else</span> <span class="kc">None</span>
+<a id="__codelineno-0-101" name="__codelineno-0-101"></a>
+<a id="__codelineno-0-102" name="__codelineno-0-102"></a>        <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;;&quot;</span><span class="p">,</span> <span class="s2">&quot; and &quot;</span><span class="p">,</span> <span class="s2">&quot; AND &quot;</span><span class="p">,</span> <span class="s2">&quot;&amp;&quot;</span><span class="p">]:</span>
+<a id="__codelineno-0-103" name="__codelineno-0-103"></a>            <span class="k">if</span> <span class="n">res</span> <span class="o">:=</span> <span class="n">first_exists</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">):</span>
+<a id="__codelineno-0-104" name="__codelineno-0-104"></a>                <span class="k">return</span> <span class="n">res</span>
+<a id="__codelineno-0-105" name="__codelineno-0-105"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span>
+<a id="__codelineno-0-106" name="__codelineno-0-106"></a>
+<a id="__codelineno-0-107" name="__codelineno-0-107"></a>    <span class="nd">@property</span>
+<a id="__codelineno-0-108" name="__codelineno-0-108"></a>    <span class="k">def</span> <span class="nf">formatted_date</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-109" name="__codelineno-0-109"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">docket_date</span><span class="p">:</span>
+<a id="__codelineno-0-110" name="__codelineno-0-110"></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">docket_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DOCKET_DATE_FORMAT</span><span class="p">)</span>
+<a id="__codelineno-0-111" name="__codelineno-0-111"></a>        <span class="k">return</span> <span class="kc">None</span>
 </code></pre></div></td></tr></table></div>
         </details>
 
@@ -936,7 +938,7 @@ identifier based on volume and page numbers.</p>
 
 
 <h5 id="citation_docket.regexes.models.docket_model.Docket.first_id" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">first_id</span></code>
+<code class="highlight language-python"><span class="n">first_id</span><span class="p">:</span> <span class="nb">str</span></code>
   
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
@@ -1445,7 +1447,7 @@ date and report.</p>
 <a id="__codelineno-0-89" name="__codelineno-0-89"></a>            <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
 <a id="__codelineno-0-90" name="__codelineno-0-90"></a>                <span class="p">[</span>
 <a id="__codelineno-0-91" name="__codelineno-0-91"></a>                    <span class="sa">rf</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">docket_regex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-92" name="__codelineno-0-92"></a>                    <span class="sa">rf</span><span class="s2">&quot;(?P&lt;extra_phrase&gt;</span><span class="si">{</span><span class="n">formerly</span><span class="si">}</span><span class="s2">?</span><span class="si">{</span><span class="n">pp</span><span class="si">}</span><span class="s2">?)</span><span class="si">{</span><span class="n">docket_date</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-92" name="__codelineno-0-92"></a>                    <span class="sa">rf</span><span class="s2">&quot;(?P&lt;extra_phrase&gt;</span><span class="si">{</span><span class="n">formerly</span><span class="si">}</span><span class="s2">?</span><span class="si">{</span><span class="n">pp</span><span class="si">}</span><span class="s2">?)</span><span class="si">{</span><span class="n">DOCKET_DATE_REGEX</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-93" name="__codelineno-0-93"></a>                    <span class="sa">rf</span><span class="s2">&quot;(?P&lt;opt_report&gt;\,\s*</span><span class="si">{</span><span class="n">REPORT_REGEX</span><span class="si">}</span><span class="s2">)?&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-94" name="__codelineno-0-94"></a>                <span class="p">]</span>
 <a id="__codelineno-0-95" name="__codelineno-0-95"></a>            <span class="p">),</span>
@@ -1727,10 +1729,24 @@ Docket + Report pydantic BaseModel</p></td>
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
   
+    <div class="md-copyright__highlight">
+      Copyright &copy; Marcelino Veloso III
+    </div>
+  
   
     Made with
     <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
       Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    <a href="https://github.com/justmars" target="_blank" rel="noopener" title="justmars on Github" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
     </a>
   
 </div>
@@ -1744,7 +1760,7 @@ Docket + Report pydantic BaseModel</p></td>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.51d95adb.min.js"></script>
