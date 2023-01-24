@@ -66,7 +66,7 @@ def extract_docket_from_data(data: dict) -> DocketReportCitationType | None:
         data (dict): Should contain relevant keys.
 
     Returns:
-        DocketReportCitationType: _description_
+        DocketReportCitationType: Any of custom `Docket` with `Report` types, e.g. `CitationAdministrativeCase`
     """  # noqa: E501
     try:
         return next(extract_dockets(setup_docket_field(data)))

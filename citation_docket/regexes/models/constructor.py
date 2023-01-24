@@ -2,7 +2,7 @@ import re
 from collections.abc import Iterator
 from typing import Any
 
-from citation_date import decode_date, docket_date
+from citation_date import DOCKET_DATE_REGEX, decode_date
 from citation_report import REPORT_REGEX, get_publisher_label
 from pydantic import BaseModel, Field
 
@@ -89,7 +89,7 @@ class Constructor(BaseModel):
             "".join(
                 [
                     rf"{self.docket_regex}",
-                    rf"(?P<extra_phrase>{formerly}?{pp}?){docket_date}",
+                    rf"(?P<extra_phrase>{formerly}?{pp}?){DOCKET_DATE_REGEX}",
                     rf"(?P<opt_report>\,\s*{REPORT_REGEX})?",
                 ]
             ),

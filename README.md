@@ -2,7 +2,7 @@
 
 ![Github CI](https://github.com/justmars/citation-docket/actions/workflows/main.yml/badge.svg)
 
-Regex formula for Philippine Supreme Court citation dockets (with reports); utilized in the [LawSQL dataset](https://lawsql.com).
+Regex formula of Philippine Supreme Court citations in docket format (with reports); utilized in the [LawSQL dataset](https://lawsql.com).
 
 ## Documentation
 

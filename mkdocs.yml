@@ -7,14 +7,11 @@ repo_url: https://github.com/justmars/citation-docket
 theme:
   name: "material"
   palette:
-    # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
-
-    # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: indigo
@@ -22,9 +19,6 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
-extra:
-  version:
-    provider: mike
 nav:
 - index.md
 - api-extraction.md

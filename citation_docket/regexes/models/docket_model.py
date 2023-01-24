@@ -1,10 +1,10 @@
 from datetime import date
 
+from citation_date import DOCKET_DATE_FORMAT
 from pydantic import BaseModel, Field
 
+from .docket_category import DocketCategory, ShortDocketCategory
 from .gr_clean import gr_prefix_clean
-
-DOCKET_DATE_FORMAT = "%b. %d, %Y"
 
 
 class Docket(BaseModel):
@@ -16,8 +16,8 @@ class Docket(BaseModel):
     Field | Type | Description
     --:|:--:|:--
     `context` | optional (str) | Full texted matched by the regex pattern
-    `short_category` | optional (str) | See [short-docket-category-model][]
-    `category` | optional (str) | See [docket-category-model][]
+    `short_category` | optional (ShortDocketCategory) | See [short-docket-category-model][]
+    `category` | optional (DocketCategory) | See [docket-category-model][]
     `ids` | optional (str) | The serial number of the docket category
     `docket_date` | optional (date) | The date associated with the docket
 
@@ -39,14 +39,14 @@ class Docket(BaseModel):
         title="Context",
         description="Full texted matched by the regex pattern.",
     )
-    short_category: str = Field(
+    short_category: ShortDocketCategory = Field(
         ...,
         title="Docket Acronym",
         description="GR, AM, AC, BM, etc.",
         min_length=2,
         max_length=3,
     )
-    category: str = Field(
+    category: DocketCategory = Field(
         ...,
         title="Docket Category",
         description=(
@@ -66,6 +66,9 @@ class Docket(BaseModel):
         title="Docket Date",
         description="Either in UK, US styles",
     )
+
+    class Config:
+        use_enum_values = True
 
     def __str__(self) -> str:
         if self.serial_text:
@@ -90,7 +93,7 @@ class Docket(BaseModel):
         return x
 
     @property
-    def first_id(self):
+    def first_id(self) -> str:
         """Get the first element from a list of separators when possible."""
 
         def first_exists(char, text):
@@ -102,7 +105,7 @@ class Docket(BaseModel):
         return self.ids
 
     @property
-    def formatted_date(self):
+    def formatted_date(self) -> str | None:
         if self.docket_date:
             return self.docket_date.strftime(DOCKET_DATE_FORMAT)
         return None
