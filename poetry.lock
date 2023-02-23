@@ -143,14 +143,14 @@ files = [
 
 [[package]]
 name = "citation-date"
-version = "0.1.1"
+version = "0.1.2"
 description = "Regex date formula and decoder - Philippine Supreme Court Decisions"
 category = "main"
 optional = false
 python-versions = ">=3.11,<4.0"
 files = [
-    {file = "citation_date-0.1.1-py3-none-any.whl", hash = "sha256:4382eec1a6c83bf8613b3810ba4cd14907afe0fa5a4833069bfbc456b1f46de5"},
-    {file = "citation_date-0.1.1.tar.gz", hash = "sha256:7e2c7d80b53fa3e8c6e865c443fbbc6a2f265de718dff7bd0403a7e80b402f1d"},
+    {file = "citation_date-0.1.2-py3-none-any.whl", hash = "sha256:c3099640edb8c7a3d0f1958ab741734dc12aac5f221f2c4c011e661cb8178708"},
+    {file = "citation_date-0.1.2.tar.gz", hash = "sha256:4fa1eb6fb5e2e83e3e761849c18d848ee5b3e0661b979876f0f65f3f0d357c68"},
 ]
 
 [package.dependencies]
@@ -159,18 +159,18 @@ types-python-dateutil = ">=2.8.19,<3.0.0"
 
 [[package]]
 name = "citation-report"
-version = "0.1.1"
+version = "0.1.2"
 description = "Regex formula of Philippine Supreme Court citations in report format, i.e. SCRA, PHIL, OFFG."
 category = "main"
 optional = false
 python-versions = ">=3.11,<4.0"
 files = [
-    {file = "citation_report-0.1.1-py3-none-any.whl", hash = "sha256:8ad84458500559b929eb503124bb914a270e61c4624fae47b5758a14842c0e8f"},
-    {file = "citation_report-0.1.1.tar.gz", hash = "sha256:ea3c257b99f454bd05b58209ad09bf3505ce0c55d2ca9e8f6d3788dd485074a8"},
+    {file = "citation_report-0.1.2-py3-none-any.whl", hash = "sha256:40c0fe38c325a65c1d74a576e390ee65722784ea4b56f4dd37414d4981a544e1"},
+    {file = "citation_report-0.1.2.tar.gz", hash = "sha256:c2f2408d166cf87c3f501dbb0cd937dbf76d04c9b28899db24ce0762993ed44a"},
 ]
 
 [package.dependencies]
-citation-date = ">=0.1.1,<0.2.0"
+citation-date = ">=0.1.2,<0.2.0"
 pydantic = ">=1.10.4,<2.0.0"
 
 [[package]]
@@ -518,14 +518,14 @@ mkdocs = ">=1.1"
 
 [[package]]
 name = "mkdocs-material"
-version = "9.0.6"
+version = "9.0.13"
 description = "Documentation that simply works"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "mkdocs_material-9.0.6-py3-none-any.whl", hash = "sha256:4a71195ddc100dddf07d4b23b53373f36c5f0f1010fa4ea301ca7a8e949dd9e7"},
-    {file = "mkdocs_material-9.0.6.tar.gz", hash = "sha256:6065b573e38746dc267d7fc84252be31b73da955b2ce553687806b6030e51ee0"},
+    {file = "mkdocs_material-9.0.13-py3-none-any.whl", hash = "sha256:06e51eba6a090de070a3489890cf1e491d52c04c6ff2b06dd4586c6cdd974a3f"},
+    {file = "mkdocs_material-9.0.13.tar.gz", hash = "sha256:a62696610899d01df091b4d5ad23f9811f878a1f34307d7cea677baf4854c84f"},
 ]
 
 [package.dependencies]
@@ -1143,4 +1143,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "6bc58a1fa10b9c0b6a20425869fea1e6e4c4f40c1348d3dff0515740e503f8f5"
+content-hash = "249db45abf5287cac3f9b88bac3b254e5367c26e93d2072a89a19436224c2a69"

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "citation_docket"
-version = "0.1.1"
+version = "0.1.2"
 description = "Regex formula of Philippine Supreme Court citations in docket format, i.e. GR, AM, AC, BM."
 authors = ["Marcelino G. Veloso III <mars@veloso.one>"]
 license = "MIT"
@@ -19,7 +19,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.11"
-citation_report = "^0.1.1"
+citation_report = "^0.1.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2"
@@ -27,7 +27,7 @@ pytest-cov = "^2.12.1"
 pre-commit = "^2.21"
 mkdocs = "^1.4.2"
 mkdocstrings = { extras = ["python"], version = "^0.20.0" }
-mkdocs-material = "^9.0.6"
+mkdocs-material = "^9.0.13"
 
 [tool.pytest]
 minversion = "7.2"
