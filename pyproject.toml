@@ -27,7 +27,8 @@ pytest-cov = "^2.12.1"
 pre-commit = "^2.21"
 mkdocs = "^1.4.2"
 mkdocstrings = { extras = ["python"], version = "^0.20.0" }
-mkdocs-material = "^9.0.13"
+mkdocs-material = "^9.0.14"
+ipython = "^8.10.0"
 
 [tool.pytest]
 minversion = "7.2"
@@ -36,12 +37,6 @@ testpaths = ["tests"]
 
 [tool.ruff]
 ignore = ["F401"]
-
-[tool.isort]
-profile = "black"
-multi_line_output = 3
-line_length = 79
-include_trailing_comma = 'True'
 
 [tool.black]
 line-length = 79
@@ -59,7 +54,6 @@ exclude = '''
     | dist
 )/
 '''
-
 
 [build-system]
 requires = ["poetry-core>=1.1.12"]

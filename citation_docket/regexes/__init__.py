@@ -1,27 +1,39 @@
 from .constructed_ac import (
-    CitationAdministrativeCase,
+    CitationAC,
     ac_key,
     ac_phrases,
     constructed_ac,
 )
 from .constructed_am import (
-    CitationAdministrativeMatter,
+    CitationAM,
     am_key,
     am_phrases,
     constructed_am,
 )
 from .constructed_bm import (
-    CitationBarMatter,
+    CitationBM,
     bm_key,
     bm_phrases,
     constructed_bm,
 )
 from .constructed_gr import (
-    CitationGeneralRegister,
+    CitationGR,
     constructed_gr,
     gr_key,
     gr_phrases,
     l_key,
+)
+from .constructed_pet import (
+    CitationPET,
+    constructed_pet,
+    pet_key,
+    pet_phrases,
+)
+from .constructed_oca import (
+    CitationOCA,
+    constructed_oca,
+    oca_key,
+    oca_phrases,
 )
 from .models import (
     DOCKET_DATE_FORMAT,

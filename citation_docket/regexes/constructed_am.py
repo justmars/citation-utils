@@ -86,19 +86,6 @@ am_key = rf"""
     )
 """
 
-am_oca_ipi_num = rf"""
-    (
-        {am_key}?
-        OCA
-        \s*
-        (
-            IPI|
-            I\.P\.I\.
-        )
-        \s*
-        {Num.AM.allowed}
-    )
-"""
 
 am_num = rf"""
     (
@@ -109,7 +96,6 @@ am_num = rf"""
 
 required = rf"""
     (?P<am_init>
-        {am_oca_ipi_num}| # AM OCA IPI No. / OCA IPI No.
         {am_num}| # AM No.
         {am_key} # AM
     )
@@ -129,7 +115,6 @@ required = rf"""
 
 optional = rf"""
     (?P<am_init_optional>
-        {am_oca_ipi_num}|
         {am_num}
     )?
     (?P<am_middle_optional>
@@ -163,7 +148,7 @@ constructed_am = Constructor(
 )
 
 
-class CitationAdministrativeMatter(DocketReportCitation):
+class CitationAM(DocketReportCitation):
     ...
 
     @classmethod
@@ -172,8 +157,8 @@ class CitationAdministrativeMatter(DocketReportCitation):
 
         Examples:
             >>> text = "A.M. No. P-88-198, February 25, 1992, 206 SCRA 491."
-            >>> next(CitationAdministrativeMatter.search(text))
-            CitationAdministrativeMatter(publisher='SCRA', volume='206', page='491', volpubpage='206 SCRA 491', report_date=None, context='A.M. No. P-88-198', short_category='AM', category='Administrative Matter', ids='P-88-198', docket_date=datetime.date(1992, 2, 25))
+            >>> next(CitationAM.search(text))
+            CitationAM(publisher='SCRA', volume='206', page='491', volpubpage='206 SCRA 491', report_date=None, context='A.M. No. P-88-198', short_category='AM', category='Administrative Matter', ids='P-88-198', docket_date=datetime.date(1992, 2, 25))
 
         Args:
             text (str): Text to look for citation objects

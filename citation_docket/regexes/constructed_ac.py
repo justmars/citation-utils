@@ -122,7 +122,7 @@ constructed_ac = Constructor(
 )
 
 
-class CitationAdministrativeCase(DocketReportCitation):
+class CitationAC(DocketReportCitation):
     ...
 
     @classmethod
@@ -131,8 +131,8 @@ class CitationAdministrativeCase(DocketReportCitation):
 
         Examples:
             >>> text = "A.C. No. P-88-198, February 25, 1992, 206 SCRA 491."
-            >>> next(CitationAdministrativeCase.search(text))
-            CitationAdministrativeCase(publisher='SCRA', volume='206', page='491', volpubpage='206 SCRA 491', report_date=None, context='A.C. No. P-88-198', short_category='AC', category='Administrative Case', ids='P-88-198', docket_date=datetime.date(1992, 2, 25))
+            >>> next(CitationAC.search(text))
+            CitationAC(publisher='SCRA', volume='206', page='491', volpubpage='206 SCRA 491', report_date=None, context='A.C. No. P-88-198', short_category='AC', category='Administrative Case', ids='P-88-198', docket_date=datetime.date(1992, 2, 25))
 
         Args:
             text (str): Text to look for citation objects

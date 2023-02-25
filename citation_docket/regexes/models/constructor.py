@@ -20,6 +20,8 @@ class Constructor(BaseModel):
     2. Administrative Matter
     3. Administrative Case
     4. Bar Matter
+    5. Office of the Court Administrator
+    6. Presidential Electoral Tribunal
 
     The Constructor formalizes the assigned group names into
     their respective fields.

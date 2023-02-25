@@ -11,6 +11,8 @@ class DocketCategory(str, Enum):
     `AM` | Administrative Matter
     `AC` | Administrative Case
     `BM` | Bar Matter
+    `PET` | Presidential Electoral Tribunal
+    `OCA` | Office of the Court Administrator
 
     Complication: These categories do not always represent decisions. For instance,
     there are are `AM` and `BM` docket numbers that represent rules rather
@@ -21,6 +23,8 @@ class DocketCategory(str, Enum):
     AM = "Administrative Matter"
     AC = "Administrative Case"
     BM = "Bar Matter"
+    PET = "Presidential Electoral Tribunal"
+    OCA = "Office of the Court Administrator"
 
 
 class ShortDocketCategory(str, Enum):
@@ -39,3 +43,5 @@ class ShortDocketCategory(str, Enum):
     AM = DocketCategory.AM.name
     AC = DocketCategory.AC.name
     BM = DocketCategory.BM.name
+    PET = DocketCategory.PET.name
+    OCA = DocketCategory.OCA.name

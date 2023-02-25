@@ -105,7 +105,7 @@ constructed_bm = Constructor(
 )
 
 
-class CitationBarMatter(DocketReportCitation):
+class CitationBM(DocketReportCitation):
     ...
 
     @classmethod
@@ -114,8 +114,8 @@ class CitationBarMatter(DocketReportCitation):
 
         Examples:
             >>> text = "B.M. No. 1678, December 17, 2007"
-            >>> next(CitationBarMatter.search(text))
-            CitationBarMatter(publisher=None, volume=None, page=None, volpubpage=None, report_date=None, context='B.M. No. 1678', short_category='BM', category='Bar Matter', ids='1678', docket_date=datetime.date(2007, 12, 17))
+            >>> next(CitationBM.search(text))
+            CitationBM(publisher=None, volume=None, page=None, volpubpage=None, report_date=None, context='B.M. No. 1678', short_category='BM', category='Bar Matter', ids='1678', docket_date=datetime.date(2007, 12, 17))
 
         Args:
             text (str): Text to look for citation objects
