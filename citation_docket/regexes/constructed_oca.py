@@ -72,8 +72,6 @@ constructed_oca = Constructor(
 )
 
 
-
-
 class CitationOCA(DocketReportCitation):
     ...
 
