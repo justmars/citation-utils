@@ -23,6 +23,12 @@ from .constructed_gr import (
     gr_phrases,
     l_key,
 )
+from .constructed_jib import (
+    CitationJIB,
+    constructed_jib,
+    jib_key,
+    jib_phrases,
+)
 from .constructed_oca import (
     CitationOCA,
     constructed_oca,
@@ -34,6 +40,12 @@ from .constructed_pet import (
     constructed_pet,
     pet_key,
     pet_phrases,
+)
+from .constructed_udk import (
+    CitationUDK,
+    constructed_udk,
+    udk_key,
+    udk_phrases,
 )
 from .models import (
     DOCKET_DATE_FORMAT,

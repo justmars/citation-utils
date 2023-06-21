@@ -5,13 +5,22 @@ from .regexes import (
     CitationAM,
     CitationBM,
     CitationGR,
+    CitationJIB,
     CitationOCA,
     CitationPET,
+    CitationUDK,
 )
 from .simple_matcher import setup_docket_field
 
 DocketReportCitationType = (
-    CitationAC | CitationAM | CitationOCA | CitationBM | CitationGR | CitationPET
+    CitationAC
+    | CitationAM
+    | CitationOCA
+    | CitationBM
+    | CitationGR
+    | CitationPET
+    | CitationJIB
+    | CitationUDK
 )  # noqa: E501
 
 CITATIONS = [
@@ -21,6 +30,8 @@ CITATIONS = [
     CitationBM,
     CitationGR,
     CitationPET,
+    CitationUDK,
+    CitationJIB,
 ]
 
 
