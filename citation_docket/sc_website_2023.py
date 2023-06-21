@@ -29,9 +29,9 @@ def extract_docket_meta(text: str) -> dict[str, Any] | None:
 
     Examples:
         >>> extract_docket_meta("G.R. No. 234179. December 5, 2022 [Date Uploaded: 01/26/2023]")
-        {'docket': 'G.R. No. 234179', 'decision_date': datetime.date(2022, 12, 5), 'upload_date': '01/26/2023', 'context': 'G.R. No. 234179', 'short_category': 'GR', 'category': 'General Register', 'ids': '234179', 'docket_date': datetime.date(2022, 12, 5)}
+        {'docket': 'G.R. No. 234179', 'decision_date': datetime.date(2022, 12, 5), 'upload_date': '01/26/2023', 'context': 'G.R. No. 234179', 'short_category': <ShortDocketCategory.GR: 'GR'>, 'category': <DocketCategory.GR: 'General Register'>, 'ids': '234179', 'docket_date': datetime.date(2022, 12, 5)}
         >>> extract_docket_meta("G.R. No. 180350/G.R. No. 205186/G.R. No. 222919/G.R. No. 223237. July 6, 2022 [Date Uploaded: 09/21/2022]")
-        {'docket': 'G.R. No. 180350/G.R. No. 205186/G.R. No. 222919/G.R. No. 223237', 'decision_date': datetime.date(2022, 7, 6), 'upload_date': '09/21/2022', 'context': 'G.R. No. 180350/G.R. No. 205186/G.R. No. 222919/G.R. No. 223237', 'short_category': 'GR', 'category': 'General Register', 'ids': '180350', 'docket_date': datetime.date(2022, 7, 6)}
+        {'docket': 'G.R. No. 180350/G.R. No. 205186/G.R. No. 222919/G.R. No. 223237', 'decision_date': datetime.date(2022, 7, 6), 'upload_date': '09/21/2022', 'context': 'G.R. No. 180350/G.R. No. 205186/G.R. No. 222919/G.R. No. 223237', 'short_category': <ShortDocketCategory.GR: 'GR'>, 'category': <DocketCategory.GR: 'General Register'>, 'ids': '180350', 'docket_date': datetime.date(2022, 7, 6)}
 
     Args:
         text (str): Line from Supreme Court URL sub-title heading.

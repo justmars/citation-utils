@@ -108,8 +108,9 @@ class CitationGR(DocketReportCitation):
 
         Examples:
             >>> text = "Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449"
-            >>> next(CitationGR.search(text))
-            CitationGR(publisher='SCRA', volume='342', page='449', volpubpage='342 SCRA 449', report_date=None, context='G.R. Nos. 138570, 138572, 138587, 138680, 138698', short_category='GR', category='General Register', ids='138570, 138572, 138587, 138680, 138698', docket_date=datetime.date(2000, 10, 10))
+            >>> cite = next(CitationGR.search(text))
+            >>> cite.model_dump(exclude_none=True)
+            {'publisher': 'SCRA', 'volume': '342', 'page': '449', 'volpubpage': '342 SCRA 449', 'context': 'G.R. Nos. 138570, 138572, 138587, 138680, 138698', 'short_category': <ShortDocketCategory.GR: 'GR'>, 'category': <DocketCategory.GR: 'General Register'>, 'ids': '138570, 138572, 138587, 138680, 138698', 'docket_date': datetime.date(2000, 10, 10)}
 
         Args:
             text (str): Text to look for citation objects

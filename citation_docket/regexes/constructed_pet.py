@@ -56,8 +56,9 @@ class CitationPET(DocketReportCitation):
 
         Examples:
             >>> text = "P.E.T. Case No. 001, February 13, 1996"
-            >>> next(CitationPET.search(text))
-            CitationPET(publisher=None, volume=None, page=None, volpubpage=None, report_date=None, context='P.E.T. Case No. 001', short_category='PET', category='Presidential Electoral Tribunal', ids='001', docket_date=datetime.date(1996, 2, 13))
+            >>> cite = next(CitationPET.search(text))
+            >>> cite.model_dump(exclude_none=True)
+            {'context': 'P.E.T. Case No. 001', 'short_category': <ShortDocketCategory.PET: 'PET'>, 'category': <DocketCategory.PET: 'Presidential Electoral Tribunal'>, 'ids': '001', 'docket_date': datetime.date(1996, 2, 13)}
 
         Args:
             text (str): Text to look for citation objects

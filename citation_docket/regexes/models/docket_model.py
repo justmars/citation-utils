@@ -1,7 +1,7 @@
 from datetime import date
 
 from citation_date import DOCKET_DATE_FORMAT
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from .docket_category import DocketCategory, ShortDocketCategory
 from .gr_clean import gr_prefix_clean
@@ -31,6 +31,7 @@ class Docket(BaseModel):
     identifier based on volume and page numbers.
     """  # noqa: E501
 
+    model_config = ConfigDict(use_enum_values=True)
     context: str = Field(
         ...,
         title="Context",
@@ -41,7 +42,7 @@ class Docket(BaseModel):
         title="Docket Acronym",
         description="GR, AM, AC, BM, etc.",
         min_length=2,
-        max_length=3,
+        max_length=4,
     )
     category: DocketCategory = Field(
         ...,
@@ -61,9 +62,6 @@ class Docket(BaseModel):
         title="Docket Date",
         description="Either in UK, US styles",
     )
-
-    class Config:
-        use_enum_values = True
 
     def __str__(self) -> str:
         if self.serial_text:
