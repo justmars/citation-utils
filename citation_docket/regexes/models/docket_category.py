@@ -13,6 +13,8 @@ class DocketCategory(str, Enum):
     `BM` | Bar Matter
     `PET` | Presidential Electoral Tribunal
     `OCA` | Office of the Court Administrator
+    `JIB` | Judicial Integrity Board
+    `UDK` | Undocketed
 
     Complication: These categories do not always represent decisions. For instance,
     there are are `AM` and `BM` docket numbers that represent rules rather
@@ -25,18 +27,13 @@ class DocketCategory(str, Enum):
     BM = "Bar Matter"
     PET = "Presidential Electoral Tribunal"
     OCA = "Office of the Court Administrator"
+    JIB = "Judicial Integrity Board"
+    UDK = "Undocketed"
 
 
 class ShortDocketCategory(str, Enum):
     """For purposes of creating an enumeration for use in `sqlpyd` wherein
     the value will be stored in the database.
-
-    Name | Value
-    :--|:--
-    `GR` | GR
-    `AM` | AM
-    `AC` | AC
-    `BM` | BM
     """
 
     GR = DocketCategory.GR.name
@@ -45,3 +42,5 @@ class ShortDocketCategory(str, Enum):
     BM = DocketCategory.BM.name
     PET = DocketCategory.PET.name
     OCA = DocketCategory.OCA.name
+    JIB = DocketCategory.JIB.name
+    UDK = DocketCategory.UDK.name
