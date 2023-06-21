@@ -10,8 +10,10 @@ from .regexes import (
     CitationAM,
     CitationBM,
     CitationGR,
+    CitationJIB,
     CitationOCA,
     CitationPET,
+    CitationUDK,
     Docket,
     DocketCategory,
     Num,
@@ -26,12 +28,16 @@ from .regexes import (
     formerly,
     gr_key,
     gr_phrases,
+    jib_key,
+    jib_phrases,
     l_key,
     oca_key,
     oca_phrases,
     pet_key,
     pet_phrases,
     pp,
+    udk_key,
+    udk_phrases,
 )
-from .sc_website_2023 import extract_docket_meta
-from .simple_matcher import is_docket, setup_docket_field
+from .utils.sc_website_2023 import extract_docket_meta
+from .utils.simple_matcher import is_docket, setup_docket_field

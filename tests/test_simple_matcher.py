@@ -1,6 +1,6 @@
 import pytest
 
-from citation_docket.simple_matcher import (
+from citation_docket.utils.simple_matcher import (
     is_docket,
     simple_two_letter_docket_category,
 )

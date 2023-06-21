@@ -6,7 +6,8 @@ from typing import NoReturn
 
 from dateutil.parser import parse
 
-from .regexes import DOCKET_DATE_FORMAT, ShortDocketCategory
+from citation_docket.regexes import DOCKET_DATE_FORMAT, ShortDocketCategory
+
 from .specials import remove_prefix
 
 MAX_LENGTH_IDX = 100
@@ -76,7 +77,7 @@ def get_cat_idx_from_docket(
 
 
 def updated_cat_idx(d: dict) -> dict:
-    from .regexes import ac_key, am_key, bm_key, formerly, gr_key
+    from ..regexes import ac_key, am_key, bm_key, formerly, gr_key
 
     def process_idx_further(text: str) -> str:
         pattern = re.compile(formerly, re.X)

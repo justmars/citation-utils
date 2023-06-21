@@ -10,7 +10,7 @@ from .regexes import (
     CitationPET,
     CitationUDK,
 )
-from .simple_matcher import setup_docket_field
+from .utils.simple_matcher import setup_docket_field
 
 DocketReportCitationType = (
     CitationAC

@@ -3,8 +3,6 @@ from typing import Any
 
 from dateutil.parser import parse
 
-from .main import extract_dockets
-
 DOCKET_PATTERN = re.compile(
     r"""
     (?P<docket>.*?)
@@ -39,6 +37,8 @@ def extract_docket_meta(text: str) -> dict[str, Any] | None:
     Returns:
         dict[str, Any] | None: Docket-based details.
     """  # noqa: E501
+    from citation_docket import extract_dockets
+
     match = DOCKET_PATTERN.search(text)
     if not match:
         return None
