@@ -11,12 +11,7 @@ from .regexes import (
 from .simple_matcher import setup_docket_field
 
 DocketReportCitationType = (
-    CitationAC
-    | CitationAM
-    | CitationOCA
-    | CitationBM
-    | CitationGR
-    | CitationPET
+    CitationAC | CitationAM | CitationOCA | CitationBM | CitationGR | CitationPET
 )  # noqa: E501
 
 CITATIONS = [

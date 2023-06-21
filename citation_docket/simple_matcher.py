@@ -102,9 +102,7 @@ def updated_cat_idx(d: dict) -> dict:
 
     def source_simple(raw: str) -> dict | None:
         idx = " ".join(i for i in raw.split() if re.search(r"\d+|&|(and)", i))
-        text = " ".join(
-            i for i in raw.split() if not re.search(r"\d+|&|(and)", i)
-        )
+        text = " ".join(i for i in raw.split() if not re.search(r"\d+|&|(and)", i))
         if not (cat := simple_two_letter_docket_category(text)):
             return None
 

@@ -48,10 +48,7 @@ from citation_docket.regexes import constructed_am
             ", 709 SCRA 254",
         ),
         (
-            (
-                "A.M. RTJ 00-1593 (Formerly OCA IPI NO. 98-544-RTJ), October"
-                " 16, 2000"
-            ),
+            "A.M. RTJ 00-1593 (Formerly OCA IPI NO. 98-544-RTJ), October 16, 2000",
             "A.M. RTJ 00-1593 ",
             "(Formerly OCA IPI NO. 98-544-RTJ), ",
             None,
@@ -68,10 +65,7 @@ from citation_docket.regexes import constructed_am
             ", 482 SCRA 265",
         ),
         (
-            (
-                "A.M. RTJ-12-2317 (Formerly OCA I.P.I. No. 10-3378-RTJ), Jan"
-                " 1, 2000"
-            ),
+            "A.M. RTJ-12-2317 (Formerly OCA I.P.I. No. 10-3378-RTJ), Jan 1, 2000",
             "A.M. RTJ-12-2317 ",
             "(Formerly OCA I.P.I. No. 10-3378-RTJ), ",
             None,

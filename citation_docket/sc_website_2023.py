@@ -1,6 +1,8 @@
-from dateutil.parser import parse
-from typing import Any
 import re
+from typing import Any
+
+from dateutil.parser import parse
+
 from .main import extract_dockets
 
 DOCKET_PATTERN = re.compile(

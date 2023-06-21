@@ -23,17 +23,17 @@ from .constructed_gr import (
     gr_phrases,
     l_key,
 )
-from .constructed_pet import (
-    CitationPET,
-    constructed_pet,
-    pet_key,
-    pet_phrases,
-)
 from .constructed_oca import (
     CitationOCA,
     constructed_oca,
     oca_key,
     oca_phrases,
+)
+from .constructed_pet import (
+    CitationPET,
+    constructed_pet,
+    pet_key,
+    pet_phrases,
 )
 from .models import (
     DOCKET_DATE_FORMAT,

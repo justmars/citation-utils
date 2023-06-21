@@ -61,8 +61,7 @@ class Constructor(BaseModel):
         ...,
         title="Regex Expression Proper",
         description=(
-            "The full regex expression which includes the group"
-            "names referred to above."
+            "The full regex expression which includes the groupnames referred to above."
         ),
     )
     key_regex: str = Field(

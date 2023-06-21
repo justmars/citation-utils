@@ -54,9 +54,7 @@ class Docket(BaseModel):
     ids: str = Field(
         ...,
         title="Raw Docket IDs",
-        description=(
-            "The docket can contain multiple tokens, e.g. 24141, 14234, 2342."
-        ),
+        description="The docket can contain multiple tokens, e.g. 24141, 14234, 2342.",
     )
     docket_date: date = Field(
         ...,
@@ -69,10 +67,7 @@ class Docket(BaseModel):
 
     def __str__(self) -> str:
         if self.serial_text:
-            return (
-                f"{self.short_category} {self.serial_text},"
-                f" {self.formatted_date}"
-            )
+            return f"{self.short_category} {self.serial_text}, {self.formatted_date}"
         return "No proper string detected."
 
     @property

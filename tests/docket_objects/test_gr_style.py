@@ -79,10 +79,7 @@ from citation_docket.regexes import constructed_gr
                 "Soriano III v. Yuzon, G.R. Nos. L-74910, L-75075, L-75094,"
                 " L-76397, L-79459, and L-79520, 10 August 1988, 164 SCRA 226."
             ),
-            (
-                "G.R. Nos. L-74910, L-75075, L-75094, L-76397, L-79459, and"
-                " L-79520, "
-            ),
+            "G.R. Nos. L-74910, L-75075, L-75094, L-76397, L-79459, and L-79520, ",
             "10 August 1988",
             None,
             None,

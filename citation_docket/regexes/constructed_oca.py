@@ -1,5 +1,6 @@
-from typing import Self
 from collections.abc import Iterator
+from typing import Self
+
 from .models import Constructor, DocketCategory, DocketReportCitation
 from .models.misc import NUMBER_KEYWORD
 
