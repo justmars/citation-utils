@@ -42,9 +42,7 @@ class Constructor(BaseModel):
         description="e.g. General Register, Administrative Matter",
     )
     short_category: str = Field(
-        ...,
-        title="Docket Category Shorthand",
-        description="e.g. GR, AM",
+        ..., title="Docket Category Shorthand", description="e.g. GR, AM"
     )
     group_name: str = Field(
         ...,

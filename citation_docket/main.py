@@ -23,7 +23,7 @@ DocketReportCitationType = (
     | CitationUDK
 )  # noqa: E501
 
-CITATIONS = [
+CITATION_OPTIONS = (
     CitationAC,
     CitationAM,
     CitationOCA,
@@ -32,7 +32,7 @@ CITATIONS = [
     CitationPET,
     CitationUDK,
     CitationJIB,
-]
+)
 
 
 def extract_dockets(raw: str) -> Iterator[DocketReportCitationType]:
@@ -50,7 +50,7 @@ def extract_dockets(raw: str) -> Iterator[DocketReportCitationType]:
     Yields:
         Iterator[DocketReportCitationType]: Any of custom `Docket` with `Report` types, e.g. `CitationAC`, etc.
     """  # noqa: E501
-    for citation in CITATIONS:
+    for citation in CITATION_OPTIONS:
         yield from citation.search(raw)
 
 

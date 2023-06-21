@@ -1,5 +1,5 @@
 from .main import (
-    CITATIONS,
+    CITATION_OPTIONS,
     DocketReportCitationType,
     extract_docket_from_data,
     extract_dockets,

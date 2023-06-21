@@ -65,7 +65,9 @@ class Docket(BaseModel):
 
     def __str__(self) -> str:
         if self.serial_text:
-            return f"{self.short_category} {self.serial_text}, {self.formatted_date}"
+            return (
+                f"{self.short_category.value} {self.serial_text}, {self.formatted_date}"
+            )
         return "No proper string detected."
 
     @property
