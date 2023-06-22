@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "citation_docket"
-version = "0.1.6"
+version = "0.2.0"
 description = "Regex formula of Philippine Supreme Court citations in docket format, i.e. GR, AM, AC, BM."
 authors = ["Marcelino G. Veloso III <contact@mv3.dev>"]
 homepage = "https://lawsql.com"

@@ -68,7 +68,7 @@ class Docket(BaseModel):
 
     @property
     def first_id(self) -> str:
-        """Get the first element from a list of separators when possible.
+        """Get first bit from list of separated ids, when possible.
 
         Returns:
             str: First id found
