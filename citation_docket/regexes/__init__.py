@@ -54,7 +54,6 @@ from .models import (
     DocketCategory,
     DocketReportCitation,
     Num,
-    ShortDocketCategory,
     cull_extra,
     formerly,
     gr_prefix_clean,

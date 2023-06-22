@@ -133,7 +133,7 @@ class CitationAC(DocketReportCitation):
             >>> text = "A.C. No. P-88-198, February 25, 1992, 206 SCRA 491."
             >>> cite = next(CitationAC.search(text))
             >>> cite.model_dump(exclude_none=True)
-            {'publisher': 'SCRA', 'volume': '206', 'page': '491', 'volpubpage': '206 SCRA 491', 'context': 'A.C. No. P-88-198', 'short_category': <ShortDocketCategory.AC: 'AC'>, 'category': <DocketCategory.AC: 'Administrative Case'>, 'ids': 'P-88-198', 'docket_date': datetime.date(1992, 2, 25)}
+            {'publisher': 'SCRA', 'volume': '206', 'page': '491', 'volpubpage': '206 SCRA 491', 'context': 'A.C. No. P-88-198', 'category': 'AC', 'ids': 'P-88-198', 'docket_date': datetime.date(1992, 2, 25)}
 
         Args:
             text (str): Text to look for citation objects

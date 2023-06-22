@@ -84,7 +84,7 @@ class CitationOCA(DocketReportCitation):
             >>> text = "AM OCA IPI No. P-07-2403, Feb. 06, 2008"
             >>> cite = next(CitationOCA.search(text))
             >>> cite.model_dump(exclude_none=True)
-            {'context': 'AM OCA IPI No. P-07-2403', 'short_category': <ShortDocketCategory.OCA: 'OCA'>, 'category': <DocketCategory.OCA: 'Office of the Court Administrator'>, 'ids': 'P-07-2403', 'docket_date': datetime.date(2008, 2, 6)}
+            {'context': 'AM OCA IPI No. P-07-2403', 'category': 'OCA', 'ids': 'P-07-2403', 'docket_date': datetime.date(2008, 2, 6)}
 
         Args:
             text (str): Text to look for citation objects

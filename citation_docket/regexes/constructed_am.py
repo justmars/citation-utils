@@ -159,7 +159,7 @@ class CitationAM(DocketReportCitation):
             >>> text = "A.M. No. P-88-198, February 25, 1992, 206 SCRA 491."
             >>> cite = next(CitationAM.search(text))
             >>> cite.model_dump(exclude_none=True)
-            {'publisher': 'SCRA', 'volume': '206', 'page': '491', 'volpubpage': '206 SCRA 491', 'context': 'A.M. No. P-88-198', 'short_category': <ShortDocketCategory.AM: 'AM'>, 'category': <DocketCategory.AM: 'Administrative Matter'>, 'ids': 'P-88-198', 'docket_date': datetime.date(1992, 2, 25)}
+            {'publisher': 'SCRA', 'volume': '206', 'page': '491', 'volpubpage': '206 SCRA 491', 'context': 'A.M. No. P-88-198', 'category': 'AM', 'ids': 'P-88-198', 'docket_date': datetime.date(1992, 2, 25)}
 
         Args:
             text (str): Text to look for citation objects

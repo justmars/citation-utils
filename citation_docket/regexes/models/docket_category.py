@@ -1,9 +1,8 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class DocketCategory(str, Enum):
-    """There are four common docket references involving Philippine Supreme Court
-    decisions.
+class DocketCategory(StrEnum):
+    """Common docket references involving Philippine Supreme Court decisions.
 
     Name | Value
     :--|:--
@@ -30,17 +29,21 @@ class DocketCategory(str, Enum):
     JIB = "Judicial Integrity Board"
     UDK = "Undocketed"
 
+    def __str__(self):
+        return self.name
 
-class ShortDocketCategory(str, Enum):
-    """For purposes of creating an enumeration for use in `sqlpyd` wherein
-    the value will be stored in the database.
-    """
+    def __repr__(self) -> str:
+        """Uses name of member `gr` instead of Enum default
+        `<DocketCategory.GR: 'General Register'>`. It becomes to
+        use the following conventions:
 
-    GR = DocketCategory.GR.name
-    AM = DocketCategory.AM.name
-    AC = DocketCategory.AC.name
-    BM = DocketCategory.BM.name
-    PET = DocketCategory.PET.name
-    OCA = DocketCategory.OCA.name
-    JIB = DocketCategory.JIB.name
-    UDK = DocketCategory.UDK.name
+        Examples:
+            >>> DocketCategory['GR']
+            'GR'
+            >>> DocketCategory.GR
+            'GR'
+
+        Returns:
+            str: The value of the Enum name
+        """
+        return str.__repr__(self.name.upper())

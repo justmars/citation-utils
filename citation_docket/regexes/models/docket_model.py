@@ -1,9 +1,11 @@
 from datetime import date
+from typing import Self
 
 from citation_date import DOCKET_DATE_FORMAT
+from citation_report.main import is_eq
 from pydantic import BaseModel, ConfigDict, Field
 
-from .docket_category import DocketCategory, ShortDocketCategory
+from .docket_category import DocketCategory
 from .gr_clean import gr_prefix_clean
 
 
@@ -16,7 +18,6 @@ class Docket(BaseModel):
     Field | Type | Description
     --:|:--:|:--
     `context` | optional (str) | Full texted matched by the regex pattern
-    `short_category` | optional (ShortDocketCategory) | See [short-docket-category-model][]
     `category` | optional (DocketCategory) | See [docket-category-model][]
     `ids` | optional (str) | The serial number of the docket category
     `docket_date` | optional (date) | The date associated with the docket
@@ -32,47 +33,28 @@ class Docket(BaseModel):
     """  # noqa: E501
 
     model_config = ConfigDict(use_enum_values=True)
-    context: str = Field(
-        ...,
-        title="Context",
-        description="Full texted matched by the regex pattern.",
-    )
-    short_category: ShortDocketCategory = Field(
-        ...,
-        title="Docket Acronym",
-        description="GR, AM, AC, BM, etc.",
-        min_length=2,
-        max_length=4,
-    )
-    category: DocketCategory = Field(
-        ...,
-        title="Docket Category",
-        description=(
-            "e.g. General Register, Administrative Matter,"
-            " Administrative Case, Bar Matter"
-        ),
-    )
-    ids: str = Field(
-        ...,
-        title="Raw Docket IDs",
-        description="The docket can contain multiple tokens, e.g. 24141, 14234, 2342.",
-    )
-    docket_date: date = Field(
-        ...,
-        title="Docket Date",
-        description="Either in UK, US styles",
-    )
+    context: str = Field(..., description="Full text matched by regex pattern.")
+    category: DocketCategory = Field(..., description="e.g. General Register, etc.")
+    ids: str = Field(..., description="Ok for a csv token, e.g. '24141, 14234, 12'")
+    docket_date: date = Field(..., description="Either in UK, US styles")
+
+    def __repr__(self) -> str:
+        return f"<Docket: {self.category} {self.serial_text}, {self.formatted_date}>"
 
     def __str__(self) -> str:
         if self.serial_text:
-            return (
-                f"{self.short_category.value} {self.serial_text}, {self.formatted_date}"
-            )
+            return f"{self.category} {self.serial_text}, {self.formatted_date}"
         return "No proper string detected."
+
+    def __eq__(self, other: Self) -> bool:
+        opt_1 = is_eq(self.category.name, other.category.name)
+        opt_2 = is_eq(self.first_id, other.first_id)
+        opt_3 = is_eq(self.docket_date.isoformat(), other.docket_date.isoformat())
+        return all([opt_1, opt_2, opt_3])
 
     @property
     def serial_text(self) -> str:
-        """From the raw `ids`, get the `cleaned_ids`, and of these `cleaned_ids`,
+        """From raw `ids`, get the `cleaned_ids`, and of these `cleaned_ids`,
             extract the `@first_id` found to deal with compound ids, e.g.
             ids separated by 'and' and ','
 

@@ -82,7 +82,7 @@ class CitationJIB(DocketReportCitation):
             >>> text = "JIB FPI No. 21-018-MTJ. August 17, 2022"
             >>> cite = next(CitationJIB.search(text))
             >>> cite.model_dump(exclude_none=True)
-            {'context': 'JIB FPI No. 21-018-MTJ.', 'short_category': <ShortDocketCategory.JIB: 'JIB'>, 'category': <DocketCategory.JIB: 'Judicial Integrity Board'>, 'ids': '21-018-MTJ', 'docket_date': datetime.date(2022, 8, 17)}
+            {'context': 'JIB FPI No. 21-018-MTJ.', 'category': 'JIB', 'ids': '21-018-MTJ', 'docket_date': datetime.date(2022, 8, 17)}
 
         Args:
             text (str): Text to look for citation objects

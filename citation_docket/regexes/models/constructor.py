@@ -99,24 +99,23 @@ class Constructor(BaseModel):
 
     @property
     def key_num_pattern(self) -> re.Pattern:
-        """Unlike the full @pattern, this regex compiled object is limited to
+        """Unlike full @pattern, this regex compiled object is limited to
         just the key and number elements, e.g. "GR No. 123" or "BP Blg. 45"
         """
         regex = rf"{self.key_regex}({self.num_regex})?"
         return re.compile(regex, re.I | re.X)
 
     def detect(self, raw: str) -> Iterator[dict[str, Any]]:
-        """Logic: if the `self.init_name` Match group exists, get the entire
-        regex expression represented by `self.group_name`, then extract
-        subgroups which will consist of Docket and Report parts.
+        """Logic: if `self.init_name` Match group exists, get entire
+        regex based on `self.group_name`, extract subgroups which will
+        consist of `Docket` and `Report` parts.
 
         Args:
-            raw (str): _description_
+            raw (str): Text to evaluate
 
         Yields:
-            Iterator[dict[str, Any]]: A dict that can fill up a
-                Docket + Report pydantic BaseModel
-        """
+            Iterator[dict[str, Any]]: A dict that can fill up a Docket + Report pydantic BaseModel
+        """  # noqa: E501
         for match in self.pattern.finditer(raw):
             if match.group(self.init_name):
                 if ctx := match.group(self.group_name).strip(", "):

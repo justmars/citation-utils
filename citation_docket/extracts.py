@@ -1,7 +1,30 @@
 import re
+from collections.abc import Iterator
 from typing import Any
 
 from dateutil.parser import parse
+
+from ._types import CITATION_OPTIONS, DocketReportCitationType
+
+
+def extract_docketables(raw: str) -> Iterator[DocketReportCitationType]:
+    """Extract from `raw` text all raw citations which
+    should include their `Docket` and `Report` component parts.
+
+    Examples:
+        >>> cite = next(extract_docketables("Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449"))
+        >>> cite.model_dump(exclude_none=True)
+        {'publisher': 'SCRA', 'volume': '342', 'page': '449', 'volpubpage': '342 SCRA 449', 'context': 'G.R. Nos. 138570, 138572, 138587, 138680, 138698', 'category': 'GR', 'ids': '138570, 138572, 138587, 138680, 138698', 'docket_date': datetime.date(2000, 10, 10)}
+
+    Args:
+        raw (str): Text to look for `Dockets` and `Reports`
+
+    Yields:
+        Iterator[DocketReportCitationType]: Any of custom `Docket` with `Report` types, e.g. `CitationAC`, etc.
+    """  # noqa: E501
+    for citation in CITATION_OPTIONS:
+        yield from citation.search(raw)
+
 
 DOCKET_PATTERN = re.compile(
     r"""
@@ -27,9 +50,9 @@ def extract_docket_meta(text: str) -> dict[str, Any] | None:
 
     Examples:
         >>> extract_docket_meta("G.R. No. 234179. December 5, 2022 [Date Uploaded: 01/26/2023]")
-        {'docket': 'G.R. No. 234179', 'decision_date': datetime.date(2022, 12, 5), 'upload_date': '01/26/2023', 'context': 'G.R. No. 234179', 'short_category': <ShortDocketCategory.GR: 'GR'>, 'category': <DocketCategory.GR: 'General Register'>, 'ids': '234179', 'docket_date': datetime.date(2022, 12, 5)}
+        {'docket': 'G.R. No. 234179', 'decision_date': datetime.date(2022, 12, 5), 'upload_date': '01/26/2023', 'context': 'G.R. No. 234179', 'category': 'GR', 'ids': '234179', 'docket_date': datetime.date(2022, 12, 5)}
         >>> extract_docket_meta("G.R. No. 180350/G.R. No. 205186/G.R. No. 222919/G.R. No. 223237. July 6, 2022 [Date Uploaded: 09/21/2022]")
-        {'docket': 'G.R. No. 180350/G.R. No. 205186/G.R. No. 222919/G.R. No. 223237', 'decision_date': datetime.date(2022, 7, 6), 'upload_date': '09/21/2022', 'context': 'G.R. No. 180350/G.R. No. 205186/G.R. No. 222919/G.R. No. 223237', 'short_category': <ShortDocketCategory.GR: 'GR'>, 'category': <DocketCategory.GR: 'General Register'>, 'ids': '180350', 'docket_date': datetime.date(2022, 7, 6)}
+        {'docket': 'G.R. No. 180350/G.R. No. 205186/G.R. No. 222919/G.R. No. 223237', 'decision_date': datetime.date(2022, 7, 6), 'upload_date': '09/21/2022', 'context': 'G.R. No. 180350/G.R. No. 205186/G.R. No. 222919/G.R. No. 223237', 'category': 'GR', 'ids': '180350', 'docket_date': datetime.date(2022, 7, 6)}
 
     Args:
         text (str): Line from Supreme Court URL sub-title heading.
@@ -37,8 +60,6 @@ def extract_docket_meta(text: str) -> dict[str, Any] | None:
     Returns:
         dict[str, Any] | None: Docket-based details.
     """  # noqa: E501
-    from citation_docket import extract_dockets
-
     match = DOCKET_PATTERN.search(text)
     if not match:
         return None
@@ -54,9 +75,9 @@ def extract_docket_meta(text: str) -> dict[str, Any] | None:
         res["decision_date"] = parse(_date, fuzzy=True).date()
         format_date = res["decision_date"].strftime("%B %d, %Y")
         citation_text = f"{res['docket']}, {format_date}"
-        citation_obj = next(extract_dockets(citation_text))
+        citation_obj = next(extract_docketables(citation_text))
         cleaned_id = citation_obj.first_id
-        res |= citation_obj.dict(
+        res |= citation_obj.model_dump(
             exclude={
                 "volume",
                 "publisher",
@@ -66,8 +87,6 @@ def extract_docket_meta(text: str) -> dict[str, Any] | None:
                 "volpubpage",
             }
         )
-        if res.get("short_category") is None:
-            return None
         if res.get("ids") is None:
             return None
         else:

@@ -63,7 +63,7 @@ class CitationUDK(DocketReportCitation):
             >>> text = "UDK 16915, February 15, 2022"
             >>> cite = next(CitationUDK.search(text))
             >>> cite.model_dump(exclude_none=True)
-            {'context': 'UDK 16915', 'short_category': <ShortDocketCategory.UDK: 'UDK'>, 'category': <DocketCategory.UDK: 'Undocketed'>, 'ids': '16915', 'docket_date': datetime.date(2022, 2, 15)}
+            {'context': 'UDK 16915', 'category': 'UDK', 'ids': '16915', 'docket_date': datetime.date(2022, 2, 15)}
 
         Args:
             text (str): Text to look for citation objects

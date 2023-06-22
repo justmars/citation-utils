@@ -1,8 +1,10 @@
-from .main import (
+from .citation import Citation
+from .document import CitableDocument
+from .extracts import (
     CITATION_OPTIONS,
     DocketReportCitationType,
-    extract_docket_from_data,
-    extract_dockets,
+    extract_docket_meta,
+    extract_docketables,
 )
 from .regexes import (
     DOCKET_DATE_FORMAT,
@@ -17,7 +19,6 @@ from .regexes import (
     Docket,
     DocketCategory,
     Num,
-    ShortDocketCategory,
     ac_key,
     ac_phrases,
     am_key,
@@ -39,5 +40,3 @@ from .regexes import (
     udk_key,
     udk_phrases,
 )
-from .utils.sc_website_2023 import extract_docket_meta
-from .utils.simple_matcher import is_docket, setup_docket_field

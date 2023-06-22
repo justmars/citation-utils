@@ -116,7 +116,7 @@ class CitationBM(DocketReportCitation):
             >>> text = "B.M. No. 1678, December 17, 2007"
             >>> cite = next(CitationBM.search(text))
             >>> cite.model_dump(exclude_none=True)
-            {'context': 'B.M. No. 1678', 'short_category': <ShortDocketCategory.BM: 'BM'>, 'category': <DocketCategory.BM: 'Bar Matter'>, 'ids': '1678', 'docket_date': datetime.date(2007, 12, 17)}
+            {'context': 'B.M. No. 1678', 'category': 'BM', 'ids': '1678', 'docket_date': datetime.date(2007, 12, 17)}
 
         Args:
             text (str): Text to look for citation objects
