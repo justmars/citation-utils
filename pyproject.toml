@@ -35,7 +35,7 @@ addopts = "-ra -q --doctest-modules --cov"
 filterwarnings = [
   "ignore::DeprecationWarning", # DeprecationWarning: pkg_resources is deprecated as an API
 ]
-testpaths = ["tests", "citation_docket"]
+testpaths = ["tests", "citation_utils"]
 
 [tool.ruff]
 ignore = ["F401", "F403"]

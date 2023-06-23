@@ -45,18 +45,10 @@ class Citation(BaseModel):
     docket_category: DocketCategory | None = Field(None)
     docket_serial: str | None = Field(None)
     docket_date: datetime.date | None = Field(None)
-    docket: str | None = Field(
-        None, description="Cleaned: category, single serial id, date"
-    )
-    phil: str | None = Field(
-        None, description="volume Phil. page, see `citation-report`"
-    )
-    scra: str | None = Field(
-        None, description="volume SCRA page, see `citation-report`"
-    )
-    offg: str | None = Field(
-        None, description="volume O.G. page, see `citation-report`"
-    )
+    docket: str | None = Field(None, description="Category + single serial id + date")
+    phil: str | None = Field(None, description="vol + Phil. (pub) + page")
+    scra: str | None = Field(None, description="vol + SCRA (pub) + page")
+    offg: str | None = Field(None, description="vol + O.G. (pub) + page")
 
     @property
     def elements(self) -> list[str]:
@@ -91,6 +83,7 @@ class Citation(BaseModel):
                 offg=obj.offg,
             )
         except StopIteration:
+            logging.debug(f"{text} is not a Report instance.")
             return None
 
     @classmethod
@@ -107,6 +100,7 @@ class Citation(BaseModel):
                 offg=obj.offg,
             )
         except StopIteration:
+            logging.debug(f"{text} is not a Docket nor a Report instance.")
             return None
 
     @classmethod
@@ -116,7 +110,7 @@ class Citation(BaseModel):
         1. `Docket` + `Report` objects (in which case, `_set_docket_report()` will be used); or
         2. `Report` objects (in which case `_set_report()` will be used)
 
-        The result, once unpacked, will be uniform citation list.
+        Then processing each object so that they can be structured in a uniform format.
 
         Examples:
             >>> text = "<em>Gatchalian Promotions Talent Pool, Inc. v. Atty. Naldoza</em>, 374 Phil. 1, 10-11 (1999), citing: <em>In re Almacen</em>, 31 SCRA 562, 600 (1970).; People v. Umayam, G.R. No. 147033, April 30, 2003; <i>Bagong Alyansang Makabayan v. Zamora,</i> G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449; Villegas <em>v.</em> Subido, G.R. No. 31711, Sept. 30, 1971, 41 SCRA 190;"
@@ -139,6 +133,20 @@ class Citation(BaseModel):
 
     @classmethod
     def extract_citation(cls, text: str) -> Self | None:
+        """Thin wrapper over `cls.extract_citations()`.
+
+        Examples:
+            >>> Citation.extract_citation('Hello World') is None
+            True
+            >>> next(Citation.extract_citations('12 Phil. 24'))
+            <Citation: 12 Phil. 24>
+
+        Args:
+            text (str): Text to evaluate
+
+        Returns:
+            Self | None: First item found from `extract_citations`, if it exists.
+        """
         try:
             return next(cls.extract_citations(text))
         except StopIteration:
