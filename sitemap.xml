@@ -2,22 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://lawsql.com/</loc>
-         <lastmod>2023-02-25</lastmod>
+         <lastmod>2023-06-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://lawsql.com/api-build/</loc>
-         <lastmod>2023-02-25</lastmod>
+         <loc>https://lawsql.com/citeable/</loc>
+         <lastmod>2023-06-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://lawsql.com/api-extraction/</loc>
-         <lastmod>2023-02-25</lastmod>
+         <loc>https://lawsql.com/sqlite/</loc>
+         <lastmod>2023-06-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://lawsql.com/api-types/</loc>
-         <lastmod>2023-02-25</lastmod>
+         <loc>https://lawsql.com/structure/</loc>
+         <lastmod>2023-06-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
