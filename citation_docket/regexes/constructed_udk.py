@@ -1,7 +1,7 @@
 from collections.abc import Iterator
 from typing import Self
 
-from .models import Constructor, DocketCategory, DocketReportCitation
+from .models import CitationConstructor, DocketCategory, DocketReportCitation
 from .models.misc import NUMBER_KEYWORD
 
 separator = r"[\.\s]*"
@@ -41,7 +41,7 @@ udk_phrases = rf"""
     )
 """
 
-constructed_udk = Constructor(
+constructed_udk = CitationConstructor(
     label=DocketCategory.UDK.value,
     short_category=DocketCategory.UDK.name,
     group_name="udk_phrase",

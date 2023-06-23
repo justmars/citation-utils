@@ -10,8 +10,8 @@
 
 :::citation_docket.regexes.models.docket_category.DocketCategory
 
-## Docket Constructor
+## Docket CitationConstructor
 
 Although the different category docket models share a similar configuration, the regex strings involved are different for each, prompting the need for a preparatory constructor class:
 
-:::citation_docket.regexes.models.constructor.Constructor
+:::citation_docket.regexes.models.constructor.CitationConstructor

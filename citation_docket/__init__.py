@@ -1,7 +1,7 @@
 from .citation import Citation
 from .document import CitableDocument
 from .extracts import (
-    CITATION_OPTIONS,
+    SEARCHABLE_CITATIONS,
     DocketReportCitationType,
     extract_docket_meta,
     extract_docketables,
@@ -29,6 +29,7 @@ from .regexes import (
     formerly,
     gr_key,
     gr_phrases,
+    is_statutory_rule,
     jib_key,
     jib_phrases,
     l_key,

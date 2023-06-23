@@ -1,7 +1,7 @@
 from collections.abc import Iterator
 from typing import Self
 
-from .models import Constructor, DocketCategory, DocketReportCitation
+from .models import CitationConstructor, DocketCategory, DocketReportCitation
 from .models.misc import NUMBER_KEYWORD
 
 pet_key = rf"""
@@ -36,7 +36,7 @@ pet_phrases = rf"""
     )
 """
 
-constructed_pet = Constructor(
+constructed_pet = CitationConstructor(
     label=DocketCategory.PET.value,
     short_category=DocketCategory.PET.name,
     group_name="pet_phrase",

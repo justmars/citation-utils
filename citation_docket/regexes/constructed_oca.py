@@ -1,7 +1,7 @@
 from collections.abc import Iterator
 from typing import Self
 
-from .models import Constructor, DocketCategory, DocketReportCitation
+from .models import CitationConstructor, DocketCategory, DocketReportCitation
 from .models.misc import NUMBER_KEYWORD
 
 separator = r"[\.\s]*"
@@ -62,7 +62,7 @@ oca_phrases = rf"""
     )
 """
 
-constructed_oca = Constructor(
+constructed_oca = CitationConstructor(
     label=DocketCategory.OCA.value,
     short_category=DocketCategory.OCA.name,
     group_name="oca_phrase",

@@ -20,7 +20,7 @@ DocketReportCitationType = (
     | CitationUDK
 )  # noqa: E501
 
-CITATION_OPTIONS = (
+SEARCHABLE_CITATIONS = (
     CitationAC,
     CitationAM,
     CitationOCA,
@@ -30,3 +30,4 @@ CITATION_OPTIONS = (
     CitationUDK,
     CitationJIB,
 )
+"""Each object implements a `cls.search()` method which is utilized to generate matching citation types."""  # noqa: E501

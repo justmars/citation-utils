@@ -49,7 +49,7 @@ from .constructed_udk import (
 )
 from .models import (
     DOCKET_DATE_FORMAT,
-    Constructor,
+    CitationConstructor,
     Docket,
     DocketCategory,
     DocketReportCitation,
@@ -57,5 +57,6 @@ from .models import (
     cull_extra,
     formerly,
     gr_prefix_clean,
+    is_statutory_rule,
     pp,
 )

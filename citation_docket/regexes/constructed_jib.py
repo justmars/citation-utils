@@ -1,7 +1,7 @@
 from collections.abc import Iterator
 from typing import Self
 
-from .models import Constructor, DocketCategory, DocketReportCitation
+from .models import CitationConstructor, DocketCategory, DocketReportCitation
 from .models.misc import NUMBER_KEYWORD
 
 separator = r"[\.\s]*"
@@ -60,7 +60,7 @@ jib_phrases = rf"""
     )
 """
 
-constructed_jib = Constructor(
+constructed_jib = CitationConstructor(
     label=DocketCategory.JIB.value,
     short_category=DocketCategory.JIB.name,
     group_name="jib_phrase",

@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 from .misc import cull_extra, formerly, pp
 
 
-class Constructor(BaseModel):
+class CitationConstructor(BaseModel):
     """Prefatorily, regex strings are defined so that a
     `re.Pattern` object can take advantage of the "group_name"
     assigned in the string.
@@ -25,7 +25,7 @@ class Constructor(BaseModel):
     7. Judicial Integrity Board
     8. Undocketed Case
 
-    The Constructor formalizes the assigned group names into
+    The CitationConstructor formalizes the assigned group names into
     their respective fields.
 
     Relatedly, it takes advantage of

@@ -4,17 +4,26 @@ from typing import Any
 
 from dateutil.parser import parse
 
-from ._types import CITATION_OPTIONS, DocketReportCitationType
+from ._types import SEARCHABLE_CITATIONS, DocketReportCitationType
+from .regexes import is_statutory_rule
 
 
-def extract_docketables(raw: str) -> Iterator[DocketReportCitationType]:
-    """Extract from `raw` text all raw citations which
-    should include their `Docket` and `Report` component parts.
+def extract_docketables(
+    raw: str, exclude_docket_rules: bool = True
+) -> Iterator[DocketReportCitationType]:
+    """Extract from `raw` text all raw citations which should include their `Docket` and `Report` component parts.
+        This may however include statutory rules since some docket categories like AM and BM use this convention.
+        To exclude statutory rules, a flag is included as a default.
 
     Examples:
         >>> cite = next(extract_docketables("Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449"))
         >>> cite.model_dump(exclude_none=True)
         {'publisher': 'SCRA', 'volume': '342', 'page': '449', 'volpubpage': '342 SCRA 449', 'context': 'G.R. Nos. 138570, 138572, 138587, 138680, 138698', 'category': 'GR', 'ids': '138570, 138572, 138587, 138680, 138698', 'docket_date': datetime.date(2000, 10, 10)}
+        >>> statutory_text = "Bar Matter No. 803, Jan. 1, 2000"
+        >>> next(extract_docketables(statutory_text)) # default
+        Traceback (most recent call last):
+            ...
+        StopIteration
 
     Args:
         raw (str): Text to look for `Dockets` and `Reports`
@@ -22,8 +31,12 @@ def extract_docketables(raw: str) -> Iterator[DocketReportCitationType]:
     Yields:
         Iterator[DocketReportCitationType]: Any of custom `Docket` with `Report` types, e.g. `CitationAC`, etc.
     """  # noqa: E501
-    for citation in CITATION_OPTIONS:
-        yield from citation.search(raw)
+    for matchable_citation in SEARCHABLE_CITATIONS:
+        for citeable_candidate in matchable_citation.search(raw):
+            if exclude_docket_rules:
+                if is_statutory_rule(citeable_candidate):
+                    continue
+                yield citeable_candidate
 
 
 DOCKET_PATTERN = re.compile(

@@ -1,7 +1,7 @@
 from collections.abc import Iterator
 from typing import Self
 
-from .models import Constructor, DocketCategory, DocketReportCitation, Num
+from .models import CitationConstructor, DocketCategory, DocketReportCitation, Num
 
 separator = r"[,\.\s-]*"
 two_digits = r"[\d-]{2,}"
@@ -111,7 +111,7 @@ ac_phrases = rf"""
 """
 
 
-constructed_ac = Constructor(
+constructed_ac = CitationConstructor(
     label=DocketCategory.AC.value,
     short_category=DocketCategory.AC.name,
     group_name="ac_phrase",

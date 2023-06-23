@@ -1,4 +1,5 @@
 import datetime
+import logging
 from collections.abc import Iterator
 from typing import Self
 
@@ -45,24 +46,16 @@ class Citation(BaseModel):
     docket_serial: str | None = Field(None)
     docket_date: datetime.date | None = Field(None)
     docket: str | None = Field(
-        None,
-        title="Docket Reference",
-        description="Clean parts: category, a single serial id, and date.",
+        None, description="Cleaned: category, single serial id, date"
     )
     phil: str | None = Field(
-        None,
-        title="Philippine Reports",
-        description="Combine `volume` Phil. `page` from `citation-report`.",
+        None, description="volume Phil. page, see `citation-report`"
     )
     scra: str | None = Field(
-        None,
-        title="Supreme Court Reports Annotated",
-        description="Combine `volume` SCRA `page` from `citation-report`.",
+        None, description="volume SCRA page, see `citation-report`"
     )
     offg: str | None = Field(
-        None,
-        title="Official Gazette",
-        description="Combine `volume` O.G. `page` from `citation-report`.",
+        None, description="volume O.G. page, see `citation-report`"
     )
 
     @property
@@ -79,15 +72,13 @@ class Citation(BaseModel):
         return bits
 
     def __repr__(self) -> str:
-        """Generate a readable instance."""
         return f"<Citation: {str(self)}>"
 
     def __str__(self) -> str:
-        """Generate a readable instance."""
         return ", ".join(self.elements) if self.elements else "Bad citation."
 
     @classmethod
-    def from_report_text(cls, text: str):
+    def _set_report(cls, text: str):
         try:
             obj = next(Report.extract_reports(text))
             return cls(
@@ -103,7 +94,7 @@ class Citation(BaseModel):
             return None
 
     @classmethod
-    def from_docket_text(cls, text: str):
+    def _set_docket_report(cls, text: str):
         try:
             obj = next(extract_docketables(text))
             return cls(
@@ -119,30 +110,35 @@ class Citation(BaseModel):
             return None
 
     @classmethod
-    def from_strings(cls, texts: list[str]):
-        for text in texts:
-            if obj_docket := cls.from_docket_text(text):
-                yield obj_docket
-            elif obj_report := cls.from_report_text(text):
-                yield obj_report
-
-    @classmethod
     def extract_citations(cls, text: str) -> Iterator[Self]:
-        doc = CitableDocument(text=text)
-        citation_strings = list(doc.get_citations())
-        objs = cls.from_strings(citation_strings)
-        yield from objs
+        """Find citations and parse resulting strings to determine whether they are:
+
+        1. `Docket` + `Report` objects (in which case, `_set_docket_report()` will be used); or
+        2. `Report` objects (in which case `_set_report()` will be used)
+
+        The result, once unpacked, will be uniform citation list.
+
+        Examples:
+            >>> text = "<em>Gatchalian Promotions Talent Pool, Inc. v. Atty. Naldoza</em>, 374 Phil. 1, 10-11 (1999), citing: <em>In re Almacen</em>, 31 SCRA 562, 600 (1970).; People v. Umayam, G.R. No. 147033, April 30, 2003; <i>Bagong Alyansang Makabayan v. Zamora,</i> G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449; Villegas <em>v.</em> Subido, G.R. No. 31711, Sept. 30, 1971, 41 SCRA 190;"
+            >>> set(str(a) for a in Citation.extract_citations(text)) == {'GR No. 147033, Apr. 30, 2003', 'GR No. 138570, Oct. 10, 2000, 342 SCRA 449, 342 SCRA 449', 'GR No. 31711, Sep. 30, 1971, 41 SCRA 190, 41 SCRA 190', '374 Phil. 1', '31 SCRA 562'}
+            True
+
+        Args:
+            text (str): Text to evaluate
+
+        Yields:
+            Iterator[Self]: Itemized citations pre-processed via `CitableDocument`
+        """  # noqa: E501
+        for cite in CitableDocument(text=text).get_citations():
+            if _docket := cls._set_docket_report(cite):
+                yield _docket
+            elif _report := cls._set_report(cite):
+                yield _report
+            else:
+                logging.error(f"Skip invalid {cite=}.")
 
     @classmethod
     def extract_citation(cls, text: str) -> Self | None:
-        """Thin wrapper around `cls.extract_citations()`.
-
-        Args:
-            text (str): Text to look for Citations
-
-        Returns:
-            Self | None: First matching Citation found in the text.
-        """  # noqa: E501
         try:
             return next(cls.extract_citations(text))
         except StopIteration:
