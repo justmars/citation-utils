@@ -4,8 +4,8 @@ version = "0.4.0"
 description = "Pattern matching Philippine Supreme Court citations."
 authors = ["Marcelino G. Veloso III <contact@mv3.dev>"]
 homepage = "https://lawsql.com"
-repository = "https://github.com/justmars/citation-docket"
-documentation = "https://justmars.github.io/citation-docket"
+repository = "https://github.com/justmars/citation-utils"
+documentation = "https://justmars.github.io/citation-utils"
 classifiers = [
   "Topic :: Text Processing :: General",
   "Programming Language :: Python :: 3.11",
@@ -26,7 +26,7 @@ pytest-cov = "^2.12.1"
 pre-commit = "^3.3"
 mkdocs = "^1.4.3"
 mkdocstrings = {extras = ["python"], version = "^0.22.0"}
-mkdocs-material = "^9.1.15"
+mkdocs-material = "^9.1.16"
 ipykernel = "^6.23.2"
 
 [tool.pytest.ini_options]

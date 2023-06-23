@@ -1,12 +1,12 @@
-# citation-docket
+# citation-utils
 
-![Github CI](https://github.com/justmars/citation-docket/actions/workflows/main.yml/badge.svg)
+![Github CI](https://github.com/justmars/citation-utils/actions/workflows/main.yml/badge.svg)
 
 Regex formula of Philippine Supreme Court citations in docket format (with reports); utilized in the [LawSQL dataset](https://lawsql.com).
 
 ## Documentation
 
-See [documentation](https://justmars.github.io/citation-docket), building on top of [citation-report](https://justmars.github.io/citation-report).
+See [documentation](https://justmars.github.io/citation-utils), building on top of [citation-report](https://justmars.github.io/citation-report).
 
 ## Caveats
 
