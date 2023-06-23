@@ -182,9 +182,7 @@ class CountedCitation(Citation):
     def __str__(self) -> str:
         docket_str = None
         if all([self.docket_category, self.docket_serial, self.docket_date]):
-            docket_str = (
-                f"{self.docket_category} {self.docket_serial}, {self.docket_date}"
-            )
+            docket_str = f"{self.docket_category} No. {self.docket_serial}, {self.docket_date.strftime('%b %d, %Y')}"  # type: ignore # noqa: E501
 
         report_str = None
         if any([self.phil, self.scra, self.offg]):
@@ -201,20 +199,63 @@ class CountedCitation(Citation):
 
     @classmethod
     def from_source(cls, text: str):
-        docketeds = cls.counted_docket_reports(text)
-        reports = cls.counted_reports(text)
-        for r in reports:
-            for d in docketeds:
-                if r == d:  # uses Citation __eq__
-                    balance = r.mentions - d.mentions
-                    r.mentions = 0  # since match found, make this 0
-                    d.mentions = d.mentions + balance
-        culled_reports = [report for report in reports if report.mentions > 0]
-        return docketeds + culled_reports
+        """Computes mentions of `counted_dockets()` vis-a-vis `counted_reports()` and
+        count the number of unique items, taking into account the Citation
+        structure and the use of __eq__ re: what is considered unique.
+
+        Examples:
+            >>> source = "374 Phil. 1, 10-11 (1999) 1111 SCRA 1111; G.R. No. 147033, April 30, 2003; G.R. No. 147033, April 30, 2003, 374 Phil. 1, 600; ABC v. XYZ, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449;  XXX, G.R. No. 31711, Sept. 30, 1971, 35 SCRA 190; Hello World, 1111 SCRA 1111; Y v. Z, 35 SCRA 190; 1 Off. Gaz. 41 Bar Matter No. 803, Jan. 1, 2000 Bar Matter No. 411, Feb. 1, 2000 Bar Matter No. 412, Jan. 1, 2000, 1111 SCRA 1111; 374 Phil. 1"
+            >>> list(CountedCitation.from_source(source))
+            [BM No. 412, Jan 01, 2000, 1111 SCRA 1111: 3, GR No. 147033, Apr 30, 2003, 374 Phil. 1: 3, GR No. 138570, Oct 10, 2000, 342 SCRA 449: 1, GR No. 31711, Sep 30, 1971, 35 SCRA 190: 2, 1 Off. Gaz. 41: 1]
+
+        Args:
+            texts (str): list of texts having `__repr__` format of a `CountedRule`
+
+
+        """  # noqa: E501
+        all_reports = cls.counted_reports(text)  # includes reports in docket_reports
+        docket_reports = cls.counted_docket_reports(text)
+        for report in all_reports:
+            for dr in docket_reports:
+                if report == dr:  # uses Citation __eq__
+                    balance = 0
+                    if report.mentions > dr.mentions:
+                        balance = report.mentions - dr.mentions
+                    dr.mentions = dr.mentions + balance
+                    report.mentions = 0
+
+        return docket_reports + [
+            report for report in all_reports if report.mentions > 0
+        ]
+
+    @classmethod
+    def from_repr_format(cls, repr_texts: list[str]) -> Iterator[Self]:
+        """Generate their pydantic counterparts from `<cat> <id>: <mentions>` format.
+
+        Examples:
+            >>> repr_texts = ['BM No. 412, Jan 01, 2000, 1111 SCRA 1111: 3', 'GR No. 147033, Apr 30, 2003, 374 Phil. 1: 3']
+            >>> results = list(CountedCitation.from_repr_format(repr_texts))
+            >>> len(results)
+            2
+
+        Args:
+            texts (str): list of texts having `__repr__` format of a `CountedRule`
+
+        Yields:
+            Iterator[Self]: Instances of CountedRule
+        """  # noqa: E501
+        for text in repr_texts:
+            counted_bits = text.split(":")
+            if len(counted_bits) == 2:
+                if cite := cls.extract_citation(counted_bits[0].strip()):
+                    obj = cite.model_dump()
+                    citation = cls(**obj)
+                    citation.mentions = int(counted_bits[1].strip())
+                    yield citation
 
     @classmethod
     def counted_reports(cls, text: str):
-        """Detect reports only from source `text` by first converting
+        """Detect _reports_ only from source `text` by first converting
         raw citations into a `Citation` object to take advantage of `__eq__` in
         a `seen` list. This will also populate the the unique records with missing
         values.
@@ -240,7 +281,7 @@ class CountedCitation(Citation):
 
     @classmethod
     def counted_docket_reports(cls, text: str):
-        """Detect dockets with reports from source `text` by first converting
+        """Detect _dockets with reports_ from source `text` by first converting
         raw citations into a `Citation` object to take advantage of `__eq__` in
         a `seen` list. This will also populate the the unique records with missing
         values.
@@ -261,12 +302,11 @@ class CountedCitation(Citation):
                 seen.append(cls(**cite.model_dump()))
             else:
                 included = seen[seen.index(cite)]
-                included.add_values(cite)
+                included.mentions += 1
+                included.add_values(cite)  # for citations, can add missing
         return seen
 
     def add_values(self, other: Citation):
-        self.mentions += 1
-
         if not self.docket_category and other.docket_category:
             self.docket_category = other.docket_category
 
