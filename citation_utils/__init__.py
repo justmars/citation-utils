@@ -1,4 +1,4 @@
-from .citation import Citation
+from .citation import Citation, CountedCitation
 from .dockets import (
     DOCKET_DATE_FORMAT,
     CitationAC,

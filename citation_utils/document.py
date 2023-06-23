@@ -69,7 +69,7 @@ class CitableDocument:
             StopIteration
 
         Args:
-            raw (str): Text to look for `Dockets` and `Reports`
+            text (str): Text to look for `Dockets` and `Reports`
 
         Yields:
             Iterator[DocketReport]: Any of custom `Docket` with `Report` types, e.g. `CitationAC`, etc.
@@ -97,9 +97,6 @@ class CitableDocument:
         1. From a set of `uniq_reports` (see `self.reports`);
         2. Compare to reports found in `@docketed_reports`
         3. Limit reports to those _without_ an accompaying docket
-
-        Args:
-            text (str): Text to evaluate
         """
         uniq_reports = set(Report.get_unique(self.text))
         for cite in self.docketed_reports:

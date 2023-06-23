@@ -1,6 +1,10 @@
-# Summary
+# Overview
 
-## Citation Utils
+!!! note "Overall strategy"
+
+    Like [citation-reports](https://github.com/justmars/citation-report), there is a problem involving inconsistent use of values citations. We address it the same way by dissecting the component parts and generating a uniform citation.
+
+The component parts of a Supreme Court decision citation:
 
 ```mermaid
 flowchart TB
@@ -14,28 +18,22 @@ report---r2(scra)
 report---r3(offg)
 ```
 
-## Concept
-
-The `Report` Model from [citation-report](https://github.com/justmars/citation-report) is only one part of a Philippine Supreme Court citation. This library will handle the patterns involved with respect to the [Docket][docket-model].
-
-Let's look at sample citation that is typically found in the body and the footnotes section of a decision:
+Sample citation, typically found in the body and the footnotes section of a decision:
 
 > Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449
 
-We can separate the [Docket][docket-model] portion from the `Report` portion:
+Dissecting the above yields
 
-Docket | Report
---:|:--
-G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000 | 342 SCRA 449
-
-For lack of a better term, we'll call the combination of a [Docket][docket-model] and a `Report` a [Docket Report Citation][docket-report-citation].
-
-## Utility
-
-Both [citation-reports](https://github.com/justmars/citation-report) and [citation-docket](https://github.com/justmars/citation-docket) are dependencies of [citation-utils](https://github.com/justmars/citation-utils).
-
-Like [citation-reports](https://github.com/justmars/citation-report), there is a problem involving inconsistent use of values. We address it the same way by dissecting the component parts and generating a uniform citation.
+case title|docket category | docket serial | docket date | report phil | report scra | report offg
+:--:|:--:|:--:|:--:|:--:|:--:|:--:
+_Bagong Alyansang..._ | `gr` | 138570 | 2000-10-10 | - | 342 SCRA 449 | -
 
 ## Citation
 
+The `Report` Model from [citation-report](https://github.com/justmars/citation-report) is only one part of a Philippine Supreme Court citation. This library will handle the patterns involved with respect to the [Docket][docket-model], for the purpose of creating a [Citation][citation].
+
 ::: citation_utils.Citation
+
+## CountedCitation
+
+::: citation_utils.CountedCitation

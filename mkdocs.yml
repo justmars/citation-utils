@@ -23,10 +23,10 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
 nav:
-- index.md
-- api-extraction.md
-- api-build.md
-- api-types.md
+- Citation: index.md
+- Citation Components: structure.md
+- Docket Report Citations: citeable.md
+- sqlite Queries: sqlite.md
 extra:
   homepage: https://mv3.dev
   social:

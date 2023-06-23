@@ -13,9 +13,9 @@ from .document import CitableDocument
 
 class Citation(BaseModel):
     """
-    A Philippine Supreme Court `Citation` includes fields sourced from:
+    A Philippine Supreme Court `Citation` consists of:
 
-    1. `Docket` - as defined in [citation-docket](https://github.com/justmars/citation-docket) - includes:
+    1. `Docket` includes:
         1. _category_,
         2. _serial number_, and
         3. _date_.
@@ -198,7 +198,7 @@ class CountedCitation(Citation):
             return "<Bad citation str>"
 
     @classmethod
-    def from_source(cls, text: str):
+    def from_source(cls, text: str) -> list[Self]:
         """Computes mentions of `counted_dockets()` vis-a-vis `counted_reports()` and
         count the number of unique items, taking into account the Citation
         structure and the use of __eq__ re: what is considered unique.
@@ -209,9 +209,10 @@ class CountedCitation(Citation):
             [BM No. 412, Jan 01, 2000, 1111 SCRA 1111: 3, GR No. 147033, Apr 30, 2003, 374 Phil. 1: 3, GR No. 138570, Oct 10, 2000, 342 SCRA 449: 1, GR No. 31711, Sep 30, 1971, 35 SCRA 190: 2, 1 Off. Gaz. 41: 1]
 
         Args:
-            texts (str): list of texts having `__repr__` format of a `CountedRule`
+            text (str): Text to Evaluate.
 
-
+        Returns:
+            list[Self]: Unique citations with their counts.
         """  # noqa: E501
         all_reports = cls.counted_reports(text)  # includes reports in docket_reports
         docket_reports = cls.counted_docket_reports(text)
@@ -239,10 +240,10 @@ class CountedCitation(Citation):
             2
 
         Args:
-            texts (str): list of texts having `__repr__` format of a `CountedRule`
+            repr_texts (str): list of texts having `__repr__` format of a `CountedRule`
 
         Yields:
-            Iterator[Self]: Instances of CountedRule
+            Iterator[Self]: Instances of CountedCitation.
         """  # noqa: E501
         for text in repr_texts:
             counted_bits = text.split(":")
