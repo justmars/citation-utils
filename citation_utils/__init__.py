@@ -1,12 +1,5 @@
 from .citation import Citation
-from .document import CitableDocument
-from .extracts import (
-    SEARCHABLE_CITATIONS,
-    DocketReportCitationType,
-    extract_docket_meta,
-    extract_docketables,
-)
-from .regexes import (
+from .dockets import (
     DOCKET_DATE_FORMAT,
     CitationAC,
     CitationAM,
@@ -40,4 +33,11 @@ from .regexes import (
     pp,
     udk_key,
     udk_phrases,
+)
+from .document import CitableDocument
+from .extracts import (
+    SEARCHABLE_CITATIONS,
+    DocketReportCitationType,
+    extract_docket_meta,
+    extract_docketables,
 )

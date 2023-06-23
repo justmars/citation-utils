@@ -1,6 +1,6 @@
 import pytest
 
-from citation_docket.regexes.models.gr_clean import (
+from citation_utils.dockets.models.gr_clean import (
     LEGACY_PREFIXED,
     gr_prefix_clean,
     remove_prefix_regex,

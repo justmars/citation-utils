@@ -1,6 +1,6 @@
 import pytest
 
-from citation_docket.regexes import constructed_gr
+from citation_utils.dockets import constructed_gr
 
 
 @pytest.mark.parametrize(

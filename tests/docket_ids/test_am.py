@@ -2,7 +2,7 @@ import re
 
 import pytest
 
-from citation_docket.regexes.constructed_am import required
+from citation_utils.dockets.constructed_am import required
 
 AM_PATTERN = re.compile(required, re.X | re.I)
 

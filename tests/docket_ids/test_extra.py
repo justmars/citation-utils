@@ -2,7 +2,7 @@ import re
 
 import pytest
 
-from citation_docket.regexes import formerly
+from citation_utils.dockets import formerly
 
 FORMERLY_PATTERN = re.compile(formerly, re.X)
 

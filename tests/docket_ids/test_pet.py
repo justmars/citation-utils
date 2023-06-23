@@ -2,7 +2,7 @@ import re
 
 import pytest
 
-from citation_docket.regexes.constructed_pet import required
+from citation_utils.dockets.constructed_pet import required
 
 PET_PATTERN = re.compile(required, re.X | re.I)
 

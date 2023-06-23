@@ -5,7 +5,7 @@ from typing import Any
 from dateutil.parser import parse
 
 from ._types import SEARCHABLE_CITATIONS, DocketReportCitationType
-from .regexes import is_statutory_rule
+from .dockets import is_statutory_rule
 
 
 def extract_docketables(

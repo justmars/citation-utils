@@ -2,7 +2,7 @@ import re
 
 import pytest
 
-from citation_docket.regexes import gr_phrases
+from citation_utils.dockets import gr_phrases
 
 
 @pytest.mark.parametrize(

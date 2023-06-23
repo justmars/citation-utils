@@ -6,9 +6,9 @@ from typing import Self
 from citation_report import Report
 from pydantic import BaseModel, ConfigDict, Field
 
+from .dockets import DocketCategory
 from .document import CitableDocument
 from .extracts import extract_docketables
-from .regexes import DocketCategory
 
 
 class Citation(BaseModel):

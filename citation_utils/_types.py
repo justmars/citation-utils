@@ -1,4 +1,4 @@
-from .regexes import (
+from .dockets import (
     CitationAC,
     CitationAM,
     CitationBM,

@@ -1,5 +1,19 @@
 # Summary
 
+## Citation Utils
+
+```mermaid
+flowchart TB
+cite(citation)---docket
+cite---report
+docket---d1(docket category)
+docket---d2(docket serial)
+docket---d3(docket date)
+report---r1(phil)
+report---r2(scra)
+report---r3(offg)
+```
+
 ## Concept
 
 The `Report` Model from [citation-report](https://github.com/justmars/citation-report) is only one part of a Philippine Supreme Court citation. This library will handle the patterns involved with respect to the [Docket][docket-model].
@@ -21,3 +35,7 @@ For lack of a better term, we'll call the combination of a [Docket][docket-model
 Both [citation-reports](https://github.com/justmars/citation-report) and [citation-docket](https://github.com/justmars/citation-docket) are dependencies of [citation-utils](https://github.com/justmars/citation-utils).
 
 Like [citation-reports](https://github.com/justmars/citation-report), there is a problem involving inconsistent use of values. We address it the same way by dissecting the component parts and generating a uniform citation.
+
+## Citation
+
+::: citation_utils.Citation

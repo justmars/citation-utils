@@ -2,7 +2,7 @@ import re
 
 import pytest
 
-from citation_docket.regexes.constructed_oca import required
+from citation_utils.dockets.constructed_oca import required
 
 OCA_PATTERN = re.compile(required, re.X | re.I)
 
