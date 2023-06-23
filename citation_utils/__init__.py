@@ -35,9 +35,4 @@ from .dockets import (
     udk_phrases,
 )
 from .document import CitableDocument
-from .extracts import (
-    SEARCHABLE_CITATIONS,
-    DocketReportCitationType,
-    extract_docket_meta,
-    extract_docketables,
-)
+from .special import extract_docket_meta

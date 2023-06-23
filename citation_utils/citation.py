@@ -8,7 +8,6 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from .dockets import DocketCategory
 from .document import CitableDocument
-from .extracts import extract_docketables
 
 
 class Citation(BaseModel):
@@ -89,7 +88,7 @@ class Citation(BaseModel):
     @classmethod
     def _set_docket_report(cls, text: str):
         try:
-            obj = next(extract_docketables(text))
+            obj = next(CitableDocument.get_docketed_reports(text))
             return cls(
                 docket=str(obj),
                 docket_category=obj.category,

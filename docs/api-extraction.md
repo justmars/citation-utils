@@ -1,8 +1,8 @@
 # Extraction API
 
-## extract_docketables()
+## CitableDocument.get_docketed_reports()
 
-:::citation_docket.extract_docketables
+:::citation_docket.CitableDocument.get_docketed_reports
 
 ## extract_docket_from_data()
 
