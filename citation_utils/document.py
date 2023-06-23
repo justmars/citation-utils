@@ -12,18 +12,8 @@ from .dockets import (
     CitationOCA,
     CitationPET,
     CitationUDK,
+    DocketReport,
     is_statutory_rule,
-)
-
-DocketReport = (
-    CitationAC
-    | CitationAM
-    | CitationOCA
-    | CitationBM
-    | CitationGR
-    | CitationPET
-    | CitationJIB
-    | CitationUDK
 )
 
 
@@ -56,13 +46,13 @@ class CitableDocument:
     text: str
 
     def __post_init__(self):
-        self.docketed_reports = list(self.get_docketed_reports(self.text))
         self.reports = list(Report.extract_reports(self.text))
+        self.docketed_reports = list(self.get_docketed_reports(self.text))
         self.undocketed_reports = self.get_undocketed_reports()
 
     @classmethod
     def get_docketed_reports(
-        cls, raw: str, exclude_docket_rules: bool = True
+        cls, text: str, exclude_docket_rules: bool = True
     ) -> Iterator[DocketReport]:
         """Extract from `raw` text all raw citations which should include their `Docket` and `Report` component parts.
         This may however include statutory rules since some docket categories like AM and BM use this convention.
@@ -84,7 +74,7 @@ class CitableDocument:
         Yields:
             Iterator[DocketReport]: Any of custom `Docket` with `Report` types, e.g. `CitationAC`, etc.
         """  # noqa: E501
-        for func in (
+        for search_func in (
             CitationAC.search,
             CitationAM.search,
             CitationOCA.search,
@@ -94,8 +84,8 @@ class CitableDocument:
             CitationUDK.search,
             CitationJIB.search,
         ):
-            results = func(raw)
-            for result in results:
+            # Each search function is applied to the text, each match yielded
+            for result in search_func(text):
                 if exclude_docket_rules:
                     if is_statutory_rule(result):
                         continue
@@ -130,6 +120,7 @@ class CitableDocument:
         if self.docketed_reports:
             for doc_report_cite in self.docketed_reports:
                 yield str(doc_report_cite)
+
             if self.undocketed_reports:
                 yield from self.undocketed_reports  # already <str>
         else:

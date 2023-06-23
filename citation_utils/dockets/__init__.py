@@ -60,3 +60,14 @@ from .models import (
     is_statutory_rule,
     pp,
 )
+
+DocketReport = (
+    CitationAC
+    | CitationAM
+    | CitationOCA
+    | CitationBM
+    | CitationGR
+    | CitationPET
+    | CitationJIB
+    | CitationUDK
+)
