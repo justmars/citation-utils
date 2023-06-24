@@ -1,5 +1,6 @@
 import datetime
 import logging
+import re
 from collections.abc import Iterator
 from typing import Self
 
@@ -9,6 +10,9 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from .dockets import DocketCategory
 from .document import CitableDocument
+
+docket_serial_export_pattern = re.compile(r"^[a-z0-9-]+$")
+"""Alphanumeric lowercase with dash"""
 
 
 class Citation(BaseModel):
@@ -88,6 +92,41 @@ class Citation(BaseModel):
                 ),
             ]
         )
+
+    def is_serial_ok(self) -> bool:
+        """If a serial number exists, ensure it meets criteria prior to row creation."""
+        if self.docket_serial:
+            if docket_serial_export_pattern.search(self.docket_serial.lower()):
+                return True
+            return False
+        return True
+
+    def make_row(self):
+        """This presumes that a valid docket exists. Although a citation can
+        be a non-docket, e.g. phil, scra, etc., for purposes of creating a
+        a database row, the identifier will be based on a docket id."""
+        if not self.is_serial_ok():
+            logging.error(f"Invalid {self.docket_serial=}")
+            return None
+
+        docket_id = None
+        if self.docket_category and self.docket_serial and self.docket_date:
+            cat = self.docket_category.name.lower()
+            num = self.docket_serial.lower()
+            date = self.docket_date.isoformat()
+            docket_id = "-".join([cat, num, date])
+            return {
+                "id": docket_id,
+                "cat": cat,
+                "num": self.docket_serial,
+                "date": date,
+                "docket": str(self.docket),
+                "phil": self.phil,
+                "scra": self.scra,
+                "offg": self.offg,
+            }
+        logging.error(f"Could not make docket slug: {self.docket=}")
+        return None
 
     @classmethod
     def _set_report(cls, text: str):

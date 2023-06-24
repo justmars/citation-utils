@@ -1,3 +1,4 @@
+import re
 from datetime import date
 from typing import Self
 
@@ -17,8 +18,8 @@ class Docket(BaseModel):
 
     Field | Type | Description
     --:|:--:|:--
-    `context` | optional (str) | Full texted matched by the regex pattern
-    `category` | optional (DocketCategory) | See [docket-category-model][]
+    `context` | optional (str) | Full text matched by the regex pattern
+    `category` | optional (DocketCategory) | Whether GR, AC, etc.
     `ids` | optional (str) | The serial number of the docket category
     `docket_date` | optional (date) | The date associated with the docket
 
@@ -30,20 +31,22 @@ class Docket(BaseModel):
 
     The Docket is often paired with a Report, which is the traditional
     identifier based on volume and page numbers.
+
+    # TODO: need further cleaning of serial_text
     """  # noqa: E501
 
     model_config = ConfigDict(use_enum_values=True)
     context: str = Field(..., description="Full text matched by regex pattern.")
     category: DocketCategory = Field(..., description="e.g. General Register, etc.")
-    ids: str = Field(..., description="Ok for a csv token, e.g. '24141, 14234, 12'")
-    docket_date: date = Field(..., description="Either in UK, US styles")
+    ids: str = Field(..., description="May be comma-separated, e.g. '12, 32, and 41'")
+    docket_date: date = Field(...)
 
     def __repr__(self) -> str:
         return f"<Docket: {self.category} {self.serial_text}, {self.formatted_date}>"
 
     def __str__(self) -> str:
         if self.serial_text:
-            return f"{self.category} {self.serial_text}, {self.formatted_date}"
+            return f"{self.category} No. {self.serial_text}, {self.formatted_date}"
         return "No proper string detected."
 
     def __eq__(self, other: Self) -> bool:
@@ -51,6 +54,12 @@ class Docket(BaseModel):
         opt_2 = is_eq(self.first_id, other.first_id)
         opt_3 = is_eq(self.docket_date.isoformat(), other.docket_date.isoformat())
         return all([opt_1, opt_2, opt_3])
+
+    @property
+    def slug(self):
+        return "-".join(
+            [self.category.name, self.serial_text, self.docket_date.isoformat()]
+        )
 
     @property
     def serial_text(self) -> str:
