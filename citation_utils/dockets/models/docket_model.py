@@ -46,7 +46,7 @@ class Docket(BaseModel):
 
     def __str__(self) -> str:
         if self.serial_text:
-            return f"{self.category} No. {self.serial_text}, {self.formatted_date}"
+            return f"{self.category} No. {self.serial_text.upper()}, {self.formatted_date}"  # noqa: E501
         return "No proper string detected."
 
     def __eq__(self, other: Self) -> bool:

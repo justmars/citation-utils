@@ -101,10 +101,11 @@ class Citation(BaseModel):
             return False
         return True
 
-    def make_row(self):
+    def make_decision_row(self):
         """This presumes that a valid docket exists. Although a citation can
         be a non-docket, e.g. phil, scra, etc., for purposes of creating a
-        a database row, the identifier will be based on a docket id."""
+        a route-based row for a prospective decision object, the identifier will be
+        based on a docket id."""
         if not self.is_serial_ok():
             logging.error(f"Invalid {self.docket_serial=}")
             return None
@@ -120,13 +121,37 @@ class Citation(BaseModel):
                 "cat": cat,
                 "num": self.docket_serial,
                 "date": date,
-                "docket": str(self.docket),
                 "phil": self.phil,
                 "scra": self.scra,
                 "offg": self.offg,
             }
         logging.error(f"Could not make docket slug: {self.docket=}")
         return None
+
+    def make_generic_row(self):
+        """Unlike `make_decision_row()`, this citation is spotted in the wild;
+        may not contain a docket or the docket not yet yet properly formatted."""
+
+        cat = None
+        if self.docket_category:
+            cat = self.docket_category.name.lower()
+
+        num = None
+        if self.docket_serial:
+            num = self.docket_serial.lower()
+
+        date = None
+        if self.docket_date:
+            date = self.docket_date.isoformat()
+
+        return {
+            "cat": cat,
+            "num": num,
+            "date": date,
+            "phil": self.phil,
+            "scra": self.scra,
+            "offg": self.offg,
+        }
 
     @classmethod
     def _set_report(cls, text: str):
