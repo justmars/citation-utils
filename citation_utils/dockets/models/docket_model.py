@@ -4,10 +4,14 @@ from typing import Self
 
 from citation_date import DOCKET_DATE_FORMAT
 from citation_report.main import is_eq
+from dateutil.parser import parse
 from pydantic import BaseModel, ConfigDict, Field
 
 from .docket_category import DocketCategory
 from .gr_clean import gr_prefix_clean
+
+DB_SERIAL_NUM = re.compile(r"^[a-z0-9-]+$")
+"""Ideally, the docket id for the database should only be alphanumeric, lowercase with dashes."""  # noqa: E501
 
 
 class Docket(BaseModel):
@@ -97,3 +101,23 @@ class Docket(BaseModel):
         if self.docket_date:
             return self.docket_date.strftime(DOCKET_DATE_FORMAT)
         return None
+
+    @classmethod
+    def from_data(cls, data: dict):
+        """Presumes data with keys: `cat`, `num`, and `date`"""
+        cat, num, date = data.get("cat"), data.get("num"), data.get("date")
+        if not cat or not num or not date:
+            raise Exception(f"Missing field for construction from {data=}")
+        return cls(
+            context="",
+            category=DocketCategory[cat.upper()],
+            ids=num,
+            docket_date=parse(date).date(),
+        )
+
+    @classmethod
+    def check_serial_num(cls, text: str) -> bool:
+        """If a serial number exists, ensure it meets criteria prior to row creation."""
+        if DB_SERIAL_NUM.search(text.lower()):
+            return True
+        return False
