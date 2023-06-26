@@ -10,15 +10,31 @@ from pydantic import BaseModel, ConfigDict, Field
 from .docket_category import DocketCategory
 from .gr_clean import gr_prefix_clean
 
-DB_SERIAL_NUM = re.compile(r"^[a-z0-9-]+$")
-"""Ideally, the docket id for the database should only be alphanumeric, lowercase with dashes."""  # noqa: E501
+DB_SERIAL_NUM = re.compile(r"^(?P<serial>[a-z0-9-]+).*$")
+"""Ideally, the docket id for the database should only be alpha-numeric, lowercase with dashes."""  # noqa: E501
 
 
 class Docket(BaseModel):
     """
-    The Docket is the modern identifier of a Supreme Court decision.
+    The `Docket` is the modern identifier of a Supreme Court decision. This data structure
+    however is not the final form of the identifier since that description belongs to the `Citation`
+    and the `CountedCitation`.
 
-    It is based on a `category`, a `serial id`, and a `date`.
+    The purpose of this intermediate structure is that a `Docket` is often paired with a `Report`, which
+    is the traditional identifier based on volume and page numbers. The pairing however is not
+    mandatory, thus needed flexibility to create structures with the following combinations of
+    the eventual Citation object:
+
+    Citation | Docket | Report
+    :--:|:--:|:--:
+    has both docket and report | yes | yes
+    only a docket | yes | no
+    only a report | no | yes
+
+    See docket_citation.DocketReportCitation to see structure of paired content.
+
+    A `Docket` is based on a `category`, a `serial id`, and a `date`. Since the serial id
+    may required
 
     Field | Type | Description
     --:|:--:|:--
@@ -32,17 +48,14 @@ class Docket(BaseModel):
     _G.R. Nos. 138570, October 10, 2000_ | GR | 74910 | October 10, 2000
     _A.M. RTJ-12-2317 (Formerly OCA I.P.I. No. 10-3378-RTJ), Jan 1, 2000_ | AM | RTJ-12-2317 |Jan 1, 2000
     _A.C. No. 10179 (Formerly CBD 11-2985), March 04, 2014_ | AC | 10179 | Mar. 4, 2014
-
-    The Docket is often paired with a Report, which is the traditional
-    identifier based on volume and page numbers.
-
-    # TODO: need further cleaning of serial_text
     """  # noqa: E501
 
     model_config = ConfigDict(use_enum_values=True)
     context: str = Field(..., description="Full text matched by regex pattern.")
     category: DocketCategory = Field(..., description="e.g. General Register, etc.")
-    ids: str = Field(..., description="May be comma-separated, e.g. '12, 32, and 41'")
+    ids: str = Field(
+        ..., description="Thismay not be May be comma-separated, e.g. '12, 32, and 41'"
+    )
     docket_date: date = Field(...)
 
     def __repr__(self) -> str:
@@ -103,21 +116,30 @@ class Docket(BaseModel):
         return None
 
     @classmethod
-    def from_data(cls, data: dict):
-        """Presumes data with keys: `cat`, `num`, and `date`"""
-        cat, num, date = data.get("cat"), data.get("num"), data.get("date")
-        if not cat or not num or not date:
-            raise Exception(f"Missing field for construction from {data=}")
-        return cls(
-            context="",
-            category=DocketCategory[cat.upper()],
-            ids=num,
-            docket_date=parse(date).date(),
-        )
-
-    @classmethod
     def check_serial_num(cls, text: str) -> bool:
         """If a serial number exists, ensure it meets criteria prior to row creation."""
         if DB_SERIAL_NUM.search(text.lower()):
             return True
         return False
+
+    @classmethod
+    def clean_serial(cls, text: str) -> str | None:
+        """Criteria:
+
+        1. Must be lowercased
+        2. Characters that can be included `a-z`, `0-9`, `-`
+        3. Must only contain a single alpha-numeric reference
+
+        Args:
+            text (str): Raw text to clean
+
+        Returns:
+            str: Cleaned serial text fit for database input.
+        """
+        text = text.lower()
+        if " " in text:
+            text = text.split()[0]
+        if match := DB_SERIAL_NUM.search(text):
+            if candidate := match.group("serial"):
+                return candidate
+        return None

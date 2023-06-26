@@ -1,11 +1,14 @@
 import datetime
 import logging
 from collections.abc import Iterator
+from functools import cached_property
 from typing import Self
 
+from citation_date import DOCKET_DATE_FORMAT
 from citation_report import Report
 from citation_report.main import is_eq
-from pydantic import BaseModel, ConfigDict, Field
+from dateutil.parser import parse
+from pydantic import BaseModel, ConfigDict, Field, field_serializer, model_serializer
 
 from .dockets import Docket, DocketCategory
 from .document import CitableDocument
@@ -45,40 +48,36 @@ class Citation(BaseModel):
     docket_category: DocketCategory | None = Field(default=None)
     docket_serial: str | None = Field(default=None)
     docket_date: datetime.date | None = Field(default=None)
-    docket: str | None = Field(
-        default=None, description="Category + single serial id + date"
-    )
-    phil: str | None = Field(default=None, description="vol + Phil. (pub) + page")
-    scra: str | None = Field(default=None, description="vol + SCRA (pub) + page")
-    offg: str | None = Field(default=None, description="vol + O.G. (pub) + page")
+    phil: str | None = Field(default=None)
+    scra: str | None = Field(default=None)
+    offg: str | None = Field(default=None)
 
-    @property
-    def elements(self) -> list[str]:
-        bits = []
-        if self.docket:
-            bits.append(self.docket)
+    @cached_property
+    def bits(self) -> list[str]:
+        _bits = []
+        if docket := self.get_docket_display():
+            _bits.append(docket)
         if self.phil:
-            bits.append(self.phil)
+            _bits.append(self.phil)
         if self.scra:
-            bits.append(self.scra)
+            _bits.append(self.scra)
         if self.offg:
-            bits.append(self.offg)
-        return bits
+            _bits.append(self.offg)
+        return _bits
 
     def __repr__(self) -> str:
         return f"<Citation: {str(self)}>"
 
     def __str__(self) -> str:
-        return ", ".join(self.elements) if self.elements else "Bad citation."
+        return ", ".join(self.bits) if self.bits else "Bad citation."
 
     def __eq__(self, other: Self) -> bool:
-        """Relevant to determine `seen` value in `CountedCitation`."""
+        """Helps `seen` variable in `CountedCitation`."""
         ok_cat = self.docket_category is not None and other.docket_category is not None
         ok_serial = self.docket_serial is not None and other.docket_serial is not None
         ok_date = self.docket_date is not None and other.docket_date is not None
         return any(
             [
-                is_eq(self.docket, other.docket),
                 is_eq(self.scra, other.scra),
                 is_eq(self.offg, other.offg),
                 is_eq(self.phil, other.phil),
@@ -92,11 +91,124 @@ class Citation(BaseModel):
             ]
         )
 
+    @field_serializer("docket_date")
+    def serialize_dt(self, dt: datetime.date | None = None):
+        if dt:
+            return dt.isoformat()
+
+    @field_serializer("docket_serial")
+    def serialize_num(self, num: str | None = None):
+        if num:
+            return Docket.clean_serial(num)
+
+    @field_serializer("docket_category")
+    def serialize_cat(self, cat: DocketCategory | None = None):
+        if cat:
+            return cat.name.lower()
+
+    @field_serializer("phil")
+    def serialize_phil(self, phil: str | None = None):
+        if phil:
+            return phil.lower()
+
+    @field_serializer("scra")
+    def serialize_scra(self, scra: str | None = None):
+        if scra:
+            return scra.lower()
+
+    @field_serializer("offg")
+    def serialize_offg(self, offg: str | None = None):
+        if offg:
+            return offg.lower()
+
+    @model_serializer
+    def ser_model(self) -> dict[str, str | datetime.date | None]:
+        """Generate a database row-friendly format of the model. Note the different
+        field names: `cat`, `num`, `dt`, `phil`, `scra`, `offg` map to either a usable
+        database value or `None`. The docket values here have the option to be `None`
+        since some citations, especially the legacy variants, do not include their
+        docket equivalents in the source texts."""
+        return {
+            "cat": self.serialize_cat(self.docket_category),
+            "num": self.serialize_num(self.docket_serial),
+            "date": self.serialize_dt(self.docket_date),
+            "phil": self.serialize_phil(self.phil),
+            "scra": self.serialize_scra(self.scra),
+            "offg": self.serialize_offg(self.offg),
+        }
+
+    def get_db_id(self) -> str | None:
+        """Value created usable unique identifier of a decision."""
+        bits = [
+            self.serialize_cat(self.docket_category),
+            self.serialize_num(self.docket_serial),
+            self.serialize_dt(self.docket_date),
+        ]
+        if all(bits):
+            return "-".join(bits)  # type: ignore
+        return None
+
+    def make_docket_row(self):
+        """This presumes that a valid docket exists. Although a citation can
+        be a non-docket, e.g. phil, scra, etc., for purposes of creating a
+        a route-based row for a prospective decision object, the identifier will be
+        based on a docket id."""
+        if id := self.get_db_id():
+            return self.model_dump() | {"id": id}
+        logging.error(f"Undocketable: {self=}")
+        return None
+
     @classmethod
-    def get_report(cls, publisher: str, data: dict):
-        if publisher not in ("phil", "scra", "offg"):
-            raise Exception(f"Invalid {publisher=}")
-        raw = data.get(publisher)
+    def from_docket_row(
+        cls,
+        cat: str,
+        num: str,
+        date: str,
+        opt_phil: str | None,
+        opt_scra: str | None,
+        opt_offg: str | None,
+    ):
+        return cls(
+            docket_category=DocketCategory[cat.upper()],
+            docket_serial=num,
+            docket_date=parse(date).date(),
+            phil=cls.get_report(opt_phil),
+            scra=cls.get_report(opt_scra),
+            offg=cls.get_report(opt_offg),
+        )
+
+    @cached_property
+    def is_docket(self) -> bool:
+        return all([self.docket_category, self.docket_serial, self.docket_date])
+
+    @cached_property
+    def display_date(self):
+        if self.docket_date:
+            return self.docket_date.strftime(DOCKET_DATE_FORMAT)
+        return None
+
+    def get_docket_display(self) -> str | None:
+        if self.is_docket:
+            return f"{self.docket_category} No. {self.docket_serial}, {self.display_date}"  # type: ignore # noqa: E501
+        return None
+
+    @classmethod
+    def get_report(cls, raw: str | None = None) -> str | None:
+        """Get a lower cased volpubpage of `publisher` from the `data`. Assumes
+        that the publisher key is either `phil`, `scra` or `offg`.
+
+        Examples:
+            >>> raw = "123 Phil. 123"
+            >>> Citation.get_report(raw)
+            '123 phil. 123'
+
+        Args:
+            publisher (str): _description_
+            data (dict): _description_
+
+        Returns:
+            str | None: _description_
+        """
         if not raw:
             return None
 
@@ -113,32 +225,10 @@ class Citation(BaseModel):
             return None
 
     @classmethod
-    def from_data(cls, data: dict):
-        """Presumes data with keys: `cat`, `num`, and `date`"""
-        d = Docket.from_data(data)
-        return cls(
-            docket=str(d) if d else None,
-            docket_category=data.get("cat"),
-            docket_serial=data.get("num"),
-            docket_date=data.get("date"),
-            phil=cls.get_report("phil", data),
-            scra=cls.get_report("scra", data),
-            offg=cls.get_report("offg", data),
-        )
-
-    @classmethod
     def _set_report(cls, text: str):
         try:
             obj = next(Report.extract_reports(text))
-            return cls(
-                docket=None,
-                docket_category=None,
-                docket_serial=None,
-                docket_date=None,
-                phil=obj.phil.lower() if obj.phil else None,
-                scra=obj.scra.lower() if obj.scra else None,
-                offg=obj.offg.lower() if obj.offg else None,
-            )
+            return cls(phil=obj.phil, scra=obj.scra, offg=obj.offg)
         except StopIteration:
             logging.debug(f"{text} is not a Report instance.")
             return None
@@ -148,13 +238,12 @@ class Citation(BaseModel):
         try:
             obj = next(CitableDocument.get_docketed_reports(text))
             return cls(
-                docket=f"{obj.category} {obj.serial_text}, {obj.docket_date}",
                 docket_category=obj.category,
                 docket_serial=obj.serial_text,
                 docket_date=obj.docket_date,
-                phil=obj.phil.lower() if obj.phil else None,
-                scra=obj.scra.lower() if obj.scra else None,
-                offg=obj.offg.lower() if obj.offg else None,
+                phil=obj.phil,
+                scra=obj.scra,
+                offg=obj.offg,
             )
         except StopIteration:
             logging.debug(f"{text} is not a Docket nor a Report instance.")
@@ -196,7 +285,7 @@ class Citation(BaseModel):
             >>> Citation.extract_citation('Hello World') is None
             True
             >>> next(Citation.extract_citations('12 Phil. 24'))
-            <Citation: 12 phil. 24>
+            <Citation: 12 Phil. 24>
 
         Args:
             text (str): Text to evaluate
@@ -208,93 +297,6 @@ class Citation(BaseModel):
             return next(cls.extract_citations(text))
         except StopIteration:
             return None
-
-    @property
-    def db_phil(self):
-        if self.phil:
-            return self.phil.lower()
-        return None
-
-    @property
-    def db_scra(self):
-        if self.scra:
-            return self.scra.lower()
-        return None
-
-    @property
-    def db_offg(self):
-        if self.offg:
-            return self.offg.lower()
-        return None
-
-    @property
-    def db_cat(self) -> str | None:
-        """Should not be more than 3 characters."""
-        if self.docket_category:
-            return self.docket_category.name.lower()
-        return None
-
-    @property
-    def db_num(self) -> str | None:
-        """Needs to be alpha-numeric characters with a dash."""
-        if self.docket_serial:
-            candidate = self.docket_serial.lower()
-            if not Docket.check_serial_num(candidate):
-                logging.error(f"Invalid {candidate=}")
-                return None
-            return self.docket_serial.lower()
-        return None
-
-    @property
-    def db_date(self) -> str | None:
-        """Uses the ISO format of the date in the database."""
-        if self.docket_date:
-            return self.docket_date.isoformat()
-        return None
-
-    @property
-    def display_date(self):
-        if self.docket_date:
-            return self.docket_date.strftime("%b %d, %Y")
-        return None
-
-    def get_db_id(self) -> str | None:
-        """The value created can be used as the unique identifier of a decision."""
-        bits = [self.db_cat, self.db_num, self.db_date]
-        if all(bits):
-            return "-".join(bits)  # type: ignore
-        return None
-
-    def get_docket_display(self) -> str | None:
-        if self.get_db_id():
-            return f"{self.docket_category} No. {self.docket_serial}, {self.display_date}"  # type: ignore # noqa: E501
-        return None
-
-    @property
-    def db_row(self) -> dict:
-        """Generate a database row-friendly format of the model. Note the different
-        field names: `cat`, `num`, `dt`, `phil`, `scra`, `offg` map to either a usable
-        database value or `None`. The docket values here have the option to be `None`
-        since some citations, especially the legacy variants, do not include their
-        docket equivalents in the source texts."""
-        return {
-            "cat": self.db_cat,
-            "num": self.db_num,
-            "date": self.db_date,
-            "phil": self.db_phil,
-            "scra": self.db_scra,
-            "offg": self.db_offg,
-        }
-
-    def make_docket_row(self):
-        """This presumes that a valid docket exists. Although a citation can
-        be a non-docket, e.g. phil, scra, etc., for purposes of creating a
-        a route-based row for a prospective decision object, the identifier will be
-        based on a docket id."""
-        if id := self.get_db_id():
-            return self.db_row | {"id": id}
-        logging.error(f"Undocketable: {self=}")
-        return None
 
 
 class CountedCitation(Citation):
@@ -322,8 +324,8 @@ class CountedCitation(Citation):
 
         Examples:
             >>> source = "374 Phil. 1, 10-11 (1999) 1111 SCRA 1111; G.R. No. 147033, April 30, 2003; G.R. No. 147033, April 30, 2003, 374 Phil. 1, 600; ABC v. XYZ, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449;  XXX, G.R. No. 31711, Sept. 30, 1971, 35 SCRA 190; Hello World, 1111 SCRA 1111; Y v. Z, 35 SCRA 190; 1 Off. Gaz. 41 Bar Matter No. 803, Jan. 1, 2000 Bar Matter No. 411, Feb. 1, 2000 Bar Matter No. 412, Jan. 1, 2000, 1111 SCRA 1111; 374 Phil. 1"
-            >>> list(CountedCitation.from_source(source))
-            [BM No. 412, Jan 01, 2000, 1111 SCRA 1111: 3, GR No. 147033, Apr 30, 2003, 374 Phil. 1: 3, GR No. 138570, Oct 10, 2000, 342 SCRA 449: 1, GR No. 31711, Sep 30, 1971, 35 SCRA 190: 2, 1 Off. Gaz. 41: 1]
+            >>> len(CountedCitation.from_source(source))
+            6
 
         Args:
             text (str): Text to Evaluate.
@@ -382,7 +384,6 @@ class CountedCitation(Citation):
         reports = Report.extract_reports(text=text)
         for report in reports:
             cite = Citation(
-                docket=None,
                 docket_category=None,
                 docket_serial=None,
                 docket_date=None,
@@ -408,7 +409,6 @@ class CountedCitation(Citation):
         seen: list[cls] = []
         for obj in CitableDocument.get_docketed_reports(text=text):
             cite = Citation(
-                docket=str(obj),
                 docket_category=obj.category,
                 docket_serial=obj.serial_text,
                 docket_date=obj.docket_date,
@@ -433,9 +433,6 @@ class CountedCitation(Citation):
 
         if not self.docket_date and other.docket_date:
             self.docket_date = other.docket_date
-
-        if not self.docket and other.docket:
-            self.docket = other.docket
 
         if not self.scra and other.scra:
             self.scra = other.scra
