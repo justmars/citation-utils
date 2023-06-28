@@ -34,44 +34,44 @@ class DocketRuleSerialNumber(Enum):
         356,
     ]
     AdminMatter = [
-        "00-2-10-sc",
-        "10-4-20-sc",
-        "02-9-02-sc",
-        "19-08-15-sc",
-        "07-7-12-sc",
-        "02-8-13-sc",
-        "02-11-10-sc",
-        "04-10-11-sc",
-        "03-06-13-sc",
-        "19-10-20-sc",
-        "99-2-02-sc",
-        "02-11-11-sc",
-        "12-12-11-sc",
-        "01-7-01-sc",
-        "00-5-03-sc",
-        "07-4-15-sc",
-        "02-2-07-sc",
-        "01-1-03-sc",
-        "02-11-12-sc",
-        "19-03-24-sc",
-        "02-6-02-sc",
-        "03-04-04-sc",
-        "03-1-09-sc",
-        "08-1-16-sc",
-        "15-08-02-sc",
+        "00-2-10-SC",
+        "10-4-20-SC",
+        "02-9-02-SC",
+        "19-08-15-SC",
+        "07-7-12-SC",
+        "02-8-13-SC",
+        "02-11-10-SC",
+        "04-10-11-SC",
+        "03-06-13-SC",
+        "19-10-20-SC",
+        "99-2-02-SC",
+        "02-11-11-SC",
+        "12-12-11-SC",
+        "01-7-01-SC",
+        "00-5-03-SC",
+        "07-4-15-SC",
+        "02-2-07-SC",
+        "01-1-03-SC",
+        "02-11-12-SC",
+        "19-03-24-SC",
+        "02-6-02-SC",
+        "03-04-04-SC",
+        "03-1-09-SC",
+        "08-1-16-SC",
+        "15-08-02-SC",
         "99-10-05-0",
-        "06-11-5-sc",
-        "03-02-05-sc",
-        "00-4-07-sc",
-        "00-8-10-sc",
-        "04-2-04-sc",
-        "12-8-8-sc",
-        "21-08-09-sc",
-        "03-05-01-sc",
-        "09-6-8-sc",
-        "05-8-26-sc",
-        "00-2-03-sc",
-        "01-8-10-sc",
+        "06-11-5-SC",
+        "03-02-05-SC",
+        "00-4-07-SC",
+        "00-8-10-SC",
+        "04-2-04-SC",
+        "12-8-8-SC",
+        "21-08-09-SC",
+        "03-05-01-SC",
+        "09-6-8-SC",
+        "05-8-26-SC",
+        "00-2-03-SC",
+        "01-8-10-SC",
     ]
 
     @property
@@ -80,7 +80,7 @@ class DocketRuleSerialNumber(Enum):
 
     @property
     def pattern(self) -> re.Pattern:
-        return re.compile(self.regex)
+        return re.compile(self.regex, re.I)
 
 
 StatutoryBM = DocketRuleSerialNumber.BarMatter.pattern
@@ -92,13 +92,29 @@ StatutoryAM = DocketRuleSerialNumber.AdminMatter.pattern
 
 def is_statutory_rule(citeable):
     """Determine if `citeable` object is a statutory pattern based on a specific
-    lising of `category` and `serial_text`."""
+    lising of `category` and `serial_text`.
+
+    Examples:
+        >>> from dateutil.parser import parse
+        >>> test_num = '19-03-24-SC' # a statute, see list
+        >>> d0 = Docket(context="", category=DocketCategory['AM'], ids=test_num, docket_date=parse("Jan. 1, 2022"))
+        >>> is_statutory_rule(d0)
+        True
+        >>> test_num = '19-03-24-sc' # a statute, see list
+        >>> d1 = Docket(context="", category=DocketCategory['AM'], ids=test_num, docket_date=parse("Jan. 1, 2022"))
+        >>> is_statutory_rule(d1)
+        True
+        >>> test_num = '19-03-00-sc' # NOT A STATUTE
+        >>> d2 = Docket(context="", category=DocketCategory['AM'], ids=test_num, docket_date=parse("Jan. 1, 2022"))
+        >>> is_statutory_rule(d2)
+        False
+    """  # noqa: E501
 
     if isinstance(citeable, Docket):  # excludes solo reports
         if citeable.category == DocketCategory.BM:
-            if StatutoryBM.search(citeable.first_id):
+            if StatutoryBM.search(citeable.serial_text):
                 return True
         elif citeable.category == DocketCategory.AM:
-            if StatutoryAM.search(citeable.first_id):
+            if StatutoryAM.search(citeable.serial_text):
                 return True
     return False
