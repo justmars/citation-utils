@@ -4,7 +4,7 @@ from typing import Self
 from .models import CitationConstructor, DocketCategory, DocketReportCitation, Num
 
 separator = r"[,\.\s-]*"
-digit = r"\d[\d-]*"  # e.g. 323-23, 343-34
+digit = r"\d[\d-]*"  # e.g. 323-23, 343-34, L
 
 
 gr_key = rf"""
