@@ -16,6 +16,7 @@ udk_key = rf"""
         {separator}
         k
         {separator}
+        -?
         \s*
         ({NUMBER_KEYWORD})?
     )
@@ -60,10 +61,14 @@ class CitationUDK(DocketReportCitation):
         """Get all dockets matching the `UDK` docket pattern, inclusive of their optional Report object.
 
         Examples:
-            >>> text = "UDK 16915, February 15, 2022"
-            >>> cite = next(CitationUDK.search(text))
+            >>> text1 = "UDK 16915, February 15, 2022"
+            >>> cite = next(CitationUDK.search(text1))
             >>> cite.model_dump(exclude_none=True)
             {'context': 'UDK 16915', 'category': 'UDK', 'ids': '16915', 'docket_date': datetime.date(2022, 2, 15)}
+            >>> text2 = "UDK-1111, February 15, 2021"
+            >>> cite2 = next(CitationUDK.search(text2))
+            >>> cite2.model_dump(exclude_none=True)
+            {'context': 'UDK-1111', 'category': 'UDK', 'ids': '1111', 'docket_date': datetime.date(2021, 2, 15)}
 
         Args:
             text (str): Text to look for citation objects

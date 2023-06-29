@@ -36,7 +36,7 @@ oca_key = rf"""
         \s*
         (
             (IPI)|(I{separator}P{separator}I{separator})
-        )
+        )?
         \s*
         {NUMBER_KEYWORD}
     )
@@ -81,10 +81,15 @@ class CitationOCA(DocketReportCitation):
         """Get all dockets matching the `OCA` docket pattern, inclusive of their optional Report object.
 
         Examples:
-            >>> text = "AM OCA IPI No. P-07-2403, Feb. 06, 2008"
-            >>> cite = next(CitationOCA.search(text))
-            >>> cite.model_dump(exclude_none=True)
+            >>> text1 = "AM OCA IPI No. P-07-2403, Feb. 06, 2008"
+            >>> cite1 = next(CitationOCA.search(text1))
+            >>> cite1.model_dump(exclude_none=True)
             {'context': 'AM OCA IPI No. P-07-2403', 'category': 'OCA', 'ids': 'P-07-2403', 'docket_date': datetime.date(2008, 2, 6)}
+            >>> text2 = "OCA IPI No. 10-3450-P, Feb. 06, 2008"
+            >>> cite2 = next(CitationOCA.search(text2))
+            >>> cite2.model_dump(exclude_none=True)
+            {'context': 'OCA IPI No. 10-3450-P', 'category': 'OCA', 'ids': '10-3450-P', 'docket_date': datetime.date(2008, 2, 6)}
+
 
         Args:
             text (str): Text to look for citation objects

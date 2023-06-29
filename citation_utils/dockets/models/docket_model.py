@@ -4,7 +4,6 @@ from typing import Self
 
 from citation_date import DOCKET_DATE_FORMAT
 from citation_report.main import is_eq
-from dateutil.parser import parse
 from pydantic import BaseModel, ConfigDict, Field
 
 from .docket_category import DocketCategory
@@ -54,7 +53,7 @@ class Docket(BaseModel):
     context: str = Field(..., description="Full text matched by regex pattern.")
     category: DocketCategory = Field(..., description="e.g. General Register, etc.")
     ids: str = Field(
-        ..., description="Thismay not be May be comma-separated, e.g. '12, 32, and 41'"
+        ..., description="This may be comma-separated, e.g. '12, 32, and 41'"
     )
     docket_date: date = Field(...)
 
@@ -88,9 +87,20 @@ class Docket(BaseModel):
             str: Singular text identifier
         """
         if x := self.first_id or self.ids:
+            x = x.rstrip("*•[]")
+            if bits := x.split():
+                if len(bits) > 1:
+                    if bits[0].isalpha() and not bits[1].startswith("-"):
+                        x = f"{bits[0]}-{bits[1]}"
+                    elif bits[0].isalpha() and bits[1].startswith("-"):  # mtj -02-1466
+                        x = f"{bits[0]}{bits[1]}"
+                    elif bits[1].isalpha() and not bits[0].endswith("-"):
+                        x = f"{bits[0]}-{bits[1]}"
+                    elif bits[1].isalpha() and bits[0].endswith("-"):  # '14061- ret'
+                        x = f"{bits[0]}{bits[1]}"
             if adjust := gr_prefix_clean(x):
                 return adjust
-        return x
+        return x.split()[0]
 
     @property
     def first_id(self) -> str:
@@ -104,7 +114,7 @@ class Docket(BaseModel):
             """If a `char` exists in the `text`, split on this value."""
             return text.split(char)[0] if char in text else None
 
-        for char in ["/", ",", ";", " and ", " AND ", "&"]:
+        for char in [" - ", "/", ",", ";", " and ", " AND ", "&"]:
             if res := first_exists(char, self.ids):
                 return res
         return self.ids

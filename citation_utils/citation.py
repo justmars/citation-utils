@@ -191,6 +191,7 @@ class Citation(BaseModel):
 
     @cached_property
     def display_date(self):
+        """This is the same as Docket@formatted_date."""
         if self.docket_date:
             return self.docket_date.strftime(DOCKET_DATE_FORMAT)
         return None
