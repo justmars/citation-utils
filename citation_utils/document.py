@@ -1,3 +1,4 @@
+import unicodedata
 from collections.abc import Iterator
 from dataclasses import dataclass
 
@@ -46,6 +47,7 @@ class CitableDocument:
     text: str
 
     def __post_init__(self):
+        self.text = unicodedata.normalize("NFKD", self.text)
         self.reports = list(Report.extract_reports(self.text))
         self.docketed_reports = list(self.get_docketed_reports(self.text))
         self.undocketed_reports = self.get_undocketed_reports()
@@ -61,7 +63,7 @@ class CitableDocument:
         Examples:
             >>> cite = next(CitableDocument.get_docketed_reports("Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449"))
             >>> cite.model_dump(exclude_none=True)
-            {'publisher': 'SCRA', 'volume': '342', 'page': '449', 'volpubpage': '342 SCRA 449', 'context': 'G.R. Nos. 138570, 138572, 138587, 138680, 138698', 'category': 'GR', 'ids': '138570, 138572, 138587, 138680, 138698', 'docket_date': datetime.date(2000, 10, 10)}
+            {'publisher': 'SCRA', 'volume': '342', 'page': '449', 'context': 'G.R. Nos. 138570, 138572, 138587, 138680, 138698', 'category': 'GR', 'ids': '138570, 138572, 138587, 138680, 138698', 'docket_date': datetime.date(2000, 10, 10)}
             >>> statutory_text = "Bar Matter No. 803, Jan. 1, 2000"
             >>> next(CitableDocument.get_docketed_reports(statutory_text)) # default
             Traceback (most recent call last):
@@ -74,6 +76,7 @@ class CitableDocument:
         Yields:
             Iterator[DocketReport]: Any of custom `Docket` with `Report` types, e.g. `CitationAC`, etc.
         """  # noqa: E501
+        text = unicodedata.normalize("NFKD", text)
         for search_func in (
             CitationAC.search,
             CitationAM.search,
