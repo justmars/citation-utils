@@ -314,6 +314,18 @@ class CountedCitation(Citation):
     def __repr__(self) -> str:
         return f"{str(self)}: {self.mentions}"
 
+    @model_serializer
+    def ser_model(self) -> dict[str, str | datetime.date | int | None]:
+        return {
+            "cat": self.serialize_cat(self.docket_category),
+            "num": self.serialize_num(self.docket_serial),
+            "date": self.serialize_dt(self.docket_date),
+            "phil": self.serialize_phil(self.phil),
+            "scra": self.serialize_scra(self.scra),
+            "offg": self.serialize_offg(self.offg),
+            "mentions": self.mentions,
+        }
+
     @classmethod
     def from_source(cls, text: str) -> list[Self]:
         """Computes mentions of `counted_dockets()` vis-a-vis `counted_reports()` and
@@ -349,10 +361,14 @@ class CountedCitation(Citation):
         """Generate their pydantic counterparts from `<cat> <id>: <mentions>` format.
 
         Examples:
-            >>> repr_texts = ['BM No. 412, Jan 01, 2000, 1111 SCRA 1111: 3', 'GR No. 147033, Apr 30, 2003, 374 Phil. 1: 3']
+            >>> repr_texts = ['BM No. 412, Jan 01, 2000, 1111 SCRA 1111: 3', 'GR No. 147033, Apr 30, 2003, 374 Phil. 1: 1']
             >>> results = list(CountedCitation.from_repr_format(repr_texts))
             >>> len(results)
             2
+            >>> results[0].model_dump()
+            {'cat': 'bm', 'num': '412', 'date': '2000-01-01', 'phil': None, 'scra': '1111 scra 1111', 'offg': None, 'mentions': 3}
+            >>> results[1].model_dump()
+            {'cat': 'gr', 'num': '147033', 'date': '2003-04-30', 'phil': '374 phil. 1', 'scra': None, 'offg': None, 'mentions': 1}
 
         Args:
             repr_texts (str): list of texts having `__repr__` format of a `CountedRule`
