@@ -43,7 +43,7 @@ class Citation(BaseModel):
     None | `offg` | optional (str) | combined `volume` O.G. `page`
     """  # noqa: E501
 
-    model_config = ConfigDict(use_enum_values=True, str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True)
     docket_category: DocketCategory | None = Field(default=None, alias="cat")
     docket_serial: str | None = Field(default=None, alias="num")
     docket_date: datetime.date | None = Field(default=None, alias="date")

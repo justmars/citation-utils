@@ -3,7 +3,9 @@ from collections.abc import Iterator
 from typing import Self
 
 from citation_report import Report
+from pydantic import field_serializer
 
+from .docket_category import DocketCategory
 from .docket_model import Docket
 
 

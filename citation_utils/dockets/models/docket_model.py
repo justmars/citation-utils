@@ -4,7 +4,7 @@ from typing import Self
 
 from citation_date import DOCKET_DATE_FORMAT
 from citation_report.main import is_eq
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_serializer
 
 from .docket_category import DocketCategory
 from .gr_clean import gr_prefix_clean
@@ -49,7 +49,6 @@ class Docket(BaseModel):
     _A.C. No. 10179 (Formerly CBD 11-2985), March 04, 2014_ | AC | 10179 | Mar. 4, 2014
     """  # noqa: E501
 
-    model_config = ConfigDict(use_enum_values=True)
     context: str = Field(..., description="Full text matched by regex pattern.")
     category: DocketCategory = Field(..., description="e.g. General Register, etc.")
     ids: str = Field(
