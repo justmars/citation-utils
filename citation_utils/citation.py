@@ -307,6 +307,94 @@ class Citation(BaseModel):
         except StopIteration:
             return None
 
+    @classmethod
+    def create_docket_slug(cls, v: str) -> str | None:
+        """Given a docket string, format the string into a slug
+        that can be a database primary key.
+
+        Examples:
+            >>> text = "GR 138570, Oct. 10, 2000"
+            >>> Citation.create_docket_slug(text)
+            'gr-138570-2000-10-10'
+
+        Args:
+            v (str): The text to evaluate
+
+        Returns:
+            str | None: The slug to use, if possible.
+        """
+        if cite := cls.extract_citation(v):
+            if cite.is_docket:
+                return "-".join(
+                    [
+                        cite.docket_category.name.lower(),  # type: ignore
+                        cite.docket_serial.lower(),  # type: ignore
+                        cite.docket_date.isoformat(),  # type: ignore
+                    ]
+                )
+        return None
+
+    @classmethod
+    def make_citation_string(
+        cls,
+        cat: str,
+        num: str,
+        date: str,
+        phil: str | None = None,
+        scra: str | None = None,
+        offg: str | None = None,
+    ) -> str | None:
+        """Assume that because of citation-utils, the extracted values are inputted into a database.
+
+        When the values are pulled from the database, it becomes necessary to convert these database (lowercased) values
+        to a unified properly-cased citation string with readable date (vs. isoformat db-counterpart).
+
+        Examples:
+            >>> Citation.make_citation_string(cat='gr', num='111', date='2000-01-01', phil='100 phil. 100', scra='122 scra 100-a')
+            'G.R. No. 111, Jan. 1, 2000, 100 Phil. 100, 122 SCRA 100-A'
+
+        Args:
+            cat (str): The shorthand code for docket category
+            num (str): The serial identifier of the docket category
+            date (str): The date of `cat` + `num`
+            phil (str | None, optional): Phil. Reports. Defaults to None.
+            scra (str | None, optional): Supreme Court Reports Annotated. Defaults to None.
+            offg (str | None, optional): Official Gazette. Defaults to None.
+
+        Returns:
+            str | None: The combination of citation bits.
+        """  # noqa: E501
+        bits = [
+            phil.title().split() if phil else None,
+            scra.upper().split() if scra else None,
+            offg.upper().split() if offg else None,
+        ]
+        cased_bits = [
+            f"{bit[0].upper()} {bit[1]} {bit[2].upper()}" for bit in bits if bit
+        ]
+        reports = ", ".join(cased_bits) if any(bits) else None
+        dt = datetime.date.fromisoformat(date).strftime("%b. %-d, %Y")
+        match cat:
+            case "gr":
+                prefix = "G.R."
+            case "am":
+                prefix = "A.M."
+            case "ac":
+                prefix = "A.C."
+            case "bm":
+                prefix = "B.M."
+            case "udk":
+                prefix = "UDK"
+            case "jib":
+                prefix = "JIB-FPI"
+            case "oca":
+                prefix = "OCA IPI"
+            case _:
+                return None
+        docket = f"{prefix} No. {num.upper()}"
+        bits = [bit for bit in [docket, dt, reports] if bit]
+        return ", ".join(bits)
+
 
 class CountedCitation(Citation):
     mentions: int = Field(default=1, description="Get count via Citation __eq__")

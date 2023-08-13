@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "citation_utils"
-version = "0.4.8"
+version = "0.4.9"
 description = "Pattern matching Philippine Supreme Court citations."
 authors = ["Marcelino G. Veloso III <contact@mv3.dev>"]
 homepage = "https://lawsql.com"
