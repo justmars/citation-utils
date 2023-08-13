@@ -145,8 +145,15 @@ class Citation(BaseModel):
             "offg": self.serialize_offg(self.offg),
         }
 
-    def get_db_id(self) -> str | None:
-        """Value created usable unique identifier of a decision."""
+    def set_slug(self) -> str | None:
+        """Create a unique identifier of a decision.
+
+        Examples:
+            >>> text = "GR 138570, Oct. 10, 2000"
+            >>> Citation.extract_citation(text).set_slug()
+            'gr-138570-2000-10-10'
+
+        """
         bits = [
             self.serialize_cat(self.docket_category),
             self.serialize_num(self.docket_serial),
@@ -156,12 +163,33 @@ class Citation(BaseModel):
             return "-".join(bits)  # type: ignore
         return None
 
+    @classmethod
+    def get_docket_slug_from_text(cls, v: str) -> str | None:
+        """Given a docket string, format the string into a slug
+        that has the same signature as a database primary key.
+
+        Examples:
+            >>> text = "GR 138570, Oct. 10, 2000"
+            >>> Citation.get_docket_slug_from_text(text)
+            'gr-138570-2000-10-10'
+
+        Args:
+            v (str): The text to evaluate
+
+        Returns:
+            str | None: The slug to use, if possible.
+        """
+        if cite := cls.extract_citation(v):
+            if cite.is_docket:
+                return cite.set_slug()
+        return None
+
     def make_docket_row(self):
         """This presumes that a valid docket exists. Although a citation can
         be a non-docket, e.g. phil, scra, etc., for purposes of creating a
         a route-based row for a prospective decision object, the identifier will be
         based on a docket id."""
-        if id := self.get_db_id():
+        if id := self.set_slug():
             return self.model_dump() | {"id": id}
         logging.error(f"Undocketable: {self=}")
         return None
@@ -306,33 +334,6 @@ class Citation(BaseModel):
             return next(cls.extract_citations(text))
         except StopIteration:
             return None
-
-    @classmethod
-    def create_docket_slug(cls, v: str) -> str | None:
-        """Given a docket string, format the string into a slug
-        that can be a database primary key.
-
-        Examples:
-            >>> text = "GR 138570, Oct. 10, 2000"
-            >>> Citation.create_docket_slug(text)
-            'gr-138570-2000-10-10'
-
-        Args:
-            v (str): The text to evaluate
-
-        Returns:
-            str | None: The slug to use, if possible.
-        """
-        if cite := cls.extract_citation(v):
-            if cite.is_docket:
-                return "-".join(
-                    [
-                        cite.docket_category.name.lower(),  # type: ignore
-                        cite.docket_serial.lower(),  # type: ignore
-                        cite.docket_date.isoformat(),  # type: ignore
-                    ]
-                )
-        return None
 
     @classmethod
     def make_citation_string(
