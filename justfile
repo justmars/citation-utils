@@ -1,3 +1,5 @@
+set dotenv-load
+
 # create .venv
 start:
   python -m venv .venv && \
@@ -7,6 +9,11 @@ start:
     --editable '.[dev]' \
     --require-virtualenv \
     --verbose
+
+# create .env file from example
+dumpenv:
+  op inject -i env.example -o .env
+
 
 # upload to pypi
 publish:
