@@ -226,7 +226,9 @@ class Citation(BaseModel):
 
     def get_docket_display(self) -> str | None:
         if self.is_docket:
-            return f"{self.docket_category} No. {self.docket_serial}, {self.display_date}"  # type: ignore # noqa: E501
+            return (
+                f"{self.docket_category} No. {self.docket_serial}, {self.display_date}"  # type: ignore # noqa: E501
+            )
         return None
 
     @classmethod
@@ -390,6 +392,8 @@ class Citation(BaseModel):
                 prefix = "JIB-FPI"
             case "oca":
                 prefix = "OCA IPI"
+            case "pet":
+                prefix = "P.E.T."
             case _:
                 return None
         docket = f"{prefix} No. {num.upper()}"
@@ -469,7 +473,7 @@ class CountedCitation(Citation):
             counted_bits = text.split(":")
             if len(counted_bits) == 2:
                 if cite := cls.extract_citation(counted_bits[0].strip()):
-                    citation = CountedCitation(
+                    citation = cls(
                         cat=cite.docket_category,
                         num=cite.docket_serial,
                         date=cite.docket_date,
@@ -516,7 +520,7 @@ class CountedCitation(Citation):
                 offg=obj.offg,
             )
             if cite not in seen:
-                seen_citation = CountedCitation(
+                seen_citation = cls(
                     cat=cite.docket_category,
                     num=cite.docket_serial,
                     date=cite.docket_date,
