@@ -7,7 +7,14 @@ from typing import Self
 from citation_date import DOCKET_DATE_FORMAT
 from citation_report import Report
 from dateutil.parser import parse
-from pydantic import BaseModel, ConfigDict, Field, field_serializer, model_serializer
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    FieldSerializationInfo,
+    field_serializer,
+    model_serializer,
+)
 
 from .dockets import Docket, DocketCategory
 from .document import CitableDocument
@@ -100,34 +107,34 @@ class Citation(BaseModel):
         )
 
     @field_serializer("docket_date")
-    def serialize_dt(self, dt: datetime.date | None = None):
-        if dt:
-            return dt.isoformat()
+    def serialize_dt(self, value: datetime.date | None):
+        if value:
+            return value.isoformat()
 
     @field_serializer("docket_serial")
-    def serialize_num(self, num: str | None = None):
-        if num:
-            return Docket.clean_serial(num)
+    def serialize_num(self, value: str | None):
+        if value:
+            return Docket.clean_serial(value)
 
     @field_serializer("docket_category")
-    def serialize_cat(self, cat: DocketCategory | None = None):
-        if cat:
-            return cat.name.lower()
+    def serialize_cat(self, value: DocketCategory | None):
+        if value:
+            return value.name.lower()
 
     @field_serializer("phil")
-    def serialize_phil(self, phil: str | None = None):
-        if phil:
-            return phil.lower()
+    def serialize_phil(self, value: str | None):
+        if value:
+            return value.lower()
 
     @field_serializer("scra")
-    def serialize_scra(self, scra: str | None = None):
-        if scra:
-            return scra.lower()
+    def serialize_scra(self, value: str | None):
+        if value:
+            return value.lower()
 
     @field_serializer("offg")
-    def serialize_offg(self, offg: str | None = None):
-        if offg:
-            return offg.lower()
+    def serialize_offg(self, value: str | None):
+        if value:
+            return value.lower()
 
     @model_serializer
     def ser_model(self) -> dict[str, str | datetime.date | None]:
@@ -135,7 +142,15 @@ class Citation(BaseModel):
         field names: `cat`, `num`, `dt`, `phil`, `scra`, `offg` map to either a usable
         database value or `None`. The docket values here have the option to be `None`
         since some citations, especially the legacy variants, do not include their
-        docket equivalents in the source texts."""
+        docket equivalents in the source texts.
+
+        Examples:
+            >>> text = "OCA IPI No. 10-3450-P, Feb. 06, 2008"
+            >>> cite = Citation.extract_citation(text)
+            >>> cite.model_dump_json()
+            '{"cat":"oca","num":"10-3450-p","date":"2008-02-06","phil":null,"scra":null,"offg":null}'
+
+        """
         return {
             "cat": self.serialize_cat(self.docket_category),
             "num": self.serialize_num(self.docket_serial),

@@ -1,7 +1,7 @@
 [project]
 name = "citation-utils"
 description = "Pattern matching Philippine Supreme Court citations."
-version = "0.4.11"
+version = "0.4.12"
 requires-python = ">=3.11"
 dependencies = [
   "citation-report >= 0.1.7",
@@ -16,11 +16,10 @@ dev = [
   "twine >= 4.0.2",
 ]
 
-
 [tool.pytest.ini_options]
 minversion = "8.2"
 addopts = "-ra -q -vv --cov --doctest-modules"
-testpaths = ["src","tests"]
+testpaths = ["src","tests","citation_utils"]
 filterwarnings = ["ignore::DeprecationWarning"]
 
 [tool.ruff]
