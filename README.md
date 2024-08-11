@@ -1,6 +1,6 @@
 # citation-utils
 
-![Github CI](https://github.com/justmars/citation-utils/actions/workflows/main.yml/badge.svg)
+![Github CI](https://github.com/justmars/citation-utils/actions/workflows/ci.yml/badge.svg)
 
 Regex formula of Philippine Supreme Court citations in docket format (with reports); utilized in the [LawSQL dataset](https://lawsql.com).
 
