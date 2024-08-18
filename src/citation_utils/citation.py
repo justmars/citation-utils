@@ -11,9 +11,8 @@ from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
-    FieldSerializationInfo,
     field_serializer,
-    model_serializer,
+    model_serializer
 )
 
 from .dockets import Docket, DocketCategory
