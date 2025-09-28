@@ -300,7 +300,6 @@ dev = [
     { name = "notebook" },
     { name = "pytest" },
     { name = "pytest-cov" },
-    { name = "types-python-dateutil" },
 ]
 
 [package.metadata]
@@ -315,7 +314,6 @@ dev = [
     { name = "notebook", specifier = ">=7.4.3" },
     { name = "pytest", specifier = ">=8.4" },
     { name = "pytest-cov", specifier = ">=5.0" },
-    { name = "types-python-dateutil", specifier = ">=2.9.0.20250822" },
 ]
 
 [[package]]
