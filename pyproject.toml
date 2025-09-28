@@ -1,29 +1,28 @@
 [project]
 name = "citation-utils"
+version = "0.5.0"
 description = "Pattern matching Philippine Supreme Court citations."
-version = "0.4.14"
-requires-python = ">=3.11"
+readme = "README.md"
+requires-python = ">=3.13"
 dependencies = [
-  "citation-report >= 0.1.7",
+    "citation-report >= 0.2.0",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
-  "ipykernel >= 6.29",
-  # testing
-  "pytest >= 8.3",
-  "pytest-cov >= 5.0",
-  # docs
-  "mkdocs >= 1.6.0",
-  "mkdocstrings [python] >= 0.25.1",
-  "mkdocs-material >= 9.5",
-  # package
-  "build >= 1.2.1",
-  "twine >= 5.1.1"
+    "jupyter >= 1.1.1",
+    "notebook >= 7.4.3",
+    # docs
+    "mkdocs >= 1.6.1",
+    "mkdocs-material >= 9.6.20",
+    "mkdocstrings[python] >= 0.30.1",
+      # testing
+    "pytest >= 8.4",
+    "pytest-cov >= 5.0",
 ]
 
 [tool.pytest.ini_options]
-minversion = "8.3"
+minversion = "8.4"
 addopts = "-ra -q -vv --cov --doctest-modules"
 testpaths = ["src", "tests"]
 

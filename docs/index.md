@@ -30,7 +30,7 @@ _Bagong Alyansang..._ | `gr` | 138570 | 2000-10-10 | - | 342 SCRA 449 | -
 
 ## Citation
 
-The `Report` Model from [citation-report](https://github.com/justmars/citation-report) is only one part of a Philippine Supreme Court citation. This library will handle the patterns involved with respect to the [Docket][docket-model], for the purpose of creating a [Citation][citation].
+The `Report` Model from [citation-report](https://github.com/justmars/citation-report) is only one part of a Philippine Supreme Court citation. This library will handle the patterns involved with respect to the `Docket`, for the purpose of creating a `Citation`.
 
 ::: citation_utils.Citation
 

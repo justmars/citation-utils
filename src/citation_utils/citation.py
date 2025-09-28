@@ -7,13 +7,7 @@ from typing import Self
 from citation_date import DOCKET_DATE_FORMAT
 from citation_report import Report
 from dateutil.parser import parse
-from pydantic import (
-    BaseModel,
-    ConfigDict,
-    Field,
-    field_serializer,
-    model_serializer
-)
+from pydantic import BaseModel, ConfigDict, Field, field_serializer, model_serializer
 
 from .dockets import Docket, DocketCategory
 from .document import CitableDocument
@@ -256,8 +250,7 @@ class Citation(BaseModel):
             '123 phil. 123'
 
         Args:
-            publisher (str): _description_
-            data (dict): _description_
+            raw (str): Text to examine
 
         Returns:
             str | None: _description_
@@ -505,7 +498,7 @@ class CountedCitation(Citation):
         a `seen` list. This will also populate the the unique records with missing
         values.
         """
-        seen: list[cls] = []
+        seen: list[cls] = []  # type: ignore
         reports = Report.extract_reports(text=text)
         for report in reports:
             cite = Citation(phil=report.phil, scra=report.scra, offg=report.offg)
@@ -523,7 +516,7 @@ class CountedCitation(Citation):
         a `seen` list. Will populate unique records with missing values.
         """
 
-        seen: list[cls] = []
+        seen: list[cls] = []  # type: ignore
         for obj in CitableDocument.get_docketed_reports(text=text):
             cite = Citation(
                 cat=obj.category,

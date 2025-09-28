@@ -29,11 +29,12 @@ class DocketCategory(StrEnum):
 
     > 11.3.1. Redocketed numbers
     >
-    > Some cases may have an undocketed (UDK) number and may be redocketed and assigned a
-    General Register (G.R.) number upon payment of the required docket fees. Still other cases may have
-    a docket number starting with OCA IPI or JIB and may be redocketed as Administrative Matters (A.M.),
-    while Commission on Bar Discipline (CBD) cases may be redocketed as Administrative Cases (A.C.).
-    These must still be reflected in all court resolutions, orders, and decisions. x x x
+    > Some cases may have an undocketed (UDK) number and may be redocketed and assigned
+    a General Register (G.R.) number upon payment of the required docket fees. Still
+    other cases may have a docket number starting with OCA IPI or JIB and may be
+    redocketed as Administrative Matters (A.M.), while Commission on Bar Discipline
+    (CBD) cases may be redocketed as Administrative Cases (A.C.). These must still be
+    reflected in all court resolutions, orders, and decisions. x x x
     """
 
     GR = "General Register"

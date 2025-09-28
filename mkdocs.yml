@@ -1,8 +1,9 @@
-site_name: citation-utils Docs
-site_description: Pattern matching Philippine Supreme Court citations.
+site_name: Citation Utilities Docs
+site_description: |
+  Pattern matching Philippine Supreme Court citations.
 site_url: https://lawsql.com
 site_author: Marcelino Veloso III
-repo_url: https://github.com/justmars/citation-utils
+repo_url: https://github.com/justmars/citation-date
 dev_addr: '127.0.0.1:8001'
 theme:
   name: "material"
@@ -38,7 +39,6 @@ extra:
       name: mv on Mastodon
 copyright: Copyright &copy; Marcelino Veloso III
 plugins:
-  - autorefs
   - mkdocstrings:
       handlers:
         python:
@@ -47,6 +47,9 @@ plugins:
             show_category_heading: true
             show_source: true
             heading_level: 3
+            inherited_members: true # added
+            extra:
+              crossref: true   # <-- move crossref here
   - search:
       lang: en
 markdown_extensions:
@@ -69,11 +72,9 @@ markdown_extensions:
   - pymdownx.snippets
   - pymdownx.tabbed:
       alternate_style: true
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.emoji
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
+          format: pymdownx.superfences.fence_code_format
