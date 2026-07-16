@@ -5,14 +5,13 @@ from pathlib import Path
 import pytest
 
 from citation_utils import (
-    Citation,
     CitableDocument,
+    Citation,
     CountedCitation,
     Docket,
     extract_docket_meta,
 )
 from citation_utils.dockets import DocketCategory
-
 
 FIXTURES = json.loads(
     (Path(__file__).parent / "fixtures" / "citation_regressions.json").read_text()
@@ -20,7 +19,9 @@ FIXTURES = json.loads(
 
 
 def compact(citation):
-    return {key: value for key, value in citation.model_dump().items() if value is not None}
+    return {
+        key: value for key, value in citation.model_dump().items() if value is not None
+    }
 
 
 @pytest.mark.parametrize("fixture", FIXTURES["normalization"])
@@ -49,7 +50,9 @@ def test_statutory_exclusion_is_an_exact_canonical_serial_match(fixture):
     citations = list(CitableDocument.get_docketed_reports(fixture["source"]))
 
     assert bool(citations) is not fixture["excluded"]
-    assert len(list(CitableDocument.get_docketed_reports(fixture["source"], False))) == 1
+    assert (
+        len(list(CitableDocument.get_docketed_reports(fixture["source"], False))) == 1
+    )
 
 
 @pytest.mark.parametrize("fixture", FIXTURES["reports"])
@@ -65,17 +68,48 @@ def test_qualified_official_gazette_forms_survive_normalization(fixture):
     [
         (
             "100 SCRA 1; G.R. No. 1, Jan. 1, 2000, 100 SCRA 1",
-            [{"cat": "gr", "num": "1", "date": "2000-01-01", "scra": "100 scra 1", "mentions": 2}],
+            [
+                {
+                    "cat": "gr",
+                    "num": "1",
+                    "date": "2000-01-01",
+                    "scra": "100 scra 1",
+                    "mentions": 2,
+                }
+            ],
         ),
         (
             "G.R. No. 1, Jan. 1, 2000, 100 SCRA 1; 100 SCRA 1",
-            [{"cat": "gr", "num": "1", "date": "2000-01-01", "scra": "100 scra 1", "mentions": 2}],
+            [
+                {
+                    "cat": "gr",
+                    "num": "1",
+                    "date": "2000-01-01",
+                    "scra": "100 scra 1",
+                    "mentions": 2,
+                }
+            ],
         ),
         (
-            "G.R. No. 1, Jan. 1, 2000, 100 SCRA 1; G.R. No. 2, Jan. 2, 2000, 100 SCRA 1; 100 SCRA 1",
+            (
+                "G.R. No. 1, Jan. 1, 2000, 100 SCRA 1; "
+                "G.R. No. 2, Jan. 2, 2000, 100 SCRA 1; 100 SCRA 1"
+            ),
             [
-                {"cat": "gr", "num": "1", "date": "2000-01-01", "scra": "100 scra 1", "mentions": 1},
-                {"cat": "gr", "num": "2", "date": "2000-01-02", "scra": "100 scra 1", "mentions": 1},
+                {
+                    "cat": "gr",
+                    "num": "1",
+                    "date": "2000-01-01",
+                    "scra": "100 scra 1",
+                    "mentions": 1,
+                },
+                {
+                    "cat": "gr",
+                    "num": "2",
+                    "date": "2000-01-02",
+                    "scra": "100 scra 1",
+                    "mentions": 1,
+                },
                 {"scra": "100 scra 1", "mentions": 1},
             ],
         ),
@@ -99,23 +133,35 @@ def test_report_first_occurrence_keeps_its_position_when_later_linked_to_one_doc
 
 
 def test_extraction_is_unique_while_counting_retains_duplicate_source_mentions():
-    source = "100 SCRA 1; 100 SCRA 1; G.R. No. 1, Jan. 1, 2000; G.R. No. 1, Jan. 1, 2000"
+    source = (
+        "100 SCRA 1; 100 SCRA 1; G.R. No. 1, Jan. 1, 2000; G.R. No. 1, Jan. 1, 2000"
+    )
 
     assert len(list(Citation.extract_citations(source))) == 2
-    assert [citation.mentions for citation in CountedCitation.from_source(source)] == [2, 2]
+    assert [citation.mentions for citation in CountedCitation.from_source(source)] == [
+        2,
+        2,
+    ]
 
 
 def test_model_round_trip_equality_and_rendering_are_safe_and_structural():
-    citation = Citation(cat="gr", num="L-I9863", date="1964-04-29", offg="47 O.G. Supp. 43")
+    citation = Citation(
+        cat="gr", num="L-I9863", date="1964-04-29", offg="47 O.G. Supp. 43"
+    )
 
     assert Citation(**citation.model_dump()) == citation
     assert citation != None  # noqa: E711
     assert Docket.clean_serial("L-I9863", "gr") == "l-19863"
-    docket = Docket(context="", category=DocketCategory.GR, ids="1", docket_date=date(2000, 1, 1))
+    docket = Docket(
+        context="", category=DocketCategory.GR, ids="1", docket_date=date(2000, 1, 1)
+    )
     assert docket != None  # noqa: E711
-    assert Citation.make_citation_string(
-        "gr", "L-I9863", "1964-04-29", offg="47 o.g. supp. 43"
-    ) == "G.R. No. L-19863, Apr. 29, 1964, 47 O.G. Supp. 43"
+    assert (
+        Citation.make_citation_string(
+            "gr", "L-I9863", "1964-04-29", offg="47 o.g. supp. 43"
+        )
+        == "G.R. No. L-19863, Apr. 29, 1964, 47 O.G. Supp. 43"
+    )
 
 
 def test_derived_properties_do_not_become_stale_after_model_mutation():
