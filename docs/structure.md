@@ -2,11 +2,12 @@
 icon: lucide/files
 ---
 
-# Docket Types
+# Docket Types and Normalization
 
-A docket has three normalized components: a category, the first serial in the
-matched reference, and its decision date. The `Citation` model exposes them as
-`cat`, `num`, and `date` when serialized.
+A docket record has three components: a category, a serial, and a decision
+date. Together they form the primary docket identity used for grouping. A
+published-report reference may be attached to that record, but a report alone
+is not assumed to identify a particular docket.
 
 | Code | Category | Typical source form |
 | --- | --- | --- |
@@ -19,10 +20,14 @@ matched reference, and its decision date. The `Citation` model exposes them as
 | `jib` | Judicial Integrity Board | `JIB-FPI No. 21-001` |
 | `udk` | Undocketed | `UDK No. 12345` |
 
-## Normalization
+## What normalization changes
 
-`Docket` holds the source match before it becomes a `Citation`. It preserves
-the matched `context`, the original `ids`, and the parsed `docket_date`.
+Normalization makes records comparable and database-safe:
+
+- category codes serialize in lower case (`gr`, `am`);
+- serials serialize in lower case with hyphens (`oca-00-01`);
+- dates serialize as ISO dates (`1997-07-28`); and
+- a multi-serial reference uses its first serial in the normalized record.
 
 ```python
 from citation_utils import Citation
@@ -34,16 +39,42 @@ assert citation.set_slug() == "gr-138570-2000-10-10"
 assert citation.get_docket_display() == "GR No. 138570, Oct. 10, 2000"
 ```
 
-Serials are lowercased and reduced to the first serial for database identifiers.
-For multiple serials, redocketing history, and other display nuances, keep the
-source citation or use a lower-level docket result rather than reconstructing
-the full source from the normalized identifier.
+The source text remains important. A normalized first serial is a practical
+indexing value, not a substitute for a multi-number citation, a redocketing
+history, or a document's official caption.
 
-## Docket Reports
+## Bounded OCR handling
 
-Each concrete docket matcher produces a `DocketReportCitation`, which combines
-the docket fields with the report fields supplied by `citation-report`. The
-string form includes whichever side was found:
+The implementation repairs only known forms that have a clear canonical
+result. Examples include legacy G.R. serial forms such as `L-I9863`,
+`L-L8432`, `I-47629`, and `L-No. 40004`. It also recognizes dotted category-like
+serial components such as `O.C.A.-00-01`.
+
+The implementation does not turn arbitrary punctuation into an identifier:
+malformed serials such as `---` and `1--` are rejected. These rules reduce
+false matches in noisy material but cannot validate an OCR transcription. For
+legal review, compare the original document before relying on a repaired form.
+
+## Category ownership
+
+Some serial shapes can look like a General Register number even when they are
+part of another category. Category context takes priority:
+
+| Source text | Normalized result |
+| --- | --- |
+| `A.C. No. L-363, Jan. 1, 2000` | A.C. record only |
+| `Bar Matter No. L-363, Jan. 1, 2000` | B.M. record only |
+| `CA G.R. No. L-363, Jan. 1, 2000` | no Supreme Court record |
+| `L-363, Jan. 1, 2000` | G.R. record |
+
+This prevents a nested or non-Supreme-Court label from producing an additional
+phantom G.R. record.
+
+## Docket reports
+
+Each concrete matcher produces a `DocketReportCitation`: the docket fields
+plus the report fields supplied by `citation-report`. Use it when the full
+matched context matters:
 
 ```python
 from citation_utils import CitableDocument
@@ -54,10 +85,11 @@ result = next(
     )
 )
 
+assert result.context == "G.R. No. 147033"
 assert str(result) == "GR No. 147033, Apr. 30, 2003, 374 Phil. 1"
 ```
 
 The individual `CitationGR`, `CitationAM`, `CitationAC`, `CitationBM`,
 `CitationPET`, `CitationOCA`, `CitationJIB`, and `CitationUDK` classes are
 matcher implementations. Prefer `Citation` or `CitableDocument` unless a
-caller specifically needs one category's regex result.
+caller specifically needs a category-specific result.

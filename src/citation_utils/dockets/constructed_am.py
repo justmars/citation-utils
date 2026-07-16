@@ -167,5 +167,5 @@ class CitationAM(DocketReportCitation):
         Yields:
             Iterator[Self]: Combination of Docket and Report pydantic model.
         """  # noqa E501
-        for result in constructed_am.detect(text):
-            yield cls(**result)
+        for result in constructed_am.detect_with_spans(text):
+            yield cls.from_detected(result)

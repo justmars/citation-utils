@@ -37,8 +37,11 @@ Build the static site without starting a server:
 uv run zensical build --clean --strict
 ```
 
-Documentation explains the public extraction workflow and data shapes. Keep
-regex implementation detail close to the fixture that proves it, rather than
+Documentation explains the public extraction workflow, source-review limits,
+and data shapes. Write it for both a lawyer evaluating what a result means and
+a developer integrating the API: distinguish source evidence from normalized
+indexing data, and state ordering/counting behavior explicitly. Keep regex
+implementation detail close to the fixture that proves it, rather than
 expanding generated API reference pages.
 
 ## Notebook Example
@@ -64,3 +67,11 @@ uv run marimo check notebooks/*.py
 When extending a docket pattern, add a focused regression for the observed
 form and nearby rejection cases. Keep documented serialization aliases stable:
 `cat`, `num`, `date`, `phil`, `scra`, and `offg`.
+
+The JSON corpus at `tests/fixtures/citation_regressions.json` is the shared
+decision record for document-derived errors. Mark a row `observed` only when
+the source text was actually reviewed; use `synthetic` for the neighboring
+acceptance and rejection boundaries that make the intended rule explicit. A
+corpus screenshot or frequency count is discovery evidence only; the fixture
+should quote the text form being tested and must not be presented as direct
+proof of the original court document.

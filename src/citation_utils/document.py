@@ -1,7 +1,8 @@
+import re
 from collections.abc import Iterator
 from dataclasses import dataclass
 
-from citation_report import Report, normalize_report_text
+from citation_report import REPORT_PATTERN, Report, normalize_report_text
 
 from .dockets import (
     CitationAC,
@@ -15,6 +16,7 @@ from .dockets import (
     DocketReport,
     is_statutory_rule,
 )
+from .identity import CitationParts, aggregate_occurrences, render_parts
 
 
 @dataclass
@@ -25,7 +27,7 @@ class CitableDocument:
     :--:|:--:
     `@docketed_reports` | list of `DocketReportCitation` found in the text, excluding exceptional statutory dockets
     `@reports` | list of `Report` found in the text (which may already be included in `@docketed_reports`)
-    `@undocketed_reports` | = `@docketed_reports` - `@reports`
+    `@undocketed_reports` | reports not attached to any docket match
 
     Examples:
         >>> text_statutes = "Bar Matter No. 803, Jan. 1, 2000; Bar Matter No. 411, Feb. 1, 2000"
@@ -49,6 +51,13 @@ class CitableDocument:
         self.text = normalize_report_text(self.text)
         self.reports = list(Report.extract_reports(self.text))
         self.docketed_reports = list(self.get_docketed_reports(self.text))
+        self._report_occurrences = list(
+            zip(
+                (match.span() for match in REPORT_PATTERN.finditer(self.text)),
+                self.reports,
+                strict=True,
+            )
+        )
         self.undocketed_reports = self.get_undocketed_reports()
 
     @classmethod
@@ -76,6 +85,7 @@ class CitableDocument:
             Iterator[DocketReport]: Any of custom `Docket` with `Report` types, e.g. `CitationAC`, etc.
         """  # noqa: E501
         text = normalize_report_text(text)
+        candidates: list[DocketReport] = []
         for search_func in (
             CitationAC.search,
             CitationAM.search,
@@ -86,11 +96,85 @@ class CitableDocument:
             CitationUDK.search,
             CitationJIB.search,
         ):
-            # Each search function is applied to the text, each match yielded
-            for result in search_func(text):
-                if exclude_docket_rules and is_statutory_rule(result):
-                    continue
-                yield result
+            candidates.extend(search_func(text))
+
+        explicit_spans = [
+            result._source_span for result in candidates if result._explicit_category
+        ]
+        seen: set[tuple[int, int, str, str]] = set()
+        selected: list[DocketReport] = []
+        for result in candidates:
+            start, end = result._source_span
+            if exclude_docket_rules and is_statutory_rule(result):
+                continue
+            if (
+                result.category.name == "GR"
+                and not result._explicit_category
+                and cls._implicit_gr_is_owned(text, start, explicit_spans)
+            ):
+                continue
+            key = (start, end, result.category.name, result.serial_text.casefold())
+            if key not in seen:
+                seen.add(key)
+                selected.append(result)
+
+        yield from sorted(selected, key=lambda result: result._source_span)
+
+    @staticmethod
+    def _implicit_gr_is_owned(
+        text: str, start: int, explicit_spans: list[tuple[int, int]]
+    ) -> bool:
+        if any(
+            explicit_start <= start < explicit_end
+            for explicit_start, explicit_end in explicit_spans
+        ):
+            return True
+        prefix = text[max(0, start - 80) : start]
+        return bool(
+            re.search(
+                r"(?ix)(?:\bca\s*-?\s*g\.?r\.?|\bc\.a\.\s*g\.?r\.?|"
+                r"\ba\.?c\.?|\ba\.?m\.?|\bb\.?m\.?|"
+                r"\badmin(?:istrative)?\s+(?:case|matter)|\bbar\s+matter)"
+                r"[^;\n]*$",
+                prefix,
+            )
+        )
+
+    def iter_parts(self) -> Iterator[CitationParts]:
+        """Yield source occurrences without double-counting attached reports."""
+        docket_events = [
+            (result._source_span, result) for result in self.docketed_reports
+        ]
+        report_events = [
+            (span, report)
+            for span, report in self._report_occurrences
+            if not any(
+                docket_start <= span[0] and span[1] <= docket_end
+                for (docket_start, docket_end), _ in docket_events
+            )
+        ]
+        events = [
+            *((span[0], "docket", result) for span, result in docket_events),
+            *((span[0], "report", report) for span, report in report_events),
+        ]
+        for start, kind, value in sorted(events, key=lambda event: event[0]):
+            if kind == "docket":
+                yield CitationParts(
+                    category=value.category,
+                    serial=value.serial_text,
+                    docket_date=value.docket_date,
+                    phil=value.phil,
+                    scra=value.scra,
+                    offg=value.qualified_offg or value.offg,
+                    start=start,
+                )
+            else:
+                yield CitationParts(
+                    phil=value.phil,
+                    scra=value.scra,
+                    offg=value.qualified_offg or value.offg,
+                    start=start,
+                )
 
     def get_undocketed_reports(self):
         """Steps:
@@ -99,11 +183,26 @@ class CitableDocument:
         2. Compare to reports found in `@docketed_reports`
         3. Limit reports to those _without_ an accompaying docket
         """
-        uniq_reports = set(Report.get_unique(self.text))
-        for cite in self.docketed_reports:
-            if cite.qualified_volpubpage in uniq_reports:
-                uniq_reports.remove(cite.qualified_volpubpage)
-        return uniq_reports
+        docketed_report_keys = {
+            value.casefold()
+            for docket in self.docketed_reports
+            for value in (
+                docket.phil,
+                docket.scra,
+                docket.qualified_offg or docket.offg,
+            )
+            if value
+        }
+        undocketed_reports = set()
+        for _, report in self._report_occurrences:
+            value = next(
+                value
+                for value in (report.phil, report.scra, report.qualified_offg)
+                if value
+            )
+            if value.casefold() not in docketed_report_keys:
+                undocketed_reports.add(value)
+        return undocketed_reports
 
     def get_citations(self) -> Iterator[str]:
         """There are two main lists to evaluate:
@@ -115,13 +214,5 @@ class CitableDocument:
         a more succinct citation list which includes both constructs mentioned above but
         without duplicate `reports`.
         """  # noqa: E501
-        if self.docketed_reports:
-            for doc_report_cite in self.docketed_reports:
-                yield str(doc_report_cite)
-
-            if self.undocketed_reports:
-                yield from self.undocketed_reports  # already <str>
-        else:
-            if self.reports:
-                for report in self.reports:
-                    yield str(report)
+        for group in aggregate_occurrences(self.iter_parts()):
+            yield render_parts(group.parts)

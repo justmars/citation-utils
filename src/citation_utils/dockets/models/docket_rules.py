@@ -1,4 +1,3 @@
-import re
 from enum import Enum
 
 from .docket_category import DocketCategory
@@ -74,20 +73,13 @@ class DocketRuleSerialNumber(Enum):
         "01-8-10-SC",
     ]
 
-    @property
-    def regex(self) -> str:
-        return r"(?:" + "|".join(str(i) for i in self.value) + r")"
 
-    @property
-    def pattern(self) -> re.Pattern:
-        return re.compile(self.regex, re.I)
-
-
-StatutoryBM = DocketRuleSerialNumber.BarMatter.pattern
-"""Fixed regex compiled pattern for Statutory Bar Matter"""
-
-StatutoryAM = DocketRuleSerialNumber.AdminMatter.pattern
-"""Fixed regex compiled pattern for Statutory Administrative Matter"""
+STATUTORY_BM_SERIALS = frozenset(
+    str(value).casefold() for value in DocketRuleSerialNumber.BarMatter.value
+)
+STATUTORY_AM_SERIALS = frozenset(
+    str(value).casefold() for value in DocketRuleSerialNumber.AdminMatter.value
+)
 
 
 def is_statutory_rule(citeable):
@@ -111,10 +103,11 @@ def is_statutory_rule(citeable):
     """  # noqa: E501
 
     if isinstance(citeable, Docket):  # excludes solo reports
+        serial = Docket.clean_serial(citeable.serial_text, citeable.category)
+        if not serial:
+            return False
         if citeable.category == DocketCategory.BM:
-            if StatutoryBM.search(citeable.serial_text):
-                return True
+            return serial in STATUTORY_BM_SERIALS
         elif citeable.category == DocketCategory.AM:
-            if StatutoryAM.search(citeable.serial_text):
-                return True
+            return serial in STATUTORY_AM_SERIALS
     return False

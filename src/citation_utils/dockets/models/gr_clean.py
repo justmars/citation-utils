@@ -102,10 +102,19 @@ def gr_prefix_clean(text: str) -> str | None:
     Returns:
         str | None: The cleaned GR docket ID, if detected.
     """
-    regex1, prefix1 = LEGACY_PREFIXED_LOOKALIKE, "L-1"  # L-I9863
-    regex2, prefix2 = LEGACY_PREFIXED, "L-"  # improper L- formatted cases
-    if cleaned1 := replace_prefix_regex(regex1, text, prefix1):
-        return cleaned1
-    elif cleaned2 := replace_prefix_regex(regex2, text, prefix2):
-        return cleaned2
+    value = re.sub(r"(?i)^nos?\.\s*", "", text.strip())
+
+    # These are deliberately narrow repairs for the legacy GR prefix.  They
+    # run before generic serial normalization so that the original ``L`` is
+    # not discarded by a permissive category prefix matcher.
+    if re.match(r"(?i)^l\s*-\s*[il]\s*(?=\d)", value):
+        return re.sub(r"(?i)^l\s*-\s*[il]\s*", "L-1", value)
+    if re.match(r"(?i)^i\.?\s*-\s*", value):
+        return re.sub(r"(?i)^i\.?\s*-\s*", "L-", value)
+    if re.match(r"(?i)^l\s*-\s*no\.?\s*", value):
+        return re.sub(r"(?i)^l\s*-\s*no\.?\s*", "L-", value)
+    if re.match(r"(?i)^l\s+(?=\d)", value):
+        return re.sub(r"(?i)^l\s+", "L-", value)
+    if cleaned := replace_prefix_regex(LEGACY_PREFIXED, value, "L-"):
+        return cleaned
     return None

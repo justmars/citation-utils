@@ -94,7 +94,7 @@ constructed_gr = CitationConstructor(
     group_name="gr_phrase",
     init_name="gr_mid",
     docket_regex=gr_phrases,
-    key_regex=rf"{gr_key}({l_key})?",
+    key_regex=gr_key,
     num_regex=Num.GR.allowed,
 )
 
@@ -118,5 +118,6 @@ class CitationGR(DocketReportCitation):
         Yields:
             Iterator[Self]: Combination of Docket and Report pydantic model.
         """  # noqa E501
-        for result in constructed_gr.detect(text):
-            yield cls(**result)
+        for result in constructed_gr.detect_with_spans(text):
+            explicit = result["context"].lstrip().casefold().startswith("g")
+            yield cls.from_detected(result, explicit_category=explicit)

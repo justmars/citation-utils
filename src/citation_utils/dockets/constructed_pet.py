@@ -66,5 +66,5 @@ class CitationPET(DocketReportCitation):
         Yields:
             Iterator[Self]: Combination of Docket and Report pydantic model.
         """  # noqa E501
-        for result in constructed_pet.detect(text):
-            yield cls(**result)
+        for result in constructed_pet.detect_with_spans(text):
+            yield cls.from_detected(result)

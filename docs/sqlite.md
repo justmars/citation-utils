@@ -4,7 +4,16 @@ icon: lucide/database
 
 # SQLite Analysis
 
-Assume you're able to collect citations and place them into a database with the fields previously established:
+Use normalized citation rows as an index and audit aid, not as a substitute for
+the source document. Store the original text, document identifier, and source
+location alongside `cat`, `num`, `date`, `phil`, `scra`, and `offg` whenever a
+result may need legal review. The parser's `mentions` value counts recognized
+source occurrences; it is not a measure of authority, treatment, or how often
+a decision was cited across an entire corpus unless the query scope supplies
+that meaning.
+
+Assume citations have been collected into a database with the fields previously
+established:
 
 ## Multiple category and serial having the same values
 
@@ -30,7 +39,10 @@ Yielding the connected _Ortigas_ decision rows which can be considered a collect
 3. ["GR","109645","1996-03-04"]
 4. ["GR","109645","1994-07-25"]
 
-Typographic errors in these category and serial pairings, therefore, result in an unconnected case being considered a part of an ostensible collection. The following query is one way to check for an unconnected case being improperly included:
+Typographic errors in these category and serial pairings can result in an
+unconnected case being considered part of an ostensible collection. The query
+below is a review queue, not a finding of error: compare flagged rows to their
+stored source evidence before correcting or merging them.
 
 ```sql
 select
@@ -58,7 +70,10 @@ order by
 
 ## Inconsistent naming convention re: AM -SC
 
-Originally thought that a suffixed `-SC` Administrative Matter meant that these were rule / statute patterns. After exploring the data, it appears that suffixed `-SC` AMs are also citation patterns for decisions, making it difficult to classify. To categorize the rules better, it may be useful to initially get the list of AMs as citation patterns and make statutory AMs an exclusive enumeration.
+An Administrative Matter serial ending in `-SC` is not, by itself, a rule. The
+extractor excludes only an explicit list of known statutory A.M. and B.M.
+serials after canonicalization. Preserve the source and review a flagged row
+before treating it as a statute or decision.
 
 ```sql
 select

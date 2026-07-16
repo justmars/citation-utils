@@ -6,6 +6,7 @@ from citation_date import DOCKET_DATE_REGEX, decode_date
 from citation_report import REPORT_REGEX, get_publisher_label
 from pydantic import BaseModel, Field
 
+from .docket_model import Docket
 from .misc import cull_extra, formerly, pp
 
 
@@ -105,7 +106,7 @@ class CitationConstructor(BaseModel):
         regex = rf"{self.key_regex}({self.num_regex})?"
         return re.compile(regex, re.I | re.X)
 
-    def detect(self, raw: str) -> Iterator[dict[str, Any]]:
+    def detect_with_spans(self, raw: str) -> Iterator[dict[str, Any]]:
         """Logic: if `self.init_name` Match group exists, get entire
         regex based on `self.group_name`, extract subgroups which will
         consist of `Docket` and `Report` parts.
@@ -124,6 +125,8 @@ class CitationConstructor(BaseModel):
                     raw_date = match.group("docket_date")
                     date_found = decode_date(raw_date, True)
                     if ids and date_found:
+                        if not Docket.clean_serial(ids, self.short_category):
+                            continue
                         yield dict(
                             context=ctx,
                             short_category=self.short_category,
@@ -136,4 +139,15 @@ class CitationConstructor(BaseModel):
                             page=match.group("page"),
                             supplement=(True if match.group("OG_SUPPLEMENT") else None),
                             issue_number=match.group("OG_ISSUE_NUMBER"),
+                            _source_start=match.start(),
+                            _source_end=match.end(),
                         )
+
+    def detect(self, raw: str) -> Iterator[dict[str, Any]]:
+        """Public compatibility wrapper without internal source metadata."""
+        for result in self.detect_with_spans(raw):
+            yield {
+                key: value
+                for key, value in result.items()
+                if not key.startswith("_source_")
+            }

@@ -3,7 +3,7 @@ from collections.abc import Iterator
 from typing import Self
 
 from citation_report import Report
-from pydantic import field_serializer
+from pydantic import PrivateAttr
 
 from .docket_category import DocketCategory
 from .docket_model import Docket
@@ -52,3 +52,17 @@ class DocketReportCitation(Docket, Report, abc.ABC):
     @abc.abstractmethod
     def search(cls, raw: str) -> Iterator[Self]:
         raise NotImplementedError("Search method must produce Iterator of instance.")
+
+    _source_span: tuple[int, int] = PrivateAttr(default=(-1, -1))
+    _explicit_category: bool = PrivateAttr(default=True)
+
+    @classmethod
+    def from_detected(cls, result: dict, *, explicit_category: bool = True) -> Self:
+        """Build a public model while retaining extraction-only metadata."""
+        data = dict(result)
+        start = data.pop("_source_start", -1)
+        end = data.pop("_source_end", -1)
+        instance = cls(**data)
+        instance._source_span = (start, end)
+        instance._explicit_category = explicit_category
+        return instance

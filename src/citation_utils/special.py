@@ -57,7 +57,7 @@ def extract_docket_meta(text: str) -> dict[str, Any] | None:
         format_date = res["decision_date"].strftime("%B %d, %Y")
         citation_text = f"{res['docket']}, {format_date}"
         citation_obj = next(CitableDocument.get_docketed_reports(citation_text))
-        cleaned_id = citation_obj.first_id
+        cleaned_id = citation_obj.serial_text
         res |= citation_obj.model_dump(
             exclude={
                 "volume",
@@ -73,7 +73,7 @@ def extract_docket_meta(text: str) -> dict[str, Any] | None:
             return None
         else:
             res["ids"] = cleaned_id
-    except Exception:
+    except OverflowError, StopIteration, ValueError:
         res["decision_date"] = None
         return None
     return res

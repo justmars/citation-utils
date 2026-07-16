@@ -5,8 +5,10 @@ information. It combines the docket grammar maintained here with the date and
 report grammars from [citation-date](https://github.com/justmars/citation-date)
 and [citation-report](https://github.com/justmars/citation-report).
 
-The parser keeps the citation evidence that appeared in the source. It does
-not infer a case title, a missing reporter, or a missing docket component.
+The parser organizes citation evidence that appears in the source. It does not
+infer a case title, a missing reporter, or a missing docket component; nor does
+it authenticate or verify the source document. Keep the source text and its
+location for legal review.
 
 ## Reader Paths
 
@@ -16,6 +18,15 @@ not infer a case title, a missing reporter, or a missing docket component.
        `CitableDocument`.
     2. Use `Citation.extract_citations()` for a stream of normalized records.
     3. Use `CountedCitation.from_source()` when repeated mentions matter.
+
+=== "Review evidence"
+
+    1. Read [Extracting citations](citeable.md) for the parser's evidentiary
+       limits and its treatment of repeated report references.
+    2. Retain the original document, quotation, and location beside the
+       normalized record.
+    3. Treat OCR repairs as matching aids to verify against the source, not as
+       proof of the correct docket number.
 
 === "Work with docket text"
 
@@ -51,7 +62,9 @@ For example:
 
 > Bagong Alyansang Makabayan v. Zamora, G.R. Nos. 138570, 138572, 138587, 138680, 138698, October 10, 2000, 342 SCRA 449
 
-The first docket serial and the report become one normalized citation record:
+The first docket serial and the report become one normalized citation record.
+That is useful for indexing; it does not replace the complete multi-number
+source citation:
 
 | Docket category | Docket serial | Docket date | Phil. | SCRA | O.G. |
 | --- | --- | --- | --- | --- | --- |
@@ -71,4 +84,5 @@ assert citation.phil == "374 Phil. 1"
 ```
 
 The `Citation` model exposes database aliases through `model_dump()`:
-`cat`, `num`, `date`, `phil`, `scra`, and `offg`.
+`cat`, `num`, `date`, `phil`, `scra`, and `offg`. The same aliases can be used
+to reconstruct a model from stored data.

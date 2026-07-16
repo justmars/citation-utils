@@ -9,7 +9,10 @@ that include a docket, a report citation, or both. It composes
 [LawSQL](https://lawsql.com) data pipeline.
 
 The package is corpus-driven. It preserves the reported citation components
-that are present in the source rather than inferring missing case metadata.
+that are present in the source rather than inferring missing case metadata. It
+helps locate and normalize references; it does not authenticate a document or
+prove the correctness of an OCR reading. Retain source text and location for
+legal review.
 
 ## Quick Example
 
@@ -32,9 +35,9 @@ assert citation.model_dump() == {
 
 ## Documentation
 
-See the [documentation](https://justmars.github.io/citation-utils) for the
-extraction flow, supported docket types, SQLite-oriented output, and local
-development checks.
+See the [documentation](https://justmars.github.io/citation-utils) for
+source-review limits, extraction and counting behavior, supported docket types,
+SQLite-oriented output, and local development checks.
 
 ## Boundaries
 
@@ -44,5 +47,6 @@ development checks.
   database-ready citation records.
 
 Administrative Matter and Bar Matter references can name rules rather than
-decisions. The default extraction flow excludes those statutory dockets; pass
-`exclude_docket_rules=False` only when the calling workflow needs them.
+decisions. The default extraction flow excludes only known statutory serials
+using an exact canonical match; pass `exclude_docket_rules=False` only when the
+calling workflow needs those rule references as evidence.

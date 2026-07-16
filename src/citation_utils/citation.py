@@ -1,16 +1,24 @@
 import datetime
 import logging
+import re
 from collections.abc import Iterator
-from functools import cached_property
 from typing import Self
 
 from citation_date import DOCKET_DATE_FORMAT
-from citation_report import Report
+from citation_report import REPORT_PATTERN, Report
 from dateutil.parser import parse
-from pydantic import BaseModel, ConfigDict, Field, field_serializer, model_serializer
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    field_serializer,
+    field_validator,
+    model_serializer,
+)
 
 from .dockets import Docket, DocketCategory
 from .document import CitableDocument
+from .identity import CitationParts, aggregate_occurrences, display_report
 
 
 class Citation(BaseModel):
@@ -43,7 +51,9 @@ class Citation(BaseModel):
     None | `offg` | optional (str) | combined `volume` O.G. `page`
     """  # noqa: E501
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(
+        str_strip_whitespace=True, populate_by_name=True, validate_assignment=True
+    )
     docket_category: DocketCategory | None = Field(default=None, alias="cat")
     docket_serial: str | None = Field(default=None, alias="num")
     docket_date: datetime.date | None = Field(default=None, alias="date")
@@ -51,12 +61,28 @@ class Citation(BaseModel):
     scra: str | None = Field(default=None)
     offg: str | None = Field(default=None)
 
+    @field_validator("docket_category", mode="before")
+    @classmethod
+    def normalize_docket_category(cls, value):
+        """Accept database shorthand (``gr``) as well as enum values."""
+        if isinstance(value, str) and value.upper() in DocketCategory.__members__:
+            return DocketCategory[value.upper()]
+        return value
+
     def __repr__(self) -> str:
         return f"<Citation: {str(self)}>"
 
     def __str__(self) -> str:
         docket_str = self.get_docket_display()
-        report_str = self.phil or self.scra or self.offg
+        report_str = ", ".join(
+            value
+            for value in (
+                display_report(self.phil, "phil"),
+                display_report(self.scra, "scra"),
+                display_report(self.offg, "offg"),
+            )
+            if value
+        )
         if docket_str and report_str:
             return f"{docket_str}, {report_str}"
         elif docket_str:
@@ -65,39 +91,11 @@ class Citation(BaseModel):
             return f"{report_str}"
         return f"<Bad citation str: {self.docket_category=} {self.docket_serial=} {self.docket_date=}>"  # noqa: E501
 
-    def __eq__(self, other: Self) -> bool:
-        """Helps `seen` variable in `CountedCitation`: either the docket bits match
-        or any of the report fields match."""
-
-        def is_docket_match(other: Self) -> bool:
-            """All the docket elements must match to be equal."""
-            cat_is_eq = (
-                self.docket_category is not None
-                and other.docket_category is not None
-                and (self.docket_category == other.docket_category)
-            )
-            num_is_eq = (
-                self.docket_serial is not None
-                and other.docket_serial is not None
-                and (self.docket_serial == other.docket_serial)
-            )
-            date_is_eq = (
-                self.docket_date is not None
-                and other.docket_date is not None
-                and (self.docket_date == other.docket_date)
-            )
-            return all([cat_is_eq, num_is_eq, date_is_eq])
-
-        if is_docket_match(other):
-            return True
-
-        return any(
-            [
-                self.scra and other.scra and self.scra.lower() == other.scra.lower(),
-                self.phil and other.phil and self.phil.lower() == other.phil.lower(),
-                self.offg and other.offg and self.offg.lower() == other.offg.lower(),
-            ]
-        )
+    def __eq__(self, other: object) -> bool:
+        """Compare complete normalized records, never partial shared evidence."""
+        if not isinstance(other, Citation):
+            return NotImplemented
+        return self.model_dump() == other.model_dump()
 
     @field_serializer("docket_date")
     def serialize_dt(self, value: datetime.date | None):
@@ -107,7 +105,7 @@ class Citation(BaseModel):
     @field_serializer("docket_serial")
     def serialize_num(self, value: str | None):
         if value:
-            return Docket.clean_serial(value)
+            return Docket.clean_serial(value, self.docket_category)
 
     @field_serializer("docket_category")
     def serialize_cat(self, value: DocketCategory | None):
@@ -221,11 +219,11 @@ class Citation(BaseModel):
             offg=cls.get_report(opt_offg),
         )
 
-    @cached_property
+    @property
     def is_docket(self) -> bool:
         return all([self.docket_category, self.docket_serial, self.docket_date])
 
-    @cached_property
+    @property
     def display_date(self):
         """This is the same as Docket@formatted_date."""
         if self.docket_date:
@@ -300,6 +298,18 @@ class Citation(BaseModel):
             return None
 
     @classmethod
+    def _from_parts(cls, parts: CitationParts, **extra):
+        return cls(
+            cat=parts.category,
+            num=parts.serial,
+            date=parts.docket_date,
+            phil=parts.phil,
+            scra=parts.scra,
+            offg=parts.offg,
+            **extra,
+        )
+
+    @classmethod
     def extract_citations(cls, text: str) -> Iterator[Self]:
         """Find citations and parse resulting strings to determine whether they are:
 
@@ -319,13 +329,9 @@ class Citation(BaseModel):
         Yields:
             Iterator[Self]: Itemized citations pre-processed via `CitableDocument`
         """  # noqa: E501
-        for cite in CitableDocument(text=text).get_citations():
-            if _docket := cls._set_docket_report(cite):
-                yield _docket
-            elif _report := cls._set_report(cite):
-                yield _report
-            else:
-                logging.error(f"Skip invalid {cite=}.")
+        document = CitableDocument(text=text)
+        for group in aggregate_occurrences(document.iter_parts()):
+            yield cls._from_parts(group.parts)
 
     @classmethod
     def extract_citation(cls, text: str) -> Self | None:
@@ -378,17 +384,14 @@ class Citation(BaseModel):
         Returns:
             str | None: The combination of citation bits.
         """  # noqa: E501
-        bits = [
-            phil.title().split() if phil else None,
-            scra.upper().split() if scra else None,
-            offg.upper().split() if offg else None,
-        ]
-        cased_bits = [
-            f"{bit[0].upper()} {bit[1]} {bit[2].upper()}" for bit in bits if bit
-        ]
-        reports = ", ".join(cased_bits) if any(bits) else None
-        dt = datetime.date.fromisoformat(date).strftime("%b. %-d, %Y")
-        match cat:
+        try:
+            category = DocketCategory[cat.upper()]
+        except KeyError:
+            return None
+        serial = Docket.clean_serial(num, category)
+        if not serial:
+            raise ValueError(f"Invalid {cat=} {num=}")
+        match category.name.lower():
             case "gr":
                 prefix = "G.R."
             case "am":
@@ -405,15 +408,34 @@ class Citation(BaseModel):
                 prefix = "OCA IPI"
             case "pet":
                 prefix = "P.E.T."
-            case _:
-                return None
-        docket = f"{prefix} No. {num.upper()}"
+        dt = datetime.date.fromisoformat(date).strftime("%b. %d, %Y").replace(" 0", " ")
+        rendered_reports = []
+        for field, raw in (("phil", phil), ("scra", scra), ("offg", offg)):
+            if not raw:
+                continue
+            report = next(Report.extract_reports(raw), None)
+            value = (
+                report.qualified_offg
+                if field == "offg" and report
+                else getattr(report, field, None)
+                if report
+                else None
+            )
+            if not value:
+                raise ValueError(f"Invalid {field} report: {raw!r}")
+            if field == "scra":
+                value = re.sub(
+                    r"(?<=\d)-([a-z]+)\b", lambda match: f"-{match[1].upper()}", value
+                )
+            rendered_reports.append(value)
+        docket = f"{prefix} No. {serial.upper()}"
+        reports = ", ".join(rendered_reports) or None
         bits = [bit for bit in [docket, dt, reports] if bit]
         return ", ".join(bits)
 
 
 class CountedCitation(Citation):
-    mentions: int = Field(default=1, description="Get count via Citation __eq__")
+    mentions: int = Field(default=1, description="Number of source occurrences")
 
     def __repr__(self) -> str:
         return f"{str(self)}: {self.mentions}"
@@ -447,18 +469,11 @@ class CountedCitation(Citation):
         Returns:
             list[Self]: Unique citations with their counts.
         """  # noqa: E501
-        all_reports = cls.counted_reports(text)  # includes reports in docket_reports
-        if drs := cls.counted_docket_reports(text):
-            for dr in drs:
-                for report in all_reports:
-                    if report == dr:  # uses Citation __eq__
-                        balance = 0
-                        if report.mentions > dr.mentions:
-                            balance = report.mentions - dr.mentions
-                        dr.mentions = dr.mentions + balance
-                        report.mentions = 0
-            return drs + [report for report in all_reports if report.mentions > 0]
-        return all_reports
+        document = CitableDocument(text=text)
+        return [
+            cls._from_parts(group.parts, mentions=group.mentions)
+            for group in aggregate_occurrences(document.iter_parts())
+        ]
 
     @classmethod
     def from_repr_format(cls, repr_texts: list[str]) -> Iterator[Self]:
@@ -481,7 +496,7 @@ class CountedCitation(Citation):
             Iterator[Self]: Instances of CountedCitation.
         """  # noqa: E501
         for text in repr_texts:
-            counted_bits = text.split(":")
+            counted_bits = text.rsplit(":", 1)
             if len(counted_bits) == 2:
                 if cite := cls.extract_citation(counted_bits[0].strip()):
                     citation = cls(
@@ -502,16 +517,23 @@ class CountedCitation(Citation):
         a `seen` list. This will also populate the the unique records with missing
         values.
         """
-        seen: list[cls] = []  # type: ignore
-        reports = Report.extract_reports(text=text)
-        for report in reports:
-            cite = Citation(phil=report.phil, scra=report.scra, offg=report.offg)
-            if cite not in seen:
-                seen.append(cls(**cite.model_dump()))
-            else:
-                included = seen[seen.index(cite)]
-                included.mentions += 1
-        return seen
+        occurrences = (
+            CitationParts(
+                phil=report.phil,
+                scra=report.scra,
+                offg=report.qualified_offg or report.offg,
+                start=match.start(),
+            )
+            for match, report in zip(
+                REPORT_PATTERN.finditer(text),
+                Report.extract_reports(text=text),
+                strict=True,
+            )
+        )
+        return [
+            cls._from_parts(group.parts, mentions=group.mentions)
+            for group in aggregate_occurrences(occurrences)
+        ]
 
     @classmethod
     def counted_docket_reports(cls, text: str):
@@ -520,31 +542,13 @@ class CountedCitation(Citation):
         a `seen` list. Will populate unique records with missing values.
         """
 
-        seen: list[cls] = []  # type: ignore
-        for obj in CitableDocument.get_docketed_reports(text=text):
-            cite = Citation(
-                cat=obj.category,
-                num=obj.serial_text,
-                date=obj.docket_date,
-                phil=obj.phil,
-                scra=obj.scra,
-                offg=obj.qualified_offg or obj.offg,
+        document = CitableDocument(text=text)
+        return [
+            cls._from_parts(group.parts, mentions=group.mentions)
+            for group in aggregate_occurrences(
+                part for part in document.iter_parts() if part.docket_key
             )
-            if cite not in seen:
-                seen_citation = cls(
-                    cat=cite.docket_category,
-                    num=cite.docket_serial,
-                    date=cite.docket_date,
-                    phil=cite.phil,
-                    scra=cite.scra,
-                    offg=cite.offg,
-                )
-                seen.append(seen_citation)
-            else:
-                included = seen[seen.index(cite)]
-                included.mentions += 1
-                included.add_values(cite)  # for citations, can add missing
-        return seen
+        ]
 
     def add_values(self, other: Citation):
         if not self.docket_category and other.docket_category:

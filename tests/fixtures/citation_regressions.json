@@ -1,0 +1,32 @@
+{
+  "about": "Observed Supreme Court-document errors are marked observed; synthetic entries define boundary behavior.",
+  "normalization": [
+    {"source": "GR L-I9863, Apr. 29, 1964", "kind": "observed", "expected": {"cat": "gr", "num": "l-19863", "date": "1964-04-29"}},
+    {"source": "GR L-L8432, Jun. 29, 1963", "kind": "observed", "expected": {"cat": "gr", "num": "l-18432", "date": "1963-06-29"}},
+    {"source": "GR L-I 1438, Jul. 31, 1958", "kind": "observed", "expected": {"cat": "gr", "num": "l-11438", "date": "1958-07-31"}},
+    {"source": "GR I-47629, May 28, 1979", "kind": "observed", "expected": {"cat": "gr", "num": "l-47629", "date": "1979-05-28"}},
+    {"source": "GR L-No. 40004, Jan. 31, 1975", "kind": "observed", "expected": {"cat": "gr", "num": "l-40004", "date": "1975-01-31"}},
+    {"source": "A.M. No. O.C.A.-00-01, July 28, 1997", "kind": "observed", "expected": {"cat": "am", "num": "oca-00-01", "date": "1997-07-28"}}
+  ],
+  "ownership": [
+    {"source": "A.C. No. L-363, Jan. 1, 2000", "kind": "synthetic", "expected": [{"cat": "ac", "num": "l-363", "date": "2000-01-01"}]},
+    {"source": "Bar Matter No. L-363, Jan. 1, 2000", "kind": "synthetic", "expected": [{"cat": "bm", "num": "l-363", "date": "2000-01-01"}]},
+    {"source": "CA G.R. No. L-363, Jan. 1, 2000", "kind": "synthetic", "expected": []},
+    {"source": "L-363, Jan. 1, 2000", "kind": "synthetic", "expected": [{"cat": "gr", "num": "l-363", "date": "2000-01-01"}]}
+  ],
+  "rejected": [
+    {"source": "G.R. No. ---, Jan. 1, 2000", "kind": "synthetic"},
+    {"source": "G.R. No. 1--, Jan. 1, 2000", "kind": "synthetic"}
+  ],
+  "statutory": [
+    {"source": "Bar Matter No. 803, Jan. 1, 2000", "kind": "observed", "excluded": true},
+    {"source": "Bar Matter No. 1803, Jan. 1, 2000", "kind": "synthetic", "excluded": false},
+    {"source": "Bar Matter No. 8030, Jan. 1, 2000", "kind": "synthetic", "excluded": false},
+    {"source": "A.M. No. 19-03-24-SC, Jan. 1, 2000", "kind": "observed", "excluded": true},
+    {"source": "A.M. No. 19-03-240-SC, Jan. 1, 2000", "kind": "synthetic", "excluded": false}
+  ],
+  "reports": [
+    {"source": "47 O.G. Supp. 43", "kind": "observed", "expected": {"offg": "47 o.g. supp. 43"}},
+    {"source": "49 O.G. No. 7, 2740", "kind": "observed", "expected": {"offg": "49 o.g. no. 7, 2740"}}
+  ]
+}

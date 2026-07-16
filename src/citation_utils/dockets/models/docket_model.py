@@ -3,14 +3,17 @@ from datetime import date
 from typing import Self
 
 from citation_date import DOCKET_DATE_FORMAT
-from citation_report.main import is_eq
-from pydantic import BaseModel, ConfigDict, Field, field_serializer
+from pydantic import BaseModel, Field
 
 from .docket_category import DocketCategory
 from .gr_clean import gr_prefix_clean
 
-DB_SERIAL_NUM = re.compile(r"^(?P<serial>[a-z0-9-]+).*$")
+DB_SERIAL_NUM = re.compile(r"^(?P<serial>[a-z0-9]+(?:-[a-z0-9]+)*)$")
 """Ideally, the docket id for the database should only be alpha-numeric, lowercase with dashes."""  # noqa: E501
+
+_DOTTED_ACRONYM = re.compile(r"(?i)(?:[a-z]\.){2,}")
+_SERIAL_SPLIT = re.compile(r"\s*(?:,|;|/|&|\band\b)\s*", re.I)
+_NUMBER_PREFIX = re.compile(r"(?i)^nos?\.\s*")
 
 
 class Docket(BaseModel):
@@ -66,11 +69,17 @@ class Docket(BaseModel):
             )
         return "No proper string detected."
 
-    def __eq__(self, other: Self) -> bool:
-        opt_1 = is_eq(self.category.name, other.category.name)
-        opt_2 = is_eq(self.first_id, other.first_id)
-        opt_3 = is_eq(self.docket_date.isoformat(), other.docket_date.isoformat())
-        return all([opt_1, opt_2, opt_3])
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Docket):
+            return NotImplemented
+        serial = self.clean_serial(self.serial_text, self.category)
+        other_serial = self.clean_serial(other.serial_text, other.category)
+        return (
+            self.category == other.category
+            and serial is not None
+            and serial == other_serial
+            and self.docket_date == other.docket_date
+        )
 
     @property
     def slug(self):
@@ -87,21 +96,8 @@ class Docket(BaseModel):
         Returns:
             str: Singular text identifier
         """
-        if x := self.first_id or self.ids:
-            x = x.rstrip("*•[]")
-            if bits := x.split():
-                if len(bits) > 1:
-                    if bits[0].isalpha() and not bits[1].startswith("-"):
-                        x = f"{bits[0]}-{bits[1]}"
-                    elif bits[0].isalpha() and bits[1].startswith("-"):  # mtj -02-1466
-                        x = f"{bits[0]}{bits[1]}"
-                    elif bits[1].isalpha() and not bits[0].endswith("-"):
-                        x = f"{bits[0]}-{bits[1]}"
-                    elif bits[1].isalpha() and bits[0].endswith("-"):  # '14061- ret'
-                        x = f"{bits[0]}{bits[1]}"
-            if adjust := gr_prefix_clean(x):
-                return adjust
-        return x.split()[0]
+        raw = self.first_id or self.ids
+        return self.clean_serial(raw, self.category) or raw.strip()
 
     @property
     def first_id(self) -> str:
@@ -111,14 +107,7 @@ class Docket(BaseModel):
             str: First id found
         """
 
-        def first_exists(char: str, text: str):
-            """If a `char` exists in the `text`, split on this value."""
-            return text.split(char)[0] if char in text else None
-
-        for char in [" - ", "/", ",", ";", " and ", " AND ", "&"]:
-            if res := first_exists(char, self.ids):
-                return res
-        return self.ids
+        return _SERIAL_SPLIT.split(self.ids, maxsplit=1)[0].strip()
 
     @property
     def formatted_date(self) -> str | None:
@@ -129,12 +118,12 @@ class Docket(BaseModel):
     @classmethod
     def check_serial_num(cls, text: str) -> bool:
         """If a serial number exists, ensure it meets criteria prior to row creation."""
-        if DB_SERIAL_NUM.search(text.lower()):
-            return True
-        return False
+        return cls.clean_serial(text) is not None
 
     @classmethod
-    def clean_serial(cls, text: str) -> str | None:
+    def clean_serial(
+        cls, text: str, category: DocketCategory | str | None = None
+    ) -> str | None:
         """Criteria:
 
         1. Must be lowercased
@@ -147,10 +136,21 @@ class Docket(BaseModel):
         Returns:
             str: Cleaned serial text fit for database input.
         """
-        text = text.lower()
-        if " " in text:
-            text = text.split()[0]
-        if match := DB_SERIAL_NUM.search(text):
-            if candidate := match.group("serial"):
-                return candidate
+        raw = _SERIAL_SPLIT.split(text.strip().rstrip("*•[]"), maxsplit=1)[0]
+        raw = _NUMBER_PREFIX.sub("", raw)
+        category_name = (
+            category.name if isinstance(category, DocketCategory) else (category or "")
+        ).upper()
+
+        if category_name == DocketCategory.GR.name:
+            raw = gr_prefix_clean(raw) or raw
+
+        raw = _DOTTED_ACRONYM.sub(lambda match: match.group().replace(".", ""), raw)
+        raw = re.sub(r"\s*-\s*", "-", raw)
+        raw = re.sub(r"(?i)^([a-z]+)\s+(?=-?\d)", r"\1-", raw)
+        raw = re.sub(r"(?i)(?<=\d)\s+(?=[a-z]+$)", "-", raw)
+        raw = re.sub(r"\s+", "", raw).lower()
+
+        if match := DB_SERIAL_NUM.fullmatch(raw):
+            return match.group("serial")
         return None
