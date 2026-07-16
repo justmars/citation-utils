@@ -38,7 +38,7 @@ from citation_utils.dockets import constructed_am
             "A.M. No. 2008-23-SC, ",
             None,
             None,
-            ", 737 SCRA 176",
+            ", 737 SCRA 176, 191-192",
         ),
         (
             "A.M. Nos. P-13-3116 & P-13-3112, November 12, 2013, 709 SCRA 254",
@@ -62,7 +62,7 @@ from citation_utils.dockets import constructed_am
             "A.M. No. P-04-1786 ",
             "(Formerly OCA I.P.I. No. 02-1341-P), ",
             None,
-            ", 482 SCRA 265",
+            ", 482 SCRA 265, 275-276",
         ),
         (
             "A.M. RTJ-12-2317 (Formerly OCA I.P.I. No. 10-3378-RTJ), Jan 1, 2000",

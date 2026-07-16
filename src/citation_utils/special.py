@@ -66,7 +66,8 @@ def extract_docket_meta(text: str) -> dict[str, Any] | None:
                 "report",
                 "report_date",
                 "volpubpage",
-            }
+            },
+            exclude_none=True,
         )
         if res.get("ids") is None:
             return None

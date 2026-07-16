@@ -1,30 +1,48 @@
-# citation-utils
-
 ![Github CI](https://github.com/justmars/citation-utils/actions/workflows/ci.yml/badge.svg)
 
-Regex formula of Philippine Supreme Court citations in docket format (with reports); utilized in the [LawSQL dataset](https://lawsql.com).
+# Citation Utilities
+
+`citation-utils` extracts and normalizes Philippine Supreme Court citations
+that include a docket, a report citation, or both. It composes
+[`citation-date`](https://github.com/justmars/citation-date) and
+[`citation-report`](https://github.com/justmars/citation-report) for the
+[LawSQL](https://lawsql.com) data pipeline.
+
+The package is corpus-driven. It preserves the reported citation components
+that are present in the source rather than inferring missing case metadata.
+
+## Quick Example
+
+```python
+from citation_utils import Citation
+
+raw = "G.R. No. 147033, April 30, 2003, 374 Phil. 1"
+citation = Citation.extract_citation(raw)
+
+assert citation is not None
+assert citation.model_dump() == {
+    "cat": "gr",
+    "num": "147033",
+    "date": "2003-04-30",
+    "phil": "374 phil. 1",
+    "scra": None,
+    "offg": None,
+}
+```
 
 ## Documentation
 
-See [documentation](https://justmars.github.io/citation-utils), building on top of [citation-report](https://justmars.github.io/citation-report).
+See the [documentation](https://justmars.github.io/citation-utils) for the
+extraction flow, supported docket types, SQLite-oriented output, and local
+development checks.
 
-## Caveats
+## Boundaries
 
-### DocketCategory
+- `citation-date` owns date grammar and date normalization.
+- `citation-report` owns reporter grammar and report normalization.
+- `citation-utils` owns docket grammar, joins dockets to reports, and provides
+  database-ready citation records.
 
-Each `DocketCategory` has its own nuanced regex patterns identifying its _category_, _serial_text_, and _date_
-
-#### Adding new Citation types
-
-Recently, the `JIB` was added as a new category. This means creating a new `CitationConstructor` object with distinct objectts.
-
-#### Adding new DocketRules
-
-There are are `AM` and `BM` docket numbers that represent rules rather than decisions.
-
-### DocketReports
-
-Based on a `CiteableDocument`, construct a temp object prior to formation of `Citation`. This temp object is either:
-
-1. A combination of a `Docket` object with its `Report` object; or
-2. A solo, undocketed `Report`.
+Administrative Matter and Bar Matter references can name rules rather than
+decisions. The default extraction flow excludes those statutory dockets; pass
+`exclude_docket_rules=False` only when the calling workflow needs them.

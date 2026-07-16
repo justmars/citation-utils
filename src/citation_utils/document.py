@@ -1,8 +1,7 @@
-import unicodedata
 from collections.abc import Iterator
 from dataclasses import dataclass
 
-from citation_report import Report
+from citation_report import Report, normalize_report_text
 
 from .dockets import (
     CitationAC,
@@ -47,7 +46,7 @@ class CitableDocument:
     text: str
 
     def __post_init__(self):
-        self.text = unicodedata.normalize("NFKD", self.text)
+        self.text = normalize_report_text(self.text)
         self.reports = list(Report.extract_reports(self.text))
         self.docketed_reports = list(self.get_docketed_reports(self.text))
         self.undocketed_reports = self.get_undocketed_reports()
@@ -76,7 +75,7 @@ class CitableDocument:
         Yields:
             Iterator[DocketReport]: Any of custom `Docket` with `Report` types, e.g. `CitationAC`, etc.
         """  # noqa: E501
-        text = unicodedata.normalize("NFKD", text)
+        text = normalize_report_text(text)
         for search_func in (
             CitationAC.search,
             CitationAM.search,
@@ -89,10 +88,9 @@ class CitableDocument:
         ):
             # Each search function is applied to the text, each match yielded
             for result in search_func(text):
-                if exclude_docket_rules:
-                    if is_statutory_rule(result):
-                        continue
-                    yield result
+                if exclude_docket_rules and is_statutory_rule(result):
+                    continue
+                yield result
 
     def get_undocketed_reports(self):
         """Steps:
@@ -103,8 +101,8 @@ class CitableDocument:
         """
         uniq_reports = set(Report.get_unique(self.text))
         for cite in self.docketed_reports:
-            if cite.volpubpage in uniq_reports:
-                uniq_reports.remove(cite.volpubpage)
+            if cite.qualified_volpubpage in uniq_reports:
+                uniq_reports.remove(cite.qualified_volpubpage)
         return uniq_reports
 
     def get_citations(self) -> Iterator[str]:

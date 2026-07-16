@@ -261,7 +261,7 @@ class Citation(BaseModel):
         try:
             reports = Report.extract_reports(raw)
             report = next(reports)
-            if result := report.volpubpage:
+            if result := report.qualified_volpubpage:
                 return result.lower()
             else:
                 logging.warning(f"No volpubpage {raw=}")
@@ -274,7 +274,11 @@ class Citation(BaseModel):
     def _set_report(cls, text: str):
         try:
             obj = next(Report.extract_reports(text))
-            return cls(phil=obj.phil, scra=obj.scra, offg=obj.offg)
+            return cls(
+                phil=obj.phil,
+                scra=obj.scra,
+                offg=obj.qualified_offg or obj.offg,
+            )
         except StopIteration:
             logging.debug(f"{text} is not a Report instance.")
             return None
@@ -289,7 +293,7 @@ class Citation(BaseModel):
                 date=obj.docket_date,
                 phil=obj.phil,
                 scra=obj.scra,
-                offg=obj.offg,
+                offg=obj.qualified_offg or obj.offg,
             )
         except StopIteration:
             logging.debug(f"{text} is not a Docket nor a Report instance.")
@@ -524,7 +528,7 @@ class CountedCitation(Citation):
                 date=obj.docket_date,
                 phil=obj.phil,
                 scra=obj.scra,
-                offg=obj.offg,
+                offg=obj.qualified_offg or obj.offg,
             )
             if cite not in seen:
                 seen_citation = cls(

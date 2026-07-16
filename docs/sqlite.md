@@ -1,4 +1,8 @@
-# sqlite analysis
+---
+icon: lucide/database
+---
+
+# SQLite Analysis
 
 Assume you're able to collect citations and place them into a database with the fields previously established:
 

@@ -1,5 +1,16 @@
 set dotenv-load
 
+# serve documentation
+docs:
+  uv run zensical serve --dev-addr localhost:8001
+
+# run all repository gates
+check:
+  uv run pytest
+  uv run marimo check notebooks/*.py
+  uv run zensical build --clean --strict
+  uv build --no-sources
+
 # create .env file from example
 dumpenv:
   op inject -i env.example -o .env

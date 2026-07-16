@@ -1,0 +1,40 @@
+[project]
+site_name = "citation-utils"
+site_description = "Docket and citation extraction for Philippine Supreme Court decisions."
+site_author = "Marcelino Veloso III"
+site_url = "https://justmars.github.io/citation-utils"
+copyright = "Copyright &copy; 2026 Marcelino Veloso III"
+nav = [
+  { "Overview" = "index.md" },
+  { "Extracting citations" = "citeable.md" },
+  { "Docket types" = "structure.md" },
+  { "SQLite analysis" = "sqlite.md" },
+  { "Development" = "development.md" },
+]
+
+[project.theme]
+language = "en"
+features = [
+  "content.code.annotate",
+  "content.code.copy",
+  "content.footnote.tooltips",
+  "content.tabs.link",
+  "content.tooltips",
+  "navigation.footer",
+  "navigation.instant",
+  "navigation.path",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+  "search.suggest",
+]
+
+[[project.theme.palette]]
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"

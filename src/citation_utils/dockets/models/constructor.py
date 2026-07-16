@@ -134,4 +134,6 @@ class CitationConstructor(BaseModel):
                             volpubpage=match.group("volpubpage"),
                             volume=match.group("volume"),
                             page=match.group("page"),
+                            supplement=(True if match.group("OG_SUPPLEMENT") else None),
+                            issue_number=match.group("OG_ISSUE_NUMBER"),
                         )

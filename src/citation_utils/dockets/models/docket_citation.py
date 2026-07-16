@@ -28,7 +28,7 @@ class DocketReportCitation(Docket, Report, abc.ABC):
 
     @property
     def _report(self):
-        return self.volpubpage or None
+        return self.qualified_volpubpage or None
 
     def __str__(self) -> str:
         if self._docket and self._report:

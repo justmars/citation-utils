@@ -61,7 +61,7 @@ from citation_utils.dockets import constructed_gr
             "October 19, 2011",
             None,
             None,
-            ", 659 SCRA 590",
+            ", 659 SCRA 590, 597",
         ),
         (
             (  # noqa: E501
