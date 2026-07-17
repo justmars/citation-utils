@@ -7,6 +7,7 @@ import pytest
 from citation_utils import (
     CitableDocument,
     Citation,
+    CitationGR,
     CountedCitation,
     Docket,
     extract_docket_meta,
@@ -161,6 +162,49 @@ def test_date_preflight_keeps_case_insensitive_us_and_day_first_dates():
         next(CitableDocument.get_docketed_reports(source)).serial_text
         for source in sources
     ] == ["123", "123"]
+
+
+@pytest.mark.parametrize(
+    ("source", "context", "ids", "docket_date"),
+    [
+        ("G.R. No. 123, Jan. 1, 2000", "G.R. No. 123", "123", "2000-01-01"),
+        ("G.R. No. 123, 1 Jan. 2000", "G.R. No. 123", "123", "2000-01-01"),
+        (
+            "G.R. Nos. 223528, 223529, 223530, 11 January 2017",
+            "G.R. Nos. 223528, 223529, 223530",
+            "223528, 223529, 223530",
+            "2017-01-11",
+        ),
+    ],
+)
+def test_gr_date_order_and_multiple_id_results_are_stable(
+    source, context, ids, docket_date
+):
+    citation = next(CitationGR.search(source))
+
+    assert citation.context == context
+    assert citation.ids == ids
+    assert citation.docket_date.isoformat() == docket_date
+
+
+@pytest.mark.parametrize(
+    "source",
+    [
+        (
+            "NLRC Case Nos. I-05-1083-97 to I-05-1109-97; consolidated "
+            "NLRC Case Nos. I-05-1087-97, I-05-1088-97, I-05-1091-97, "
+            "I-05-1092-97, I-05-1096-97, I-05-1097-97, and I-05-1109-97."
+        ),
+        (
+            "Civil Cases Nos. 4247-L, 2395-L, 2367-L, 2812-L, 4160-L, "
+            "4550-L, 4470-L, 4475-L, 4442-L, 4362-L, 4377-L, 4394-L, "
+            "2581-L, 268-L, 2799-L, 4641-L, 2995-L, 3025-L, 3031-L, "
+            "3090-L, 3042-L, 2520-L, 4669-L, 4649-L, and 4693-L."
+        ),
+    ],
+)
+def test_gr_search_rejects_long_date_less_legacy_shaped_number_lists(source):
+    assert list(CitationGR.search(source)) == []
 
 
 def test_constructor_patterns_are_cached_and_invalidate_when_the_source_changes():

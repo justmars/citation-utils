@@ -1,10 +1,25 @@
 from collections.abc import Iterator
 from typing import Self
 
+from citation_date import day_pattern, month_pattern, year_pattern
+
 from .models import CitationConstructor, DocketCategory, DocketReportCitation, Num
 
 separator = r"[,\.\s-]*"
 digit = r"\d[\d-]*"  # e.g. 323-23, 343-34, L
+
+# A day-first date begins with the same kind of numeric token as another docket
+# number. The legacy expression resolved that ambiguity by backtracking through
+# several nested bounded repetitions. Keep the same choice explicitly so those
+# inner repetitions can be possessive and reject long, date-less number lists in
+# linear time.
+day_first_date = rf"""
+    {day_pattern.pattern}
+    (?:\s*,\s*,\s*|\s*(?:[,.]\s*)?)
+    {month_pattern.pattern}
+    \s*(?:[,.]\s*)?
+    {year_pattern.pattern}
+"""
 
 
 gr_key = rf"""
@@ -35,16 +50,27 @@ l_key = rf"""
 """  # noqa # E501
 
 
+digit_with_separator = rf"""
+    {digit}
+    \b
+    \W* # possible comma
+    (&\s*|and\s*)? # possible and between
+"""
+
+
 digits = rf"""
     (
         \b
         ({l_key})?
-        {digit}
-        \b
-        \W* # possible comma
-        (&\s*|and\s*)? # possible and between
-    ){{1,5}}
+        {digit_with_separator}
+    )
     (
+        (?!{day_first_date})
+        ({l_key})?
+        {digit_with_separator}
+    ){{0,4}}+
+    (
+        (?!{day_first_date})
         {digit}
         \b
     )?
