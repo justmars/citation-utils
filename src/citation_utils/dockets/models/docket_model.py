@@ -14,6 +14,10 @@ DB_SERIAL_NUM = re.compile(r"^(?P<serial>[a-z0-9]+(?:-[a-z0-9]+)*)$")
 _DOTTED_ACRONYM = re.compile(r"(?i)(?:[a-z]\.){2,}")
 _SERIAL_SPLIT = re.compile(r"\s*(?:,|;|/|&|\band\b)\s*", re.I)
 _NUMBER_PREFIX = re.compile(r"(?i)^nos?\.\s*")
+_SPACED_HYPHEN = re.compile(r"\s*-\s*")
+_PREFIXED_DIGITS = re.compile(r"(?i)^([a-z]+)\s+(?=-?\d)")
+_SUFFIXED_LETTERS = re.compile(r"(?i)(?<=\d)\s+(?=[a-z]+$)")
+_WHITESPACE = re.compile(r"\s+")
 
 
 class Docket(BaseModel):
@@ -96,8 +100,11 @@ class Docket(BaseModel):
         Returns:
             str: Singular text identifier
         """
-        raw = self.first_id or self.ids
-        return self.clean_serial(raw, self.category) or raw.strip()
+        return (
+            self.clean_serial(self.ids, self.category)
+            or self.first_id
+            or self.ids.strip()
+        )
 
     @property
     def first_id(self) -> str:
@@ -145,11 +152,14 @@ class Docket(BaseModel):
         if category_name == DocketCategory.GR.name:
             raw = gr_prefix_clean(raw) or raw
 
+        if raw.isascii() and raw.isdigit():
+            return raw
+
         raw = _DOTTED_ACRONYM.sub(lambda match: match.group().replace(".", ""), raw)
-        raw = re.sub(r"\s*-\s*", "-", raw)
-        raw = re.sub(r"(?i)^([a-z]+)\s+(?=-?\d)", r"\1-", raw)
-        raw = re.sub(r"(?i)(?<=\d)\s+(?=[a-z]+$)", "-", raw)
-        raw = re.sub(r"\s+", "", raw).lower()
+        raw = _SPACED_HYPHEN.sub("-", raw)
+        raw = _PREFIXED_DIGITS.sub(r"\1-", raw)
+        raw = _SUFFIXED_LETTERS.sub("-", raw)
+        raw = _WHITESPACE.sub("", raw).lower()
 
         if match := DB_SERIAL_NUM.fullmatch(raw):
             return match.group("serial")

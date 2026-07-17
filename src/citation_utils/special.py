@@ -1,8 +1,6 @@
 import re
 from typing import Any
 
-from dateutil.parser import parse
-
 from .document import CitableDocument
 
 ## Used for a specific website page
@@ -41,7 +39,7 @@ def extract_docket_meta(text: str) -> dict[str, Any] | None:
     Returns:
         dict[str, Any] | None: Docket-based details.
     """  # noqa: E501
-    match = DOCKET_PATTERN.search(text)
+    match = DOCKET_PATTERN.match(text)
     if not match:
         return None
     res = match.groupdict()
@@ -53,10 +51,9 @@ def extract_docket_meta(text: str) -> dict[str, Any] | None:
         return None
 
     try:
-        res["decision_date"] = parse(_date, fuzzy=True).date()
-        format_date = res["decision_date"].strftime("%B %d, %Y")
-        citation_text = f"{res['docket']}, {format_date}"
+        citation_text = f"{res['docket']}, {_date}"
         citation_obj = next(CitableDocument.get_docketed_reports(citation_text))
+        res["decision_date"] = citation_obj.docket_date
         cleaned_id = citation_obj.serial_text
         res |= citation_obj.model_dump(
             exclude={

@@ -4,7 +4,7 @@ from typing import Any
 
 from citation_date import DOCKET_DATE_REGEX, decode_date
 from citation_report import REPORT_REGEX, get_publisher_label
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, PrivateAttr
 
 from .docket_model import Docket
 from .misc import cull_extra, formerly, pp
@@ -75,6 +75,8 @@ class CitationConstructor(BaseModel):
         title="Regex Num",
         description="Regex portion for the num keyword to get the serial ids",
     )
+    _pattern_cache: tuple[str, re.Pattern] | None = PrivateAttr(default=None)
+    _key_num_pattern_cache: tuple[str, re.Pattern] | None = PrivateAttr(default=None)
 
     @property
     def pattern(self) -> re.Pattern:
@@ -87,16 +89,16 @@ class CitationConstructor(BaseModel):
         Returns:
             Pattern: Combination of Docket and Report styles.
         """
-        return re.compile(
-            "".join(
-                [
-                    rf"{self.docket_regex}",
-                    rf"(?P<extra_phrase>{formerly}?{pp}?){DOCKET_DATE_REGEX}",
-                    rf"(?P<opt_report>\,\s*{REPORT_REGEX})?",
-                ]
-            ),
-            re.I | re.X,
+        regex = "".join(
+            [
+                rf"{self.docket_regex}",
+                rf"(?P<extra_phrase>{formerly}?{pp}?){DOCKET_DATE_REGEX}",
+                rf"(?P<opt_report>\,\s*{REPORT_REGEX})?",
+            ]
         )
+        if self._pattern_cache is None or self._pattern_cache[0] != regex:
+            self._pattern_cache = (regex, re.compile(regex, re.I | re.X))
+        return self._pattern_cache[1]
 
     @property
     def key_num_pattern(self) -> re.Pattern:
@@ -104,7 +106,12 @@ class CitationConstructor(BaseModel):
         just the key and number elements, e.g. "GR No. 123" or "BP Blg. 45"
         """
         regex = rf"{self.key_regex}({self.num_regex})?"
-        return re.compile(regex, re.I | re.X)
+        if (
+            self._key_num_pattern_cache is None
+            or self._key_num_pattern_cache[0] != regex
+        ):
+            self._key_num_pattern_cache = (regex, re.compile(regex, re.I | re.X))
+        return self._key_num_pattern_cache[1]
 
     def detect_with_spans(self, raw: str) -> Iterator[dict[str, Any]]:
         """Logic: if `self.init_name` Match group exists, get entire
@@ -117,10 +124,12 @@ class CitationConstructor(BaseModel):
         Yields:
             Iterator[dict[str, Any]]: A dict that can fill up a Docket + Report pydantic BaseModel
         """  # noqa: E501
-        for match in self.pattern.finditer(raw):
+        pattern = self.pattern
+        key_num_pattern = self.key_num_pattern
+        for match in pattern.finditer(raw):
             if match.group(self.init_name):
                 if ctx := match.group(self.group_name).strip(", "):
-                    raw_id = cull_extra(self.key_num_pattern.sub("", ctx))
+                    raw_id = cull_extra(key_num_pattern.sub("", ctx))
                     ids = raw_id.strip("()[] .,;")
                     raw_date = match.group("docket_date")
                     date_found = decode_date(raw_date, True)

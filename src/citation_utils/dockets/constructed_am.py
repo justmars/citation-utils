@@ -120,7 +120,7 @@ optional = rf"""
     (?P<am_middle_optional>
         {letter}|
         {digit}
-    )?
+    )
     (?:
         (
             [\,\s,\-\&]|
@@ -132,7 +132,7 @@ optional = rf"""
 am_phrases = rf"""
     (?P<am_phrase>
         ({required})
-        ({optional}){{1,3}}
+        (?:{optional}){{0,3}}
     )
 """
 

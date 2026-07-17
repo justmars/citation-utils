@@ -1,8 +1,11 @@
 import re
 from collections.abc import Iterator
 from dataclasses import dataclass
+from functools import cached_property
+from heapq import merge
 
-from citation_report import REPORT_PATTERN, Report, normalize_report_text
+from citation_date import DOCKET_DATE_REGEX
+from citation_report import Report, normalize_report_text
 
 from .dockets import (
     CitationAC,
@@ -14,9 +17,48 @@ from .dockets import (
     CitationPET,
     CitationUDK,
     DocketReport,
+    constructed_ac,
+    constructed_am,
+    constructed_bm,
+    constructed_jib,
+    constructed_oca,
+    constructed_pet,
+    constructed_udk,
     is_statutory_rule,
 )
+from .dockets.constructed_gr import gr_key, l_key, n_irregular
 from .identity import CitationParts, aggregate_occurrences, render_parts
+
+
+DOCKET_DATE_PATTERN = re.compile(DOCKET_DATE_REGEX, re.I | re.X)
+GR_HINT_PATTERN = re.compile(rf"(?:{gr_key}|{l_key}|{n_irregular})", re.I | re.X)
+
+
+@dataclass(frozen=True)
+class _SpanIndex:
+    """Exact containment checks for sorted source intervals."""
+
+    starts: tuple[int, ...]
+    max_ends: tuple[int, ...]
+
+    @classmethod
+    def from_spans(
+        cls, spans: Iterator[tuple[int, int]] | list[tuple[int, int]]
+    ) -> "_SpanIndex":
+        max_end = -1
+        starts: list[int] = []
+        max_ends: list[int] = []
+        for start, end in sorted(spans):
+            starts.append(start)
+            max_end = max(max_end, end)
+            max_ends.append(max_end)
+        return cls(tuple(starts), tuple(max_ends))
+
+    def contains_span(self, start: int, end: int) -> bool:
+        from bisect import bisect_right
+
+        index = bisect_right(self.starts, start) - 1
+        return index >= 0 and self.max_ends[index] >= end
 
 
 @dataclass
@@ -49,16 +91,24 @@ class CitableDocument:
 
     def __post_init__(self):
         self.text = normalize_report_text(self.text)
-        self.reports = list(Report.extract_reports(self.text))
-        self.docketed_reports = list(self.get_docketed_reports(self.text))
-        self._report_occurrences = list(
-            zip(
-                (match.span() for match in REPORT_PATTERN.finditer(self.text)),
-                self.reports,
-                strict=True,
-            )
+
+    @cached_property
+    def _report_occurrences(self) -> list[tuple[tuple[int, int], Report]]:
+        return list(
+            Report.extract_reports_with_spans(self.text, text_is_normalized=True)
         )
-        self.undocketed_reports = self.get_undocketed_reports()
+
+    @cached_property
+    def reports(self) -> list[Report]:
+        return [report for _, report in self._report_occurrences]
+
+    @cached_property
+    def docketed_reports(self) -> list[DocketReport]:
+        return list(self._get_docketed_reports_from_normalized_text(self.text))
+
+    @cached_property
+    def undocketed_reports(self) -> set[str]:
+        return self.get_undocketed_reports()
 
     @classmethod
     def get_docketed_reports(
@@ -85,22 +135,39 @@ class CitableDocument:
             Iterator[DocketReport]: Any of custom `Docket` with `Report` types, e.g. `CitationAC`, etc.
         """  # noqa: E501
         text = normalize_report_text(text)
-        candidates: list[DocketReport] = []
-        for search_func in (
-            CitationAC.search,
-            CitationAM.search,
-            CitationOCA.search,
-            CitationBM.search,
-            CitationGR.search,
-            CitationPET.search,
-            CitationUDK.search,
-            CitationJIB.search,
-        ):
-            candidates.extend(search_func(text))
+        yield from cls._get_docketed_reports_from_normalized_text(
+            text, exclude_docket_rules
+        )
 
-        explicit_spans = [
-            result._source_span for result in candidates if result._explicit_category
-        ]
+    @classmethod
+    def _get_docketed_reports_from_normalized_text(
+        cls, text: str, exclude_docket_rules: bool = True
+    ) -> Iterator[DocketReport]:
+        """Extract dockets from already normalized text."""
+        if not DOCKET_DATE_PATTERN.search(text):
+            return
+
+        candidates: list[DocketReport] = []
+        for hint, search_func in (
+            (constructed_ac.key_num_pattern, CitationAC.search),
+            (constructed_am.key_num_pattern, CitationAM.search),
+            (constructed_oca.key_num_pattern, CitationOCA.search),
+            (constructed_bm.key_num_pattern, CitationBM.search),
+            (GR_HINT_PATTERN, CitationGR.search),
+            (constructed_pet.key_num_pattern, CitationPET.search),
+            (constructed_udk.key_num_pattern, CitationUDK.search),
+            (constructed_jib.key_num_pattern, CitationJIB.search),
+        ):
+            if hint.search(text):
+                candidates.extend(search_func(text))
+
+        explicit_spans = _SpanIndex.from_spans(
+            [
+                result._source_span
+                for result in candidates
+                if result._explicit_category
+            ]
+        )
         seen: set[tuple[int, int, str, str]] = set()
         selected: list[DocketReport] = []
         for result in candidates:
@@ -122,12 +189,9 @@ class CitableDocument:
 
     @staticmethod
     def _implicit_gr_is_owned(
-        text: str, start: int, explicit_spans: list[tuple[int, int]]
+        text: str, start: int, explicit_spans: _SpanIndex
     ) -> bool:
-        if any(
-            explicit_start <= start < explicit_end
-            for explicit_start, explicit_end in explicit_spans
-        ):
+        if explicit_spans.contains_span(start, start + 1):
             return True
         prefix = text[max(0, start - 80) : start]
         return bool(
@@ -142,22 +206,21 @@ class CitableDocument:
 
     def iter_parts(self) -> Iterator[CitationParts]:
         """Yield source occurrences without double-counting attached reports."""
-        docket_events = [
-            (result._source_span, result) for result in self.docketed_reports
-        ]
-        report_events = [
-            (span, report)
+        docket_events = (
+            (result._source_span[0], 0, "docket", result)
+            for result in self.docketed_reports
+        )
+        docket_span_index = _SpanIndex.from_spans(
+            [result._source_span for result in self.docketed_reports]
+        )
+        report_events = (
+            (span[0], 1, "report", report)
             for span, report in self._report_occurrences
-            if not any(
-                docket_start <= span[0] and span[1] <= docket_end
-                for (docket_start, docket_end), _ in docket_events
-            )
-        ]
-        events = [
-            *((span[0], "docket", result) for span, result in docket_events),
-            *((span[0], "report", report) for span, report in report_events),
-        ]
-        for start, kind, value in sorted(events, key=lambda event: event[0]):
+            if not docket_span_index.contains_span(*span)
+        )
+        for start, _, kind, value in merge(
+            docket_events, report_events, key=lambda event: event[:2]
+        ):
             if kind == "docket":
                 yield CitationParts(
                     category=value.category,
@@ -195,11 +258,9 @@ class CitableDocument:
         }
         undocketed_reports = set()
         for _, report in self._report_occurrences:
-            value = next(
-                value
-                for value in (report.phil, report.scra, report.qualified_offg)
-                if value
-            )
+            value = report.qualified_volpubpage
+            if not value:
+                continue
             if value.casefold() not in docketed_report_keys:
                 undocketed_reports.add(value)
         return undocketed_reports

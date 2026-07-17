@@ -15,7 +15,7 @@ from citation_report import Report
 from .dockets import Docket, DocketCategory
 
 
-@dataclass
+@dataclass(slots=True)
 class CitationParts:
     category: DocketCategory | None = None
     serial: str | None = None
@@ -47,7 +47,7 @@ class CitationParts:
         )
 
 
-@dataclass
+@dataclass(slots=True)
 class CitationGroup:
     parts: CitationParts
     mentions: int = 1
@@ -78,12 +78,13 @@ def aggregate_occurrences(occurrences: Iterable[CitationParts]) -> list[Citation
     a docket only if that qualified report identity is attached to exactly one
     docket identity in the same document.
     """
-    items = list(occurrences)
+    keyed_items = [
+        (item, item.docket_key, item.report_keys) for item in occurrences
+    ]
     docket_groups: dict[tuple[str, str, str], CitationGroup] = {}
     report_to_dockets: dict[tuple[str, str], set[tuple[str, str, str]]] = {}
 
-    for item in items:
-        docket_key = item.docket_key
+    for item, docket_key, report_keys in keyed_items:
         if not docket_key:
             continue
         group = docket_groups.get(docket_key)
@@ -92,14 +93,13 @@ def aggregate_occurrences(occurrences: Iterable[CitationParts]) -> list[Citation
             docket_groups[docket_key] = group
         else:
             group.add(item)
-        for report_key in item.report_keys:
+        for report_key in report_keys:
             report_to_dockets.setdefault(report_key, set()).add(docket_key)
 
     standalone_groups: dict[tuple[str, str], CitationGroup] = {}
-    for item in items:
-        if item.docket_key:
+    for item, docket_key, report_keys in keyed_items:
+        if docket_key:
             continue
-        report_keys = item.report_keys
         if len(report_keys) != 1:
             continue
         report_key = report_keys[0]

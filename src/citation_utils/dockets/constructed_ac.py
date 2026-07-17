@@ -94,7 +94,7 @@ optional = rf"""
         ({letter})|
         ({l_digits})|
         ({digits_alone})
-    )?
+    )
     (?:
         (
             [\,\s,\-\&]|
@@ -106,7 +106,7 @@ optional = rf"""
 ac_phrases = rf"""
     (?P<ac_phrase>
         ({required})
-        ({optional}){{1,3}}
+        (?:{optional}){{0,3}}
     )
 """
 

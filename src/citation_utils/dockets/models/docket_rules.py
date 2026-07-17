@@ -103,11 +103,14 @@ def is_statutory_rule(citeable):
     """  # noqa: E501
 
     if isinstance(citeable, Docket):  # excludes solo reports
-        serial = Docket.clean_serial(citeable.serial_text, citeable.category)
-        if not serial:
-            return False
         if citeable.category == DocketCategory.BM:
+            serial = Docket.clean_serial(citeable.ids, citeable.category)
+            if not serial:
+                return False
             return serial in STATUTORY_BM_SERIALS
-        elif citeable.category == DocketCategory.AM:
+        if citeable.category == DocketCategory.AM:
+            serial = Docket.clean_serial(citeable.ids, citeable.category)
+            if not serial:
+                return False
             return serial in STATUTORY_AM_SERIALS
     return False

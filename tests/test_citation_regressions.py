@@ -12,6 +12,7 @@ from citation_utils import (
     extract_docket_meta,
 )
 from citation_utils.dockets import DocketCategory
+from citation_utils.dockets.constructed_gr import constructed_gr
 
 FIXTURES = json.loads(
     (Path(__file__).parent / "fixtures" / "citation_regressions.json").read_text()
@@ -142,6 +143,36 @@ def test_extraction_is_unique_while_counting_retains_duplicate_source_mentions()
         2,
         2,
     ]
+
+
+def test_dangling_repeated_am_key_without_serial_is_not_extracted():
+    source = "A.M. No. 123 and A.M. No. , Jan 1, 2020"
+
+    assert list(Citation.extract_citations(source)) == []
+
+
+def test_date_preflight_keeps_case_insensitive_us_and_day_first_dates():
+    sources = [
+        "G.R. No. 123, jan. 1, 2000",
+        "G.R. No. 123, 1 Jan. 2000",
+    ]
+
+    assert [
+        next(CitableDocument.get_docketed_reports(source)).serial_text
+        for source in sources
+    ] == ["123", "123"]
+
+
+def test_constructor_patterns_are_cached_and_invalidate_when_the_source_changes():
+    original = constructed_gr.docket_regex
+    cached = constructed_gr.pattern
+    assert constructed_gr.pattern is cached
+
+    try:
+        constructed_gr.docket_regex = original + "(?:)"
+        assert constructed_gr.pattern is not cached
+    finally:
+        constructed_gr.docket_regex = original
 
 
 def test_model_round_trip_equality_and_rendering_are_safe_and_structural():
