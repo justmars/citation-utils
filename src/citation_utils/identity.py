@@ -7,6 +7,7 @@ be useful evidence, but it is not a transitive Python equality relation.
 import logging
 from dataclasses import dataclass, replace
 from datetime import date
+from functools import lru_cache
 from typing import Iterable
 
 from citation_date import DOCKET_DATE_FORMAT
@@ -121,6 +122,7 @@ def aggregate_occurrences(occurrences: Iterable[CitationParts]) -> list[Citation
     )
 
 
+@lru_cache(maxsize=4096)
 def display_report(raw: str | None, field: str) -> str | None:
     if not raw:
         return None
@@ -135,11 +137,7 @@ def display_report(raw: str | None, field: str) -> str | None:
 def render_parts(parts: CitationParts) -> str:
     reports = [
         value
-        for value in (
-            display_report(parts.phil, "phil"),
-            display_report(parts.scra, "scra"),
-            display_report(parts.offg, "offg"),
-        )
+        for value in (parts.phil, parts.scra, parts.offg)
         if value
     ]
     docket = None

@@ -14,6 +14,7 @@ from citation_utils import (
 )
 from citation_utils.dockets import DocketCategory
 from citation_utils.dockets.constructed_gr import constructed_gr
+from citation_utils.identity import CitationParts, display_report, render_parts
 
 FIXTURES = json.loads(
     (Path(__file__).parent / "fixtures" / "citation_regressions.json").read_text()
@@ -144,6 +145,59 @@ def test_extraction_is_unique_while_counting_retains_duplicate_source_mentions()
         2,
         2,
     ]
+
+
+def test_counted_reports_uses_filtered_span_extraction(monkeypatch):
+    monkeypatch.setattr("citation_report.main.get_publisher_label", lambda match: None)
+
+    assert CountedCitation.counted_reports("100 SCRA 1") == []
+
+
+def test_counted_reports_preserves_order_counts_and_qualified_offg():
+    source = "50\xa0 Off. Gaz. Supp. 10; 100 SCRA 1; 50 O.G. Supp. 10"
+
+    results = [
+        citation.model_dump() for citation in CountedCitation.counted_reports(source)
+    ]
+
+    assert results == [
+        {
+            "cat": None,
+            "num": None,
+            "date": None,
+            "phil": None,
+            "scra": None,
+            "offg": "50 o.g. supp. 10",
+            "mentions": 2,
+        },
+        {
+            "cat": None,
+            "num": None,
+            "date": None,
+            "phil": None,
+            "scra": "100 scra 1",
+            "offg": None,
+            "mentions": 1,
+        },
+    ]
+
+
+def test_render_parts_uses_canonical_report_values_directly():
+    parts = CitationParts(
+        phil="1 Phil. 2",
+        scra="3 SCRA 4",
+        offg="47 O.G. Supp. 43",
+    )
+
+    assert render_parts(parts) == "1 Phil. 2, 3 SCRA 4, 47 O.G. Supp. 43"
+
+
+def test_arbitrary_report_display_is_bounded_and_cached():
+    display_report.cache_clear()
+
+    assert display_report("47 o.g. supp. 43", "offg") == "47 O.G. Supp. 43"
+    assert display_report("47 o.g. supp. 43", "offg") == "47 O.G. Supp. 43"
+    assert display_report.cache_info().hits == 1
 
 
 def test_dangling_repeated_am_key_without_serial_is_not_extracted():

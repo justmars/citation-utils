@@ -145,15 +145,15 @@ class Docket(BaseModel):
         """
         raw = _SERIAL_SPLIT.split(text.strip().rstrip("*•[]"), maxsplit=1)[0]
         raw = _NUMBER_PREFIX.sub("", raw)
+        if raw.isascii() and raw.isdigit():
+            return raw
+
         category_name = (
             category.name if isinstance(category, DocketCategory) else (category or "")
         ).upper()
 
         if category_name == DocketCategory.GR.name:
             raw = gr_prefix_clean(raw) or raw
-
-        if raw.isascii() and raw.isdigit():
-            return raw
 
         raw = _DOTTED_ACRONYM.sub(lambda match: match.group().replace(".", ""), raw)
         raw = _SPACED_HYPHEN.sub("-", raw)

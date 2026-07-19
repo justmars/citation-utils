@@ -32,6 +32,13 @@ from .identity import CitationParts, aggregate_occurrences, render_parts
 
 DOCKET_DATE_PATTERN = re.compile(DOCKET_DATE_REGEX, re.I | re.X)
 GR_HINT_PATTERN = re.compile(rf"(?:{gr_key}|{l_key}|{n_irregular})", re.I | re.X)
+IMPLICIT_GR_OWNER_PATTERN = re.compile(
+    r"(?:\bca\s*-?\s*g\.?r\.?|\bc\.a\.\s*g\.?r\.?|"
+    r"\ba\.?c\.?|\ba\.?m\.?|\bb\.?m\.?|"
+    r"\badmin(?:istrative)?\s+(?:case|matter)|\bbar\s+matter)"
+    r"[^;\n]*$",
+    re.I | re.X,
+)
 
 
 @dataclass(frozen=True)
@@ -194,15 +201,7 @@ class CitableDocument:
         if explicit_spans.contains_span(start, start + 1):
             return True
         prefix = text[max(0, start - 80) : start]
-        return bool(
-            re.search(
-                r"(?ix)(?:\bca\s*-?\s*g\.?r\.?|\bc\.a\.\s*g\.?r\.?|"
-                r"\ba\.?c\.?|\ba\.?m\.?|\bb\.?m\.?|"
-                r"\badmin(?:istrative)?\s+(?:case|matter)|\bbar\s+matter)"
-                r"[^;\n]*$",
-                prefix,
-            )
-        )
+        return bool(IMPLICIT_GR_OWNER_PATTERN.search(prefix))
 
     def iter_parts(self) -> Iterator[CitationParts]:
         """Yield source occurrences without double-counting attached reports."""

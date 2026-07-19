@@ -1,5 +1,6 @@
 import pytest
 
+from citation_utils.dockets import Docket, DocketCategory
 from citation_utils.dockets.models.gr_clean import (
     LEGACY_PREFIXED,
     gr_prefix_clean,
@@ -22,6 +23,17 @@ from citation_utils.dockets.models.gr_clean import (
 )
 def test_prefix_clean(raw, result):
     assert result == remove_prefix_regex(LEGACY_PREFIXED, raw)
+
+
+def test_numeric_gr_serial_bypasses_legacy_prefix_repair(monkeypatch):
+    def fail_if_called(text):
+        raise AssertionError(f"unexpected GR prefix repair for {text!r}")
+
+    monkeypatch.setattr(
+        "citation_utils.dockets.models.docket_model.gr_prefix_clean", fail_if_called
+    )
+
+    assert Docket.clean_serial("No. 123", DocketCategory.GR) == "123"
 
 
 @pytest.mark.parametrize(

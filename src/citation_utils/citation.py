@@ -5,7 +5,7 @@ from collections.abc import Iterator
 from typing import Self
 
 from citation_date import DOCKET_DATE_FORMAT
-from citation_report import REPORT_PATTERN, Report
+from citation_report import Report
 from dateutil.parser import parse
 from pydantic import (
     BaseModel,
@@ -522,13 +522,9 @@ class CountedCitation(Citation):
                 phil=report.phil,
                 scra=report.scra,
                 offg=report.qualified_offg or report.offg,
-                start=match.start(),
+                start=span[0],
             )
-            for match, report in zip(
-                REPORT_PATTERN.finditer(text),
-                Report.extract_reports(text=text),
-                strict=True,
-            )
+            for span, report in Report.extract_reports_with_spans(text)
         )
         return [
             cls._from_parts(group.parts, mentions=group.mentions)

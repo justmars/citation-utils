@@ -59,6 +59,13 @@ LEGACY_PREFIXED_LOOKALIKE = r"""
     \s?
 """
 
+_NUMBER_PREFIX_PATTERN = re.compile(r"^nos?\.\s*", re.I)
+_LEGACY_PREFIXED_PATTERN = re.compile(LEGACY_PREFIXED, re.X)
+_L_LOOKALIKE_PATTERN = re.compile(r"^l\s*-\s*[il]\s*(?=\d)", re.I)
+_I_PREFIX_PATTERN = re.compile(r"^i\.?\s*-\s*", re.I)
+_L_NUMBER_PREFIX_PATTERN = re.compile(r"^l\s*-\s*no\.?\s*", re.I)
+_SPACED_L_PREFIX_PATTERN = re.compile(r"^l\s+(?=\d)", re.I)
+
 
 def remove_prefix_regex(regex_to_match: str, text: str):
     """Based on the `regex` passed, remove this from the start of the `text`"""
@@ -102,19 +109,19 @@ def gr_prefix_clean(text: str) -> str | None:
     Returns:
         str | None: The cleaned GR docket ID, if detected.
     """
-    value = re.sub(r"(?i)^nos?\.\s*", "", text.strip())
+    value = _NUMBER_PREFIX_PATTERN.sub("", text.strip())
 
     # These are deliberately narrow repairs for the legacy GR prefix.  They
     # run before generic serial normalization so that the original ``L`` is
     # not discarded by a permissive category prefix matcher.
-    if re.match(r"(?i)^l\s*-\s*[il]\s*(?=\d)", value):
-        return re.sub(r"(?i)^l\s*-\s*[il]\s*", "L-1", value)
-    if re.match(r"(?i)^i\.?\s*-\s*", value):
-        return re.sub(r"(?i)^i\.?\s*-\s*", "L-", value)
-    if re.match(r"(?i)^l\s*-\s*no\.?\s*", value):
-        return re.sub(r"(?i)^l\s*-\s*no\.?\s*", "L-", value)
-    if re.match(r"(?i)^l\s+(?=\d)", value):
-        return re.sub(r"(?i)^l\s+", "L-", value)
-    if cleaned := replace_prefix_regex(LEGACY_PREFIXED, value, "L-"):
-        return cleaned
+    if match := _L_LOOKALIKE_PATTERN.match(value):
+        return "L-1" + value[match.end() :]
+    if match := _I_PREFIX_PATTERN.match(value):
+        return "L-" + value[match.end() :]
+    if match := _L_NUMBER_PREFIX_PATTERN.match(value):
+        return "L-" + value[match.end() :]
+    if match := _SPACED_L_PREFIX_PATTERN.match(value):
+        return "L-" + value[match.end() :]
+    if match := _LEGACY_PREFIXED_PATTERN.match(value):
+        return "L-" + value.removeprefix(match.group()).strip()
     return None
