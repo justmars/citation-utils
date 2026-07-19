@@ -97,11 +97,12 @@ dev = [
 
 [[package]]
 name = "citation-utils"
-version = "0.6.1"
+version = "0.6.2"
 source = { editable = "." }
 dependencies = [
     { name = "citation-date" },
     { name = "citation-report" },
+    { name = "pydantic" },
     { name = "python-dateutil" },
 ]
 
@@ -118,6 +119,7 @@ dev = [
 requires-dist = [
     { name = "citation-date", editable = "../citation-date" },
     { name = "citation-report", editable = "../citation-report" },
+    { name = "pydantic", specifier = ">=2.12.5" },
     { name = "python-dateutil", specifier = ">=2.9.0.post0" },
 ]
 

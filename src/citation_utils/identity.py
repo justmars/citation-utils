@@ -4,6 +4,7 @@ This module deliberately does not use model equality.  A shared reporter can
 be useful evidence, but it is not a transitive Python equality relation.
 """
 
+import hashlib
 import logging
 from dataclasses import dataclass, replace
 from datetime import date
@@ -45,6 +46,40 @@ class CitationParts:
                 ("offg", self.offg),
             )
             if value
+        )
+
+
+@dataclass(frozen=True, slots=True)
+class CitationOccurrence:
+    """One lossless, source-ordered citation occurrence."""
+
+    raw_text: str
+    start: int
+    end: int
+    category: DocketCategory | None = None
+    serial: str | None = None
+    docket_date: date | None = None
+    phil: str | None = None
+    scra: str | None = None
+    offg: str | None = None
+
+    @property
+    def occurrence_key(self) -> str:
+        identity = "\0".join(
+            (
+                str(self.start), str(self.end), self.raw_text,
+                self.category.name if self.category else "", self.serial or "",
+                self.docket_date.isoformat() if self.docket_date else "",
+                self.phil or "", self.scra or "", self.offg or "",
+            )
+        )
+        return hashlib.sha256(identity.encode()).hexdigest()
+
+    def to_parts(self) -> CitationParts:
+        return CitationParts(
+            category=self.category, serial=self.serial,
+            docket_date=self.docket_date, phil=self.phil, scra=self.scra,
+            offg=self.offg, start=self.start,
         )
 
 

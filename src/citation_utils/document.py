@@ -27,8 +27,12 @@ from .dockets import (
     is_statutory_rule,
 )
 from .dockets.constructed_gr import gr_key, l_key, n_irregular
-from .identity import CitationParts, aggregate_occurrences, render_parts
-
+from .identity import (
+    CitationOccurrence,
+    CitationParts,
+    aggregate_occurrences,
+    render_parts,
+)
 
 DOCKET_DATE_PATTERN = re.compile(DOCKET_DATE_REGEX, re.I | re.X)
 GR_HINT_PATTERN = re.compile(rf"(?:{gr_key}|{l_key}|{n_irregular})", re.I | re.X)
@@ -203,8 +207,8 @@ class CitableDocument:
         prefix = text[max(0, start - 80) : start]
         return bool(IMPLICIT_GR_OWNER_PATTERN.search(prefix))
 
-    def iter_parts(self) -> Iterator[CitationParts]:
-        """Yield source occurrences without double-counting attached reports."""
+    def iter_occurrences(self) -> Iterator[CitationOccurrence]:
+        """Yield lossless source occurrences without double-counting reports."""
         docket_events = (
             (result._source_span[0], 0, "docket", result)
             for result in self.docketed_reports
@@ -213,7 +217,7 @@ class CitableDocument:
             [result._source_span for result in self.docketed_reports]
         )
         report_events = (
-            (span[0], 1, "report", report)
+            (span[0], 1, "report", (span, report))
             for span, report in self._report_occurrences
             if not docket_span_index.contains_span(*span)
         )
@@ -221,22 +225,29 @@ class CitableDocument:
             docket_events, report_events, key=lambda event: event[:2]
         ):
             if kind == "docket":
-                yield CitationParts(
+                end = value._source_span[1]
+                yield CitationOccurrence(
+                    raw_text=self.text[start:end], start=start, end=end,
                     category=value.category,
                     serial=value.serial_text,
                     docket_date=value.docket_date,
                     phil=value.phil,
                     scra=value.scra,
                     offg=value.qualified_offg or value.offg,
-                    start=start,
                 )
             else:
-                yield CitationParts(
-                    phil=value.phil,
-                    scra=value.scra,
-                    offg=value.qualified_offg or value.offg,
-                    start=start,
+                span, report = value
+                yield CitationOccurrence(
+                    raw_text=self.text[span[0]:span[1]], start=span[0], end=span[1],
+                    phil=report.phil,
+                    scra=report.scra,
+                    offg=report.qualified_offg or report.offg,
                 )
+
+    def iter_parts(self) -> Iterator[CitationParts]:
+        """Compatibility adapter over the occurrence contract."""
+        for occurrence in self.iter_occurrences():
+            yield occurrence.to_parts()
 
     def get_undocketed_reports(self):
         """Steps:

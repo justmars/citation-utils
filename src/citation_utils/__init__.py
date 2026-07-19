@@ -35,4 +35,5 @@ from .dockets import (
     udk_phrases,
 )
 from .document import CitableDocument
+from .identity import CitationOccurrence
 from .special import extract_docket_meta
