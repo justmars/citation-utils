@@ -161,8 +161,8 @@ approximately 0.12 seconds and 0.003 seconds, respectively.
 
 ### Migration from 0.5.0
 
-1. Upgrade to Python 3.14 and install `citation-date>=0.3.0`,
-   `citation-report>=0.4.0`, `pydantic>=2.12.5`, and
+1. Upgrade to Python 3.14 and install `citation-date>=1.0.0`,
+   `citation-report>=1.0.0`, `pydantic>=2.12.5`, and
    `python-dateutil>=2.9.0.post0`.
 2. Review code that relied on two citations comparing equal merely because
    they shared one reporter. Use explicit identity fields or
