@@ -21,6 +21,7 @@ docket, or verify that a quoted document is authentic.
 | --- | --- | --- |
 | First recognized citation | `Citation.extract_citation(text)` | One `Citation` or `None` |
 | All unique citation records | `Citation.extract_citations(text)` | Iterator in first-seen source order |
+| Every lossless occurrence | `CitableDocument(text).iter_occurrences()` | Source text, offsets, identity fields, and stable key |
 | Intermediate matches and source-facing docket details | `CitableDocument(text)` | Docketed matches, reports, and strings |
 | Number of occurrences | `CountedCitation.from_source(text)` | Unique records with `mentions` |
 
@@ -98,6 +99,34 @@ the same unique, source-ordered textual records used by `Citation` extraction.
 Qualified Official Gazette references are retained. For example, the parser
 distinguishes `47 O.G. Supp. 43` and `49 O.G. No. 7, 2740` rather than reducing
 them to an unqualified volume and page.
+
+## Retain every occurrence
+
+`iter_occurrences()` yields immutable `CitationOccurrence` records in source
+order. Each record keeps `raw_text`, character offsets, all parsed docket and
+report fields, and a deterministic SHA-256 `occurrence_key` derived from that
+evidence.
+
+```python
+from citation_utils import CitableDocument
+
+text = "100 SCRA 1; see again 100 SCRA 1"
+occurrences = list(CitableDocument(text).iter_occurrences())
+assert [text[item.start:item.end] for item in occurrences] == [
+    "100 SCRA 1", "100 SCRA 1"
+]
+assert occurrences[0].occurrence_key != occurrences[1].occurrence_key
+```
+
+Keys are reproducible for the same string and parser result, not durable
+identifiers across source edits. `iter_parts()` remains the compatibility
+adapter used by aggregate citation counting; new evidence-preserving consumers
+should use occurrences.
+
+Downstream presentation code may import `get_docket_slug_from_text` and
+`make_citation_string` from `citation_utils.formatting`. That deliberately
+bounded module is the supported façade used by lawsql; parser internals are not
+an application formatting contract.
 
 ## Count occurrences without inventing links
 

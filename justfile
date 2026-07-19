@@ -4,6 +4,11 @@ set dotenv-load
 docs:
   uv run zensical serve --dev-addr localhost:8001
 
+# verify maintained documentation contracts
+docs-check:
+  uv run pytest -o addopts='-q' tests/test_docs_contract.py
+  uv run zensical build --clean --strict
+
 # run all repository gates
 check:
   uv run pytest

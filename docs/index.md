@@ -10,6 +10,10 @@ infer a case title, a missing reporter, or a missing docket component; nor does
 it authenticate or verify the source document. Keep the source text and its
 location for legal review.
 
+`decision-utils` consumes lossless occurrences and aggregated identities;
+`lawsql` consumes the aggregate plus the bounded `citation_utils.formatting`
+façade. Neither consumer should import docket regex internals.
+
 ## Reader Paths
 
 === "Extract records"

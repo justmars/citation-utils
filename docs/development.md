@@ -75,3 +75,14 @@ acceptance and rejection boundaries that make the intended rule explicit. A
 corpus screenshot or frequency count is discovery evidence only; the fixture
 should quote the text form being tested and must not be presented as direct
 proof of the original court document.
+
+## Performance contract
+
+Long-document extraction uses conservative preflight hints, cached compiled
+patterns, indexed span containment, a source-ordered event merge, and the
+single-pass `citation-report` span API. These are implementation choices, but
+their externally visible invariants are regression contracts: do not change
+accepted citations, first-seen ordering, occurrence offsets, mention counts,
+raw compound identifiers, or model validation merely to make a benchmark
+faster. Run `benchmarks/benchmark_extraction.py` when changing a hot path and
+compare both short snippets and long near-miss documents.
