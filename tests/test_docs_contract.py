@@ -31,3 +31,13 @@ def test_maintained_docs_do_not_depend_on_plan_files() -> None:
     assert not (ROOT / "plans").exists()
     for path in (ROOT / "README.md", *DOCS.rglob("*.md")):
         assert not PLAN_LINK.search(path.read_text(encoding="utf-8")), path
+
+
+def test_release_history_matches_current_version_and_baseline() -> None:
+    project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    release_history = (DOCS / "releases.md").read_text(encoding="utf-8")
+
+    assert f"## {project['project']['version']}" in release_history
+    assert "Before: 0.5.0" in release_history
+    assert "After: 1.0.0" in release_history
+    assert "`6efb9ff`" in release_history

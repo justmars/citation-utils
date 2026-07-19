@@ -9,6 +9,7 @@ nav = [
   { "Extracting citations" = "citeable.md" },
   { "Docket types" = "structure.md" },
   { "SQLite analysis" = "sqlite.md" },
+  { "Release history" = "releases.md" },
   { "Development" = "development.md" },
 ]
 

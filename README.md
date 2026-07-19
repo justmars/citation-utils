@@ -37,7 +37,9 @@ assert citation.model_dump() == {
 
 See the [documentation](https://justmars.github.io/citation-utils) for
 source-review limits, extraction and counting behavior, supported docket types,
-SQLite-oriented output, and local development checks.
+SQLite-oriented output, and local development checks. The
+[1.0 release history](https://justmars.github.io/citation-utils/releases/)
+compares the stable release with the previously pushed 0.5.0 package.
 
 ## Boundaries
 

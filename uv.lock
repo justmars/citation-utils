@@ -97,7 +97,7 @@ dev = [
 
 [[package]]
 name = "citation-utils"
-version = "0.6.2"
+version = "1.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "citation-date" },
