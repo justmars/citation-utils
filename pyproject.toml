@@ -7,13 +7,13 @@ requires-python = ">=3.14"
 dependencies = [
     "citation-date >= 1.0.0",
     "citation-report >= 1.0.0",
-    "pydantic >= 2.12.5",
+    "pydantic >= 2.13",
     "python-dateutil >= 2.9.0.post0",
 ]
 
-[tool.uv.sources]
-citation-date = { path = "../citation-date", editable = true }
-citation-report = { path = "../citation-report", editable = true }
+# [tool.uv.sources]
+# citation-date = { path = "../citation-date", editable = true }
+# citation-report = { path = "../citation-report", editable = true }
 
 [build-system]
 requires = ["uv_build>=0.11.28,<0.12"]
@@ -22,10 +22,10 @@ build-backend = "uv_build"
 [dependency-groups]
 dev = [
     # docs
-    "zensical >= 0.0.50",
+    "zensical >= 0.0.51",
     # notebook examples
-    "marimo >= 0.23.14",
-    "polars >= 1.42.1",
+    "marimo >= 0.23.15",
+    "polars >= 1.43",
     # testing
     "pytest >= 9.1",
     "pytest-cov >= 7.1",

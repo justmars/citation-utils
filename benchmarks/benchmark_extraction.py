@@ -29,8 +29,7 @@ def extract(text: str) -> None:
 
 def main() -> None:
     dense = "; ".join(
-        f"G.R. No. {index}, Jan. 1, 2000, {index} SCRA 1"
-        for index in range(1000, 3000)
+        f"G.R. No. {index}, Jan. 1, 2000, {index} SCRA 1" for index in range(1000, 3000)
     )
     report_only = "; ".join(f"{index} SCRA 1" for index in range(1000, 3000))
     mixed = "; ".join(
@@ -43,12 +42,11 @@ def main() -> None:
         * 250
     )
     overlapping_ownership = "; ".join(
-        "A.M. No. P-13-3116, Jan. 1, 2000, 1 SCRA 1"
-        for _ in range(1000)
+        "A.M. No. P-13-3116, Jan. 1, 2000, 1 SCRA 1" for _ in range(1000)
     )
-    adversarial_near_miss = "; ".join(
-        "A.M. No. 123 and A.M. No. " for _ in range(1000)
-    ) + "; Jan. 1, 2000"
+    adversarial_near_miss = (
+        "; ".join("A.M. No. 123 and A.M. No. " for _ in range(1000)) + "; Jan. 1, 2000"
+    )
     no_match = "unrelated prose " * 8_000
     canonical_parts = CitationParts(
         phil="1 Phil. 2", scra="3 SCRA 4", offg="47 O.G. Supp. 43"

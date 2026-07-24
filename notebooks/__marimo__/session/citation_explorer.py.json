@@ -1,0 +1,61 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.23.15",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "55bd98d90e1a558b129121180197560e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "6e1298623c51937cb090c1b1945e0e36",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "da8404d02158ba21e7ccfba6e545486d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "382147f5db6fd31065777149241d4539",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"citation-explorer\">Citation explorer</h1></span><marimo-ui-element object-id='MJUe-0' random-id='bfd4b7de-ef30-512c-815f-711c26742aee'><marimo-text-area data-initial-value='&quot;G.R. No. 147033, April 30, 2003, 374 Phil. 1; G.R. No. 147033, April 30, 2003; 31 SCRA 562&quot;' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eCitation text&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-placeholder='&quot;&quot;' data-disabled='false' data-debounce='true' data-full-width='true'></marimo-text-area></marimo-ui-element><span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"extracted-citations\">Extracted citations</h2></span><marimo-ui-element object-id='bkHC-0' random-id='eebee7e5-4d34-5b67-cf7e-2648e523ec30'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;_marimo_row_id&#92;&quot;:0,&#92;&quot;cat&#92;&quot;:&#92;&quot;gr&#92;&quot;,&#92;&quot;num&#92;&quot;:&#92;&quot;147033&#92;&quot;,&#92;&quot;date&#92;&quot;:&#92;&quot;2003-04-30&#92;&quot;,&#92;&quot;phil&#92;&quot;:&#92;&quot;374 phil. 1&#92;&quot;,&#92;&quot;scra&#92;&quot;:null,&#92;&quot;offg&#92;&quot;:null},{&#92;&quot;_marimo_row_id&#92;&quot;:1,&#92;&quot;cat&#92;&quot;:null,&#92;&quot;num&#92;&quot;:null,&#92;&quot;date&#92;&quot;:null,&#92;&quot;phil&#92;&quot;:null,&#92;&quot;scra&#92;&quot;:&#92;&quot;31 scra 562&#92;&quot;,&#92;&quot;offg&#92;&quot;:null}]&quot;' data-total-rows='2' data-total-columns='6' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='false' data-page-size='10' data-field-types='[[&quot;cat&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;num&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;date&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;phil&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;scra&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;offg&quot;,[&quot;string&quot;,&quot;str&quot;]]]' data-selection='&quot;multi&quot;' data-show-filters='true' data-show-download='true' data-show-search='true' data-show-column-summaries='false' data-show-data-types='true' data-show-page-size-selector='false' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-hidden-columns='[]' data-has-stable-row-id='true' data-lazy='false' data-preload='false'></marimo-table></marimo-ui-element><span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"citation-mentions\">Citation mentions</h2></span><marimo-ui-element object-id='bkHC-1' random-id='c0264e74-d939-b46a-c772-4302c99f2dfe'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;_marimo_row_id&#92;&quot;:0,&#92;&quot;cat&#92;&quot;:&#92;&quot;gr&#92;&quot;,&#92;&quot;num&#92;&quot;:&#92;&quot;147033&#92;&quot;,&#92;&quot;date&#92;&quot;:&#92;&quot;2003-04-30&#92;&quot;,&#92;&quot;phil&#92;&quot;:&#92;&quot;374 phil. 1&#92;&quot;,&#92;&quot;scra&#92;&quot;:null,&#92;&quot;offg&#92;&quot;:null,&#92;&quot;mentions&#92;&quot;:2},{&#92;&quot;_marimo_row_id&#92;&quot;:1,&#92;&quot;cat&#92;&quot;:null,&#92;&quot;num&#92;&quot;:null,&#92;&quot;date&#92;&quot;:null,&#92;&quot;phil&#92;&quot;:null,&#92;&quot;scra&#92;&quot;:&#92;&quot;31 scra 562&#92;&quot;,&#92;&quot;offg&#92;&quot;:null,&#92;&quot;mentions&#92;&quot;:1}]&quot;' data-total-rows='2' data-total-columns='7' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='false' data-page-size='10' data-field-types='[[&quot;cat&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;num&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;date&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;phil&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;scra&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;offg&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;mentions&quot;,[&quot;integer&quot;,&quot;i64&quot;]]]' data-selection='&quot;multi&quot;' data-show-filters='true' data-show-download='true' data-show-search='true' data-show-column-summaries='false' data-show-data-types='true' data-show-page-size-selector='false' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-hidden-columns='[]' data-has-stable-row-id='true' data-lazy='false' data-preload='false'></marimo-table></marimo-ui-element></div>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

@@ -67,19 +67,28 @@ class CitationOccurrence:
     def occurrence_key(self) -> str:
         identity = "\0".join(
             (
-                str(self.start), str(self.end), self.raw_text,
-                self.category.name if self.category else "", self.serial or "",
+                str(self.start),
+                str(self.end),
+                self.raw_text,
+                self.category.name if self.category else "",
+                self.serial or "",
                 self.docket_date.isoformat() if self.docket_date else "",
-                self.phil or "", self.scra or "", self.offg or "",
+                self.phil or "",
+                self.scra or "",
+                self.offg or "",
             )
         )
         return hashlib.sha256(identity.encode()).hexdigest()
 
     def to_parts(self) -> CitationParts:
         return CitationParts(
-            category=self.category, serial=self.serial,
-            docket_date=self.docket_date, phil=self.phil, scra=self.scra,
-            offg=self.offg, start=self.start,
+            category=self.category,
+            serial=self.serial,
+            docket_date=self.docket_date,
+            phil=self.phil,
+            scra=self.scra,
+            offg=self.offg,
+            start=self.start,
         )
 
 
@@ -114,9 +123,7 @@ def aggregate_occurrences(occurrences: Iterable[CitationParts]) -> list[Citation
     a docket only if that qualified report identity is attached to exactly one
     docket identity in the same document.
     """
-    keyed_items = [
-        (item, item.docket_key, item.report_keys) for item in occurrences
-    ]
+    keyed_items = [(item, item.docket_key, item.report_keys) for item in occurrences]
     docket_groups: dict[tuple[str, str, str], CitationGroup] = {}
     report_to_dockets: dict[tuple[str, str], set[tuple[str, str, str]]] = {}
 
@@ -170,11 +177,7 @@ def display_report(raw: str | None, field: str) -> str | None:
 
 
 def render_parts(parts: CitationParts) -> str:
-    reports = [
-        value
-        for value in (parts.phil, parts.scra, parts.offg)
-        if value
-    ]
+    reports = [value for value in (parts.phil, parts.scra, parts.offg) if value]
     docket = None
     if parts.category and parts.serial and parts.docket_date:
         docket = (

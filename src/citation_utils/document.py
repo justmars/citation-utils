@@ -173,11 +173,7 @@ class CitableDocument:
                 candidates.extend(search_func(text))
 
         explicit_spans = _SpanIndex.from_spans(
-            [
-                result._source_span
-                for result in candidates
-                if result._explicit_category
-            ]
+            [result._source_span for result in candidates if result._explicit_category]
         )
         seen: set[tuple[int, int, str, str]] = set()
         selected: list[DocketReport] = []
@@ -227,7 +223,9 @@ class CitableDocument:
             if kind == "docket":
                 end = value._source_span[1]
                 yield CitationOccurrence(
-                    raw_text=self.text[start:end], start=start, end=end,
+                    raw_text=self.text[start:end],
+                    start=start,
+                    end=end,
                     category=value.category,
                     serial=value.serial_text,
                     docket_date=value.docket_date,
@@ -238,7 +236,9 @@ class CitableDocument:
             else:
                 span, report = value
                 yield CitationOccurrence(
-                    raw_text=self.text[span[0]:span[1]], start=span[0], end=span[1],
+                    raw_text=self.text[span[0] : span[1]],
+                    start=span[0],
+                    end=span[1],
                     phil=report.phil,
                     scra=report.scra,
                     offg=report.qualified_offg or report.offg,
