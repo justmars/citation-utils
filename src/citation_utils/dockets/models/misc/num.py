@@ -30,9 +30,10 @@ NUMBER_KEYWORD = r"""
 
 class Key(Enum):
     GR = Point("g", "r").permuted
-    AM = Point("a", "m").permuted + [r"Adm\.\sMatter", r"Admin\sMatter"]
-    BM = Point("b", "m").permuted + [r"Bar\sMatter"]
-    AC = Point("a", "c").permuted + [
+    AM = [*Point("a", "m").permuted, r"Adm\.\sMatter", r"Admin\sMatter"]
+    BM = [*Point("b", "m").permuted, r"Bar\sMatter"]
+    AC = [
+        *Point("a", "c").permuted,
         r"A\.C\.\s\-\sCBD",
         r"A\.C\.\sCBD",
         r"Adm\.\sCase",

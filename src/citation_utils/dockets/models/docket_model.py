@@ -1,6 +1,5 @@
 import re
 from datetime import date
-from typing import Self
 
 from citation_date import DOCKET_DATE_FORMAT
 from pydantic import BaseModel, Field
@@ -9,7 +8,7 @@ from .docket_category import DocketCategory
 from .gr_clean import gr_prefix_clean
 
 DB_SERIAL_NUM = re.compile(r"^(?P<serial>[a-z0-9]+(?:-[a-z0-9]+)*)$")
-"""Ideally, the docket id for the database should only be alpha-numeric, lowercase with dashes."""  # noqa: E501
+"""Ideally, the docket id for the database should only be alpha-numeric, lowercase with dashes."""
 
 _DOTTED_ACRONYM = re.compile(r"(?i)(?:[a-z]\.){2,}")
 _SERIAL_SPLIT = re.compile(r"\s*(?:,|;|/|&|\band\b)\s*", re.I)
@@ -54,7 +53,7 @@ class Docket(BaseModel):
     _G.R. Nos. 138570, October 10, 2000_ | GR | 74910 | October 10, 2000
     _A.M. RTJ-12-2317 (Formerly OCA I.P.I. No. 10-3378-RTJ), Jan 1, 2000_ | AM | RTJ-12-2317 |Jan 1, 2000
     _A.C. No. 10179 (Formerly CBD 11-2985), March 04, 2014_ | AC | 10179 | Mar. 4, 2014
-    """  # noqa: E501
+    """
 
     context: str = Field(..., description="Full text matched by regex pattern.")
     category: DocketCategory = Field(..., description="e.g. General Register, etc.")
@@ -69,7 +68,7 @@ class Docket(BaseModel):
     def __str__(self) -> str:
         if self.serial_text:
             return (
-                f"{self.category} No. {self.serial_text.upper()}, {self.formatted_date}"  # noqa: E501
+                f"{self.category} No. {self.serial_text.upper()}, {self.formatted_date}"
             )
         return "No proper string detected."
 

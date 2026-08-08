@@ -140,6 +140,5 @@ class CitationAC(DocketReportCitation):
 
         Yields:
             Iterator[Self]: Combination of Docket and Report pydantic model.
-        """  # noqa E501
-        for result in constructed_ac.detect_with_spans(text):
-            yield cls.from_detected(result)
+        """
+        yield from cls._search_with_constructor(text, constructed_ac)

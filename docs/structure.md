@@ -80,9 +80,7 @@ matched context matters:
 from citation_utils import CitableDocument
 
 result = next(
-    CitableDocument.get_docketed_reports(
-        "G.R. No. 147033, April 30, 2003, 374 Phil. 1"
-    )
+    CitableDocument.get_docketed_reports("G.R. No. 147033, April 30, 2003, 374 Phil. 1")
 )
 
 assert result.context == "G.R. No. 147033"

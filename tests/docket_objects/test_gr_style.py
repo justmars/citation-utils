@@ -31,7 +31,7 @@ from citation_utils.dockets import constructed_gr
             None,
         ),
         (
-            (  # noqa: E501
+            (
                 "See <i>People v. Hirang</i>, G.R. No. 223528, 223529, 223530,"
                 " 11 January 2017;"
             ),
@@ -42,7 +42,7 @@ from citation_utils.dockets import constructed_gr
             None,
         ),
         (
-            (  # noqa: E501
+            (
                 "People v. De la Cruz, G.R. Nos. 91865-66 and G.R. Nos."
                 " 92439-40, 6 July 1993"
             ),
@@ -53,7 +53,7 @@ from citation_utils.dockets import constructed_gr
             None,
         ),
         (
-            (  # noqa: E501
+            (
                 "Bangayan, Jr. v. Bangayan, G.R. Nos. 172777 and 172792,"
                 " October 19, 2011, 659 SCRA 590, 597."
             ),
@@ -64,7 +64,7 @@ from citation_utils.dockets import constructed_gr
             ", 659 SCRA 590, 597",
         ),
         (
-            (  # noqa: E501
+            (
                 "Osmeña v. Commission on Elections, G.R. No. 100318, 100308,"
                 " 100417,100420, July 30, 1991, 199 SCRA 750"
             ),
@@ -75,7 +75,7 @@ from citation_utils.dockets import constructed_gr
             ", 199 SCRA 750",
         ),
         (
-            (  # noqa: E501
+            (
                 "Soriano III v. Yuzon, G.R. Nos. L-74910, L-75075, L-75094,"
                 " L-76397, L-79459, and L-79520, 10 August 1988, 164 SCRA 226."
             ),
@@ -86,7 +86,7 @@ from citation_utils.dockets import constructed_gr
             ", 164 SCRA 226",
         ),
         (
-            (  # noqa: E501
+            (
                 "Republic v. Sandiganbayan, G.R. Nos. 108292, 108368,"
                 " 108548-49, and 108550, 10 September 1993, 226 SCRA 314."
             ),
@@ -97,7 +97,7 @@ from citation_utils.dockets import constructed_gr
             ", 226 SCRA 314",
         ),
         (
-            (  # noqa: E501
+            (
                 "<i>Bagong Alyansang Makabayan v. Zamora,</i> G.R. Nos."
                 " 138570, 138572, 138587, 138680, 138698, October 10, 2000,"
                 " 342 SCRA 449"

@@ -1,11 +1,11 @@
 import abc
-from collections.abc import Iterator
-from typing import Self
+from collections.abc import Callable, Iterator
+from typing import Any, Self
 
 from citation_report import Report
 from pydantic import PrivateAttr
 
-from .docket_category import DocketCategory
+from .constructor import CitationConstructor
 from .docket_model import Docket
 
 
@@ -22,7 +22,7 @@ class DocketReportCitation(Docket, Report, abc.ABC):
     def _docket(self):
         if self.first_id:
             return f"{self.category.name} No. {self.serial_text}, {self.formatted_date}"
-        elif self.ids:
+        if self.ids:
             return f"{self.category.name} No. {self.ids}, {self.formatted_date}"
         return None
 
@@ -33,18 +33,18 @@ class DocketReportCitation(Docket, Report, abc.ABC):
     def __str__(self) -> str:
         if self._docket and self._report:
             return f"{self._docket}, {self._report}"
-        elif self._docket:
+        if self._docket:
             return self._docket
-        elif self._report:
+        if self._report:
             return self._report
         return "No citation."
 
     def __repr__(self) -> str:
         if self._docket and self._report:
             return f"<DocketReport: {self._docket} | {self._report}>"
-        elif self._docket:
+        if self._docket:
             return f"<DocketReport: {self._docket}>"
-        elif self._report:
+        if self._report:
             return f"<DocketReport: {self._report}>"
         return "<DocketReport: improper citation>"
 
@@ -57,7 +57,9 @@ class DocketReportCitation(Docket, Report, abc.ABC):
     _explicit_category: bool = PrivateAttr(default=True)
 
     @classmethod
-    def from_detected(cls, result: dict, *, explicit_category: bool = True) -> Self:
+    def from_detected(
+        cls, result: dict[str, Any], *, explicit_category: bool = True
+    ) -> Self:
         """Build a public model while retaining extraction-only metadata."""
         data = dict(result)
         start = data.pop("_source_start", -1)
@@ -66,3 +68,20 @@ class DocketReportCitation(Docket, Report, abc.ABC):
         instance._source_span = (start, end)
         instance._explicit_category = explicit_category
         return instance
+
+    @classmethod
+    def _search_with_constructor(
+        cls,
+        text: str,
+        constructor: CitationConstructor,
+        *,
+        category_is_explicit: Callable[[dict[str, Any]], bool] | None = None,
+    ) -> Iterator[Self]:
+        """Build citations detected by a docket-specific constructor."""
+        for result in constructor.detect_with_spans(text):
+            explicit_category = (
+                category_is_explicit(result)
+                if category_is_explicit is not None
+                else True
+            )
+            yield cls.from_detected(result, explicit_category=explicit_category)

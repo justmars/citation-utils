@@ -1,45 +1,89 @@
 [project]
 name = "citation-utils"
-version = "1.0.0"
+version = "1.0.1"
 description = "Pattern matching Philippine Supreme Court citations."
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
-    "citation-date >= 1.0.0",
-    "citation-report >= 1.0.0",
+    "citation-date >= 1.0.1",
+    "citation-report >= 1.0.1",
     "pydantic >= 2.13",
     "python-dateutil >= 2.9.0.post0",
 ]
 
-# [tool.uv.sources]
-# citation-date = { path = "../citation-date", editable = true }
-# citation-report = { path = "../citation-report", editable = true }
-
 [build-system]
-requires = ["uv_build>=0.11.28,<0.12"]
+requires = ["uv_build>=0.12.3,<0.13"]
 build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
     # docs
-    "zensical >= 0.0.51",
+    "zensical >= 0.0.53",
     # notebook examples
-    "marimo >= 0.23.15",
+    "marimo >= 0.23.16",
     "polars >= 1.43",
     # testing
-    "pytest >= 9.1",
-    "pytest-cov >= 7.1",
+    "pre-commit >= 4.6.1",
+    "pyright >= 1.1.411",
+    "ruff >= 0.16.2, < 0.17",
+    "pytest >= 9.1.1",
+    "pytest-cov >= 7.1.0",
 ]
 
 [tool.pytest.ini_options]
 minversion = "9.1"
-addopts = "-ra -q --cov=citation_utils --cov-branch --doctest-modules"
+addopts = "-ra -q --strict-config --strict-markers --cov=citation_utils --doctest-modules"
 testpaths = ["tests", "src/citation_utils"]
+filterwarnings = ["error"]
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+fail_under = 90
+precision = 2
 
 [tool.ruff]
 line-length = 88
+required-version = ">=0.16.2,<0.17"
+target-version = "py314"
 
 [tool.ruff.lint]
-ignore = ["F401", "F403"]
-fixable = ["F", "E", "W", "I001"]
-select = ["F", "E", "W", "I001"]
+fixable = ["ALL"]
+select = ["B", "BLE", "C4", "E", "F", "I", "LOG", "RET", "RUF", "SIM", "UP", "W"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/citation_utils/__init__.py" = ["RUF022"] # Preserve legacy star-import order.
+"src/citation_utils/dockets/__init__.py" = ["RUF022"] # Preserve legacy star-import order.
+"src/citation_utils/dockets/models/__init__.py" = ["RUF022"] # Preserve legacy star-import order.
+"src/citation_utils/dockets/models/misc/__init__.py" = ["RUF022"] # Preserve legacy star-import order.
+"src/citation_utils/identity.py" = ["LOG015"] # Existing parser diagnostics.
+"src/citation_utils/citation.py" = ["E501", "LOG015", "SIM102"] # Parser vocabulary.
+"src/citation_utils/dockets/constructed_*.py" = ["E501"] # Regex vocabulary.
+"src/citation_utils/dockets/models/constructor.py" = ["E501", "SIM102"] # Capture flow.
+"src/citation_utils/dockets/models/docket_model.py" = ["E501"] # Regex vocabulary.
+"src/citation_utils/dockets/models/docket_rules.py" = ["E501", "RUF012"] # Regex constants.
+"src/citation_utils/dockets/models/misc/num.py" = ["E501", "RUF012"] # Regex constants.
+"src/citation_utils/document.py" = ["E501"] # Legal-text examples.
+"src/citation_utils/special.py" = ["E501"] # Legal-text regex vocabulary.
+"tests/test_citation_regressions.py" = ["E711"] # Polars expressions overload equality.
+
+[tool.pyright]
+include = ["src"]
+pythonVersion = "3.14"
+typeCheckingMode = "strict"
+reportMissingTypeStubs = false
+reportUnusedImport = false # Ruff owns import hygiene and package facades.
+reportMissingParameterType = false
+reportMissingTypeArgument = false
+reportUnknownArgumentType = false
+reportUnknownMemberType = false
+reportUnknownParameterType = false
+reportUnknownVariableType = false
+reportAttributeAccessIssue = false # Pydantic computed fields are dynamic.
+reportIncompatibleMethodOverride = false # Pydantic validators narrow inputs.
+reportPrivateUsage = false # Parser collaborators share internal helpers.
+reportUntypedNamedTuple = false
+reportMatchNotExhaustive = false
+reportArgumentType = false # Pydantic validator inputs are normalized at runtime.
+reportPossiblyUnboundVariable = false # Regex branches establish the capture invariant.

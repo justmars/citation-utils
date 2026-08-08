@@ -16,7 +16,7 @@ class DocketRuleSerialNumber(Enum):
     [am.stem for am in ams]
     ```
 
-    """  # noqa: E501
+    """
 
     BarMatter = [
         803,
@@ -100,7 +100,7 @@ def is_statutory_rule(citeable):
         >>> d2 = Docket(context="", category=DocketCategory['AM'], ids=test_num, docket_date=parse("Jan. 1, 2022"))
         >>> is_statutory_rule(d2)
         False
-    """  # noqa: E501
+    """
 
     if isinstance(citeable, Docket):  # excludes solo reports
         if citeable.category == DocketCategory.BM:

@@ -49,7 +49,7 @@ class Citation(BaseModel):
     None | `phil` | optional (str) | combined `volume` Phil. `page`
     342 SCRA 449 | `scra` | optional (str) | combined `volume` SCRA `page`
     None | `offg` | optional (str) | combined `volume` O.G. `page`
-    """  # noqa: E501
+    """
 
     model_config = ConfigDict(
         str_strip_whitespace=True, populate_by_name=True, validate_assignment=True
@@ -70,7 +70,7 @@ class Citation(BaseModel):
         return value
 
     def __repr__(self) -> str:
-        return f"<Citation: {str(self)}>"
+        return f"<Citation: {self!s}>"
 
     def __str__(self) -> str:
         docket_str = self.get_docket_display()
@@ -85,11 +85,11 @@ class Citation(BaseModel):
         )
         if docket_str and report_str:
             return f"{docket_str}, {report_str}"
-        elif docket_str:
+        if docket_str:
             return f"{docket_str}"
-        elif report_str:
+        if report_str:
             return f"{report_str}"
-        return f"<Bad citation str: {self.docket_category=} {self.docket_serial=} {self.docket_date=}>"  # noqa: E501
+        return f"<Bad citation str: {self.docket_category=} {self.docket_serial=} {self.docket_date=}>"
 
     def __eq__(self, other: object) -> bool:
         """Compare complete normalized records, never partial shared evidence."""
@@ -101,31 +101,37 @@ class Citation(BaseModel):
     def serialize_dt(self, value: datetime.date | None):
         if value:
             return value.isoformat()
+        return None
 
     @field_serializer("docket_serial")
     def serialize_num(self, value: str | None):
         if value:
             return Docket.clean_serial(value, self.docket_category)
+        return None
 
     @field_serializer("docket_category")
     def serialize_cat(self, value: DocketCategory | None):
         if value:
             return value.name.lower()
+        return None
 
     @field_serializer("phil")
     def serialize_phil(self, value: str | None):
         if value:
             return value.lower()
+        return None
 
     @field_serializer("scra")
     def serialize_scra(self, value: str | None):
         if value:
             return value.lower()
+        return None
 
     @field_serializer("offg")
     def serialize_offg(self, value: str | None):
         if value:
             return value.lower()
+        return None
 
     @model_serializer
     def ser_model(self) -> dict[str, str | datetime.date | None]:
@@ -185,9 +191,8 @@ class Citation(BaseModel):
         Returns:
             str | None: The slug to use, if possible.
         """
-        if cite := cls.extract_citation(v):
-            if cite.is_docket:
-                return cite.set_slug()
+        if (cite := cls.extract_citation(v)) and cite.is_docket:
+            return cite.set_slug()
         return None
 
     def make_docket_row(self):
@@ -233,7 +238,7 @@ class Citation(BaseModel):
     def get_docket_display(self) -> str | None:
         if self.is_docket:
             return (
-                f"{self.docket_category} No. {self.docket_serial}, {self.display_date}"  # type: ignore # noqa: E501
+                f"{self.docket_category} No. {self.docket_serial}, {self.display_date}"  # type: ignore
             )
         return None
 
@@ -261,9 +266,8 @@ class Citation(BaseModel):
             report = next(reports)
             if result := report.qualified_volpubpage:
                 return result.lower()
-            else:
-                logging.warning(f"No volpubpage {raw=}")
-                return None
+            logging.warning(f"No volpubpage {raw=}")
+            return None
         except StopIteration:
             logging.warning(f"No {raw=} report")
             return None
@@ -328,7 +332,7 @@ class Citation(BaseModel):
 
         Yields:
             Iterator[Self]: Itemized citations pre-processed via `CitableDocument`
-        """  # noqa: E501
+        """
         document = CitableDocument(text=text)
         for group in aggregate_occurrences(document.iter_parts()):
             yield cls._from_parts(group.parts)
@@ -383,7 +387,7 @@ class Citation(BaseModel):
 
         Returns:
             str | None: The combination of citation bits.
-        """  # noqa: E501
+        """
         try:
             category = DocketCategory[cat.upper()]
         except KeyError:
@@ -438,7 +442,7 @@ class CountedCitation(Citation):
     mentions: int = Field(default=1, description="Number of source occurrences")
 
     def __repr__(self) -> str:
-        return f"{str(self)}: {self.mentions}"
+        return f"{self!s}: {self.mentions}"
 
     @model_serializer
     def ser_model(self) -> dict[str, str | datetime.date | int | None]:
@@ -468,7 +472,7 @@ class CountedCitation(Citation):
 
         Returns:
             list[Self]: Unique citations with their counts.
-        """  # noqa: E501
+        """
         document = CitableDocument(text=text)
         return [
             cls._from_parts(group.parts, mentions=group.mentions)
@@ -494,7 +498,7 @@ class CountedCitation(Citation):
 
         Yields:
             Iterator[Self]: Instances of CountedCitation.
-        """  # noqa: E501
+        """
         for text in repr_texts:
             counted_bits = text.rsplit(":", 1)
             if len(counted_bits) == 2:

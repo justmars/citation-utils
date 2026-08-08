@@ -4,6 +4,39 @@ icon: lucide/history
 
 # Release History
 
+## 1.0.1
+
+`citation-utils` 1.0.1 is a maintenance release that preserves the 1.0.0
+citation extraction and database contracts while making the package surface
+and repository checks explicit.
+
+### Compatibility and Maintainability
+
+- The root package and docket-model façades now define and test their exact
+  `__all__` exports, preserving the established star-import order and public
+  names.
+- All docket citation classes share one typed constructor path while retaining
+  their existing matches, source spans, and explicit-versus-implicit G.R.
+  category metadata.
+- Optional citation serializers return `None` explicitly when a field is
+  absent; the stable database aliases remain `cat`, `num`, `date`, `phil`,
+  `scra`, and `offg`.
+- Branch and failure-path regression coverage now includes every supported
+  docket category, model rendering and serialization, docket normalization,
+  counted-citation merging, and malformed metadata rejection.
+
+### Dependencies and Verification
+
+- The minimum versions of `citation-date` and `citation-report` are now 1.0.1,
+  and the package build uses `uv_build` 0.12.
+- Ruff formatting and expanded lint rules, strict Pyright checks, warning-as-
+  error tests, branch coverage with a 90% minimum, documentation validation,
+  lockfile validation, Marimo checks, and wheel smoke tests are consolidated in
+  `just check`.
+- CI uses locked registry dependencies without local source overrides, pins
+  third-party actions by commit, applies read-only repository permissions, and
+  runs both pre-commit and the complete repository gate on Python 3.14.
+
 ## 1.0.0
 
 `citation-utils` 1.0.0 is the first stable-contract release. It compares the
@@ -63,7 +96,7 @@ from citation_utils import CitableDocument
 text = "100 SCRA 1; see again 100 SCRA 1"
 occurrences = list(CitableDocument(text).iter_occurrences())
 
-assert [text[item.start:item.end] for item in occurrences] == [
+assert [text[item.start : item.end] for item in occurrences] == [
     "100 SCRA 1",
     "100 SCRA 1",
 ]

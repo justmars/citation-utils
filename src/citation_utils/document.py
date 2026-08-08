@@ -55,7 +55,7 @@ class _SpanIndex:
     @classmethod
     def from_spans(
         cls, spans: Iterator[tuple[int, int]] | list[tuple[int, int]]
-    ) -> "_SpanIndex":
+    ) -> _SpanIndex:
         max_end = -1
         starts: list[int] = []
         max_ends: list[int] = []
@@ -96,7 +96,7 @@ class CitableDocument:
         >>> doc2 = CitableDocument(text=text)
         >>> set(doc2.get_citations()) == {'GR No. 147033, Apr. 30, 2003', 'GR No. 138570, Oct. 10, 2000, 342 SCRA 449', 'GR No. 31711, Sep. 30, 1971, 41 SCRA 190', '374 Phil. 1', '31 SCRA 562'}
         True
-    """  # noqa: E501
+    """
 
     text: str
 
@@ -144,7 +144,7 @@ class CitableDocument:
 
         Yields:
             Iterator[DocketReport]: Any of custom `Docket` with `Report` types, e.g. `CitationAC`, etc.
-        """  # noqa: E501
+        """
         text = normalize_report_text(text)
         yield from cls._get_docketed_reports_from_normalized_text(
             text, exclude_docket_rules
@@ -284,6 +284,6 @@ class CitableDocument:
         Can filter out `Report` objects not docketed and thus return
         a more succinct citation list which includes both constructs mentioned above but
         without duplicate `reports`.
-        """  # noqa: E501
+        """
         for group in aggregate_occurrences(self.iter_parts()):
             yield render_parts(group.parts)

@@ -123,7 +123,7 @@ class CitationConstructor(BaseModel):
 
         Yields:
             Iterator[dict[str, Any]]: A dict that can fill up a Docket + Report pydantic BaseModel
-        """  # noqa: E501
+        """
         pattern = self.pattern
         key_num_pattern = self.key_num_pattern
         for match in pattern.finditer(raw):
@@ -136,21 +136,23 @@ class CitationConstructor(BaseModel):
                     if ids and date_found:
                         if not Docket.clean_serial(ids, self.short_category):
                             continue
-                        yield dict(
-                            context=ctx,
-                            short_category=self.short_category,
-                            category=self.label,
-                            ids=ids,
-                            docket_date=date_found,
-                            publisher=get_publisher_label(match),
-                            volpubpage=match.group("volpubpage"),
-                            volume=match.group("volume"),
-                            page=match.group("page"),
-                            supplement=(True if match.group("OG_SUPPLEMENT") else None),
-                            issue_number=match.group("OG_ISSUE_NUMBER"),
-                            _source_start=match.start(),
-                            _source_end=match.end(),
-                        )
+                        yield {
+                            "context": ctx,
+                            "short_category": self.short_category,
+                            "category": self.label,
+                            "ids": ids,
+                            "docket_date": date_found,
+                            "publisher": get_publisher_label(match),
+                            "volpubpage": match.group("volpubpage"),
+                            "volume": match.group("volume"),
+                            "page": match.group("page"),
+                            "supplement": (
+                                True if match.group("OG_SUPPLEMENT") else None
+                            ),
+                            "issue_number": match.group("OG_ISSUE_NUMBER"),
+                            "_source_start": match.start(),
+                            "_source_end": match.end(),
+                        }
 
     def detect(self, raw: str) -> Iterator[dict[str, Any]]:
         """Public compatibility wrapper without internal source metadata."""

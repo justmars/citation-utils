@@ -38,7 +38,7 @@ def extract_docket_meta(text: str) -> dict[str, Any] | None:
 
     Returns:
         dict[str, Any] | None: Docket-based details.
-    """  # noqa: E501
+    """
     match = DOCKET_PATTERN.match(text)
     if not match:
         return None
@@ -68,8 +68,7 @@ def extract_docket_meta(text: str) -> dict[str, Any] | None:
         )
         if res.get("ids") is None:
             return None
-        else:
-            res["ids"] = cleaned_id
+        res["ids"] = cleaned_id
     except OverflowError, StopIteration, ValueError:
         res["decision_date"] = None
         return None

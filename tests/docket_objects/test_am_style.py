@@ -7,7 +7,7 @@ from citation_utils.dockets import constructed_am
     "data, phrase, formerly, pp, options",
     [
         (
-            (  # noqa: E501
+            (
                 "A.M. No. O.C.A.-00-01 (Formerly O.C.A. I.P.I. No. 99-02-OCA)"
                 " July 28, 1997"
             ),
@@ -17,7 +17,7 @@ from citation_utils.dockets import constructed_am
             None,
         ),
         (
-            (  # noqa: E501
+            (
                 "A.M. Nos. 07-115-CA-J and CA-08-46-J (Formerly OCA IPI No."
                 " 08-131-CA-J) July 28, 1997"
             ),
@@ -55,7 +55,7 @@ from citation_utils.dockets import constructed_am
             None,
         ),
         (
-            (  # noqa: E501
+            (
                 "A.M. No. P-04-1786 (Formerly OCA I.P.I. No. 02-1341-P), 13"
                 " February 2006, 482 SCRA 265, 275-276"
             ),

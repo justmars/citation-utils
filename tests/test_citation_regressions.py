@@ -279,12 +279,12 @@ def test_model_round_trip_equality_and_rendering_are_safe_and_structural():
     )
 
     assert Citation(**citation.model_dump()) == citation
-    assert citation != None  # noqa: E711
+    assert citation != None
     assert Docket.clean_serial("L-I9863", "gr") == "l-19863"
     docket = Docket(
         context="", category=DocketCategory.GR, ids="1", docket_date=date(2000, 1, 1)
     )
-    assert docket != None  # noqa: E711
+    assert docket != None
     assert (
         Citation.make_citation_string(
             "gr", "L-I9863", "1964-04-29", offg="47 o.g. supp. 43"

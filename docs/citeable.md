@@ -83,9 +83,7 @@ Use `CitableDocument` when a workflow needs intermediate evidence:
 ```python
 from citation_utils import CitableDocument
 
-document = CitableDocument(
-    "G.R. No. 147033, April 30, 2003, 374 Phil. 1; 31 SCRA 562"
-)
+document = CitableDocument("G.R. No. 147033, April 30, 2003, 374 Phil. 1; 31 SCRA 562")
 
 assert len(document.docketed_reports) == 1
 assert document.undocketed_reports == {"31 SCRA 562"}
@@ -112,8 +110,9 @@ from citation_utils import CitableDocument
 
 text = "100 SCRA 1; see again 100 SCRA 1"
 occurrences = list(CitableDocument(text).iter_occurrences())
-assert [text[item.start:item.end] for item in occurrences] == [
-    "100 SCRA 1", "100 SCRA 1"
+assert [text[item.start : item.end] for item in occurrences] == [
+    "100 SCRA 1",
+    "100 SCRA 1",
 ]
 assert occurrences[0].occurrence_key != occurrences[1].occurrence_key
 ```
@@ -180,9 +179,12 @@ an unknown category returns `None`, while malformed known data raises
 ```python
 from citation_utils import Citation
 
-assert Citation.make_citation_string(
-    "gr", "L-I9863", "1964-04-29", offg="47 o.g. supp. 43"
-) == "G.R. No. L-19863, Apr. 29, 1964, 47 O.G. Supp. 43"
+assert (
+    Citation.make_citation_string(
+        "gr", "L-I9863", "1964-04-29", offg="47 o.g. supp. 43"
+    )
+    == "G.R. No. L-19863, Apr. 29, 1964, 47 O.G. Supp. 43"
+)
 ```
 
 ## Regression evidence

@@ -47,7 +47,7 @@ l_key = rf"""
         )
         {separator} # Makes possible G.R. L-No. 5110  | # L. No. 464564
     )
-"""  # noqa # E501
+"""  # E501
 
 
 digit_with_separator = rf"""
@@ -143,7 +143,11 @@ class CitationGR(DocketReportCitation):
 
         Yields:
             Iterator[Self]: Combination of Docket and Report pydantic model.
-        """  # noqa E501
-        for result in constructed_gr.detect_with_spans(text):
-            explicit = result["context"].lstrip().casefold().startswith("g")
-            yield cls.from_detected(result, explicit_category=explicit)
+        """
+        yield from cls._search_with_constructor(
+            text,
+            constructed_gr,
+            category_is_explicit=lambda result: (
+                result["context"].lstrip().casefold().startswith("g")
+            ),
+        )

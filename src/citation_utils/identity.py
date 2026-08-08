@@ -6,10 +6,10 @@ be useful evidence, but it is not a transitive Python equality relation.
 
 import hashlib
 import logging
+from collections.abc import Iterable
 from dataclasses import dataclass, replace
 from datetime import date
 from functools import lru_cache
-from typing import Iterable
 
 from citation_date import DOCKET_DATE_FORMAT
 from citation_report import Report
